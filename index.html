@@ -24,6 +24,19 @@
   --ff: 'Fraunces', serif;
   --fb: 'Inter', sans-serif;
   --fc: 'JetBrains Mono', monospace;
+
+  /* Lua / VS Code Dark+ token colors */
+  --tok-keyword:   #569CD6; /* blue — keywords */
+  --tok-builtin:   #4EC9B0; /* teal — built-ins */
+  --tok-string:    #CE9178; /* orange-brown — strings */
+  --tok-number:    #B5CEA8; /* light green — numbers */
+  --tok-comment:   #6A9955; /* green — comments */
+  --tok-func:      #DCDCAA; /* yellow — function calls */
+  --tok-operator:  #D4D4D4; /* light grey — operators */
+  --tok-varname:   #9CDCFE; /* light blue — variables/identifiers after local */
+  --tok-special:   #C586C0; /* purple — special (self, true, false, nil) */
+  --tok-plain:     #D4D4D4; /* default text */
+  --tok-table:     #4FC1FF; /* bright blue — table/class names */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -50,6 +63,10 @@ header{display:flex;align-items:center;justify-content:space-between;
 .btn:hover{background:var(--cream)}
 .btn.primary{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
 .btn.primary:hover{background:var(--brown);border-color:var(--brown)}
+.btn.danger{background:#b91c1c;color:#fff;border-color:#b91c1c}
+.btn.danger:hover{background:#991b1b;border-color:#991b1b}
+.btn.success{background:#15803d;color:#fff;border-color:#15803d}
+.btn.success:hover{background:#166534;border-color:#166534}
 .btn:disabled{opacity:0.35;cursor:not-allowed}
 
 /* SCREENS */
@@ -66,6 +83,16 @@ header{display:flex;align-items:center;justify-content:space-between;
 .field input:focus{border-color:var(--gold)}
 .error-msg{font-size:12px;color:#b91c1c;background:#fef2f2;border:0.5px solid #fca5a5;border-radius:6px;padding:8px 10px;margin-bottom:1rem;display:none}
 .error-msg.visible{display:block}
+
+/* BAN SCREEN */
+#ban-screen{display:none;min-height:calc(100vh - 58px);align-items:center;justify-content:center;padding:2rem;flex-direction:column;gap:1.5rem}
+#ban-screen.active{display:flex}
+.ban-card{width:100%;max-width:420px;background:#fff;border:1px solid rgba(185,28,28,0.18);border-radius:18px;padding:2.8rem;box-shadow:0 8px 40px rgba(185,28,28,0.08);text-align:center}
+.ban-icon{font-size:3.2rem;margin-bottom:1rem;display:block;opacity:0.85}
+.ban-card h2{font-family:var(--ff);font-size:1.5rem;font-weight:600;color:#b91c1c;margin-bottom:0.5rem;letter-spacing:-0.02em}
+.ban-card p{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.ban-message-box{background:#fef2f2;border:0.5px solid #fca5a5;border-radius:8px;padding:12px 15px;font-size:13px;color:#7f1d1d;font-style:italic;line-height:1.6;text-align:left;margin-top:0.5rem}
+.ban-message-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#b91c1c;margin-bottom:5px;display:block}
 
 /* CONTENT SCREEN */
 #content-screen{display:none;max-width:1180px;margin:0 auto;padding:1.75rem 2rem 3rem}
@@ -103,7 +130,7 @@ header{display:flex;align-items:center;justify-content:space-between;
 .save-note-row input:focus{border-color:var(--gold)}
 .save-note-row input::placeholder{color:var(--muted)}
 
-/* ── EDITOR SHELL (virtual scroll) ── */
+/* ── EDITOR SHELL ── */
 .code-wrapper{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.1);overflow:hidden;box-shadow:0 2px 0 rgba(201,146,61,0.06),0 16px 56px rgba(44,26,14,0.2);will-change:transform;contain:layout style}
 .editor-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);gap:10px}
 .editor-toolbar-left{display:flex;align-items:center;gap:5px}
@@ -141,8 +168,30 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .scroll-viewport::-webkit-scrollbar-thumb:hover{background:rgba(201,146,61,0.25)}
 /* owner: real textarea inside viewport */
 #code-textarea{display:block;width:100%;min-height:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;color:#e8d5b7;background:transparent;border:none;outline:none;resize:none;padding:1rem 1.5rem;tab-size:2;white-space:pre;overflow:visible;caret-color:var(--gold)}
-/* member: pre inside viewport */
-#code-pre{display:block;width:100%;min-height:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;color:#e8d5b7;padding:1rem 1.5rem;white-space:pre-wrap;word-break:break-word;cursor:default}
+/* member: highlighted pre inside viewport */
+#code-pre{display:block;width:100%;min-height:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;padding:1rem 1.5rem;white-space:pre-wrap;word-break:break-word;cursor:default;color:var(--tok-plain)}
+
+/* ── Syntax token colours applied via spans ── */
+.tok-kw   { color: var(--tok-keyword);  }
+.tok-bi   { color: var(--tok-builtin);  }
+.tok-str  { color: var(--tok-string);   }
+.tok-num  { color: var(--tok-number);   }
+.tok-cmt  { color: var(--tok-comment);  font-style: italic; }
+.tok-fn   { color: var(--tok-func);     }
+.tok-op   { color: var(--tok-operator); }
+.tok-var  { color: var(--tok-varname);  }
+.tok-sp   { color: var(--tok-special);  }
+.tok-tbl  { color: var(--tok-table);    }
+.tok-plain{ color: var(--tok-plain);    }
+
+/* owner textarea: syntax overlay approach */
+.editor-hl-wrapper{position:relative;flex:1;overflow:auto}
+.editor-hl-wrapper::-webkit-scrollbar{width:7px;height:7px}
+.editor-hl-wrapper::-webkit-scrollbar-track{background:transparent}
+.editor-hl-wrapper::-webkit-scrollbar-thumb{background:rgba(201,146,61,0.13);border-radius:4px}
+.editor-hl-wrapper::-webkit-scrollbar-thumb:hover{background:rgba(201,146,61,0.25)}
+#hl-backdrop{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;font-family:var(--fc);font-size:12.5px;line-height:21px;padding:1rem 1.5rem;white-space:pre-wrap;word-break:break-word;overflow:hidden}
+#code-textarea{position:relative;z-index:2;background:transparent;color:transparent;caret-color:var(--gold);width:100%;min-height:100%;border:none;outline:none;resize:none;padding:1rem 1.5rem;tab-size:2;font-family:var(--fc);font-size:12.5px;line-height:21px;white-space:pre-wrap;word-break:break-word;overflow:visible}
 
 .editor-statusline{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:24px;background:#0d0702;border-top:1px solid rgba(201,146,61,0.06);font-family:var(--fc);font-size:10px;color:rgba(232,213,183,0.2)}
 .statusline-left,.statusline-right{display:flex;align-items:center;gap:12px}
@@ -178,14 +227,34 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .cl-diff-sep{color:rgba(232,213,183,0.18)}.cl-diff-lines{color:rgba(232,213,183,0.32)}
 .cl-note{font-size:13px;color:var(--espresso);background:var(--cream);border-left:3px solid var(--gold);padding:6px 11px;border-radius:0 6px 6px 0;font-style:italic;line-height:1.5}
 
-/* MEMBERS */
+/* ── MEMBERS ── */
 .lb-list{display:flex;flex-direction:column;gap:5px}
 .lb-row{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:10px;background:#fff;border:0.5px solid var(--border);transition:background 0.11s}
 .lb-row:hover{background:var(--cream)}
+.lb-row.banned-row{background:#fef2f2;border-color:rgba(185,28,28,0.15)}
+.lb-row.banned-row:hover{background:#fee2e2}
 .lb-avatar{width:31px;height:31px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;color:var(--brown);flex-shrink:0;border:0.5px solid var(--border)}
 .lb-avatar.owner-av{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+.lb-avatar.banned-av{background:#fee2e2;color:#b91c1c;border-color:rgba(185,28,28,0.2)}
 .lb-name{flex:1;font-size:13px;font-weight:500;color:var(--espresso)}
+.lb-name.banned-name{color:#b91c1c;text-decoration:line-through;text-decoration-color:rgba(185,28,28,0.4)}
 .lb-empty{text-align:center;padding:3rem 2rem;color:var(--muted);font-size:13px}
+.lb-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+/* BAN MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(44,26,14,0.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal-box{background:#fff;border:0.5px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(44,26,14,0.18);transform:scale(0.95) translateY(8px);transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),opacity 0.2s;opacity:0}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0);opacity:1}
+.modal-box h3{font-family:var(--ff);font-size:1.15rem;font-weight:600;color:var(--espresso);margin-bottom:0.3rem;letter-spacing:-0.01em}
+.modal-box p{font-size:13px;color:var(--muted);margin-bottom:1.25rem;line-height:1.55}
+.modal-field{margin-bottom:1rem}
+.modal-field label{display:block;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px}
+.modal-field textarea{width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-family:var(--fb);font-size:13px;background:var(--foam);color:var(--espresso);outline:none;transition:border-color 0.13s;resize:vertical;min-height:80px;line-height:1.5}
+.modal-field textarea:focus{border-color:var(--gold)}
+.modal-field textarea::placeholder{color:var(--muted)}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:0.5rem}
+.banned-pill{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:3px 9px;border-radius:20px;background:#fee2e2;color:#b91c1c;border:0.5px solid rgba(185,28,28,0.25)}
 
 /* TOAST */
 #toast{position:fixed;bottom:2rem;right:2rem;background:var(--espresso);color:var(--cream);padding:9px 17px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity 0.18s,transform 0.18s;z-index:999}
@@ -209,8 +278,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 </head>
 <body>
 
-<!-- FAVICON injected via JS -->
-
 <div id="loading-overlay">
   <div class="loader-logo">Mo<em>c</em>ha</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
@@ -221,20 +288,31 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
   <div class="nf-body" id="notif-body"></div>
 </div>
 
+<!-- BAN MODAL -->
+<div class="modal-overlay" id="ban-modal">
+  <div class="modal-box">
+    <h3 id="modal-title">Ban member</h3>
+    <p id="modal-desc">This member will be blocked from signing in until you unban them.</p>
+    <div class="modal-field" id="ban-msg-field">
+      <label>Ban message <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <textarea id="ban-msg-input" placeholder="e.g. You have been removed for violating the rules." maxlength="500"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn danger" id="modal-confirm-btn" onclick="confirmBan()">Ban member</button>
+    </div>
+  </div>
+</div>
+
 <header>
   <a class="logo" href="#">
     <div class="logo-mark">
-      <!-- coffee cup SVG mark -->
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="32" height="32" rx="9" fill="#2c1a0e"/>
-        <!-- cup body -->
         <path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity="0.9"/>
-        <!-- cup handle -->
         <path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
-        <!-- steam lines -->
         <path d="M12.5 10.5 C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,0.45)" stroke-width="1.2" stroke-linecap="round"/>
         <path d="M16 11 C16 10 17 10 17 9" stroke="rgba(232,213,183,0.45)" stroke-width="1.2" stroke-linecap="round"/>
-        <!-- saucer -->
         <path d="M7 23h18" stroke="rgba(232,213,183,0.35)" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
     </div>
@@ -265,6 +343,19 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
   </div>
 </div>
 
+<!-- BAN SCREEN -->
+<div id="ban-screen" class="screen">
+  <div class="ban-card">
+    <span class="ban-icon">🚫</span>
+    <h2>Access Restricted</h2>
+    <p>Your account has been suspended by the workspace owner. You cannot access this workspace.</p>
+    <div id="ban-msg-display" style="display:none">
+      <span class="ban-message-label">Message from owner</span>
+      <div class="ban-message-box" id="ban-msg-text"></div>
+    </div>
+  </div>
+</div>
+
 <!-- CONTENT -->
 <div id="content-screen" class="screen">
   <div class="tabs-nav">
@@ -289,7 +380,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
       <input type="text" id="save-note-input" placeholder="Optional: describe what you changed…" maxlength="200"/>
     </div>
     <div id="main-area">
-      <!-- skeleton while loading -->
       <div class="editor-skeleton" id="editor-skeleton">
         <div class="skel-toolbar"><div class="skel-tab"></div></div>
         <div class="skel-body">
@@ -365,21 +455,23 @@ let isVisible     = true;
 let saveTimer     = null;
 let lastSavedLines= 0;
 let unreadCount   = 0;
+let hlTimer       = null; // highlight debounce
 
-// content cache — avoids re-fetching on tab switch
 let cachedBody    = null;
 let contentLoaded = false;
 let editorRendered= false;
 
-// virtual scroll
-const LINE_H = 21; // px — must match CSS line-height
+const LINE_H = 21;
 let vsTotal   = 0;
-let vsOffset  = 0; // scrollTop when last painted
+let vsOffset  = 0;
 let vsRafId   = null;
 
-// search
 let searchMatches = [];
 let searchIndex   = 0;
+
+// ban modal state
+let banTargetUser  = null;
+let banTargetAction= 'ban'; // 'ban' | 'unban'
 
 // ─────────────────────────────────────────────
 //  SESSION
@@ -393,18 +485,176 @@ const SS = {
 };
 
 // ─────────────────────────────────────────────
+//  LUA SYNTAX HIGHLIGHTER
+//  Full tokeniser — no external deps.
+//  Matches VS Code Dark+ token colours.
+// ─────────────────────────────────────────────
+const LUA_KEYWORDS = new Set([
+  'and','break','do','else','elseif','end','false','for','function',
+  'goto','if','in','local','nil','not','or','repeat','return','then',
+  'true','until','while'
+]);
+const LUA_SPECIAL = new Set(['true','false','nil','self','_G','_ENV']);
+const LUA_BUILTINS = new Set([
+  'assert','collectgarbage','dofile','error','getmetatable','ipairs',
+  'load','loadfile','next','pairs','pcall','print','rawequal','rawget',
+  'rawlen','rawset','require','select','setmetatable','tonumber','tostring',
+  'type','warn','xpcall','unpack','table','string','math','io','os','file',
+  'coroutine','package','utf8','bit32','debug','_VERSION',
+  // Roblox/Luau builtins
+  'game','workspace','script','Instance','Vector3','Vector2','CFrame',
+  'Color3','BrickColor','UDim','UDim2','Enum','tick','wait','spawn','delay',
+  'task','typeof','rawget','rawset','setfenv','getfenv'
+]);
+
+function luaHighlight(code) {
+  // We tokenise character by character with regexes per token type.
+  // Returns HTML string with <span class="tok-*"> wrappers.
+  let out = '';
+  let i   = 0;
+  const len = code.length;
+
+  function peek(n) { return code.slice(i, i + (n || 1)); }
+  function esc(s)  { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function emit(cls, raw) { out += `<span class="${cls}">${esc(raw)}</span>`; i += raw.length; }
+
+  while (i < len) {
+    const ch = code[i];
+
+    // ── Long strings / long comments [[ ... ]]
+    if (ch === '-' && peek(2) === '--') {
+      // long comment?
+      if (code[i+2] === '[') {
+        let eq = 0; let j = i+3;
+        while (j < len && code[j] === '=') { eq++; j++; }
+        if (j < len && code[j] === '[') {
+          // long comment
+          const close = ']' + '='.repeat(eq) + ']';
+          const end = code.indexOf(close, j+1);
+          const raw = end === -1 ? code.slice(i) : code.slice(i, end + close.length);
+          emit('tok-cmt', raw);
+          continue;
+        }
+      }
+      // single-line comment
+      const nl = code.indexOf('\n', i);
+      const raw = nl === -1 ? code.slice(i) : code.slice(i, nl);
+      emit('tok-cmt', raw);
+      continue;
+    }
+
+    // ── Long string [[ ... ]]
+    if (ch === '[') {
+      let eq = 0; let j = i+1;
+      while (j < len && code[j] === '=') { eq++; j++; }
+      if (j < len && code[j] === '[') {
+        const close = ']' + '='.repeat(eq) + ']';
+        const end = code.indexOf(close, j+1);
+        const raw = end === -1 ? code.slice(i) : code.slice(i, end + close.length);
+        emit('tok-str', raw);
+        continue;
+      }
+    }
+
+    // ── String literals
+    if (ch === '"' || ch === "'") {
+      let j = i+1; let raw = ch;
+      while (j < len) {
+        if (code[j] === '\\') { raw += code[j] + (code[j+1]||''); j+=2; continue; }
+        if (code[j] === ch || code[j] === '\n') { raw += code[j]; j++; break; }
+        raw += code[j]; j++;
+      }
+      emit('tok-str', raw);
+      continue;
+    }
+
+    // ── Numbers (hex, float, int)
+    if (/[0-9]/.test(ch) || (ch === '.' && /[0-9]/.test(code[i+1]||''))) {
+      const m = code.slice(i).match(/^0[xX][0-9a-fA-F_]+|^[0-9][0-9_]*(?:\.[0-9_]*)?(?:[eE][+-]?[0-9_]+)?/);
+      if (m) { emit('tok-num', m[0]); continue; }
+    }
+
+    // ── Identifiers / keywords
+    if (/[a-zA-Z_]/.test(ch)) {
+      const m = code.slice(i).match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
+      if (m) {
+        const word = m[0];
+        // peek ahead: if followed by whitespace + ( or just (, it's a function call
+        const after = code.slice(i + word.length).trimStart();
+        const isCall = after[0] === '(' || after[0] === '"' || after[0] === "'";
+        if (LUA_SPECIAL.has(word)) { emit('tok-sp', word); continue; }
+        if (LUA_KEYWORDS.has(word)) { emit('tok-kw', word); continue; }
+        if (LUA_BUILTINS.has(word)) { emit('tok-bi', word); continue; }
+        if (isCall) { emit('tok-fn', word); continue; }
+        // Check if previous non-ws token was 'local' → variable declaration
+        const prev = out.replace(/<[^>]+>/g,'').trimEnd();
+        if (/\blocal\s*$/.test(prev)) { emit('tok-var', word); continue; }
+        emit('tok-plain', word);
+        continue;
+      }
+    }
+
+    // ── Operators + punctuation
+    if (/[+\-*/%^#&|~<>=(){}[\];:,.?]/.test(ch)) {
+      // multi-char operators
+      const two = peek(2);
+      if (['==','~=','<=','>=','..','::','//'].includes(two)) { emit('tok-op', two); continue; }
+      if (two === '..') { emit('tok-op', two); continue; }
+      emit('tok-op', ch); i++; continue;
+    }
+
+    // ── Whitespace / newlines — pass through unmodified (no wrap = no class = default color)
+    if (ch === ' ' || ch === '\t' || ch === '\r' || ch === '\n') {
+      // emit raw without escaping newlines so layout is preserved
+      out += ch === '&' ? '&amp;' : ch;
+      i++; continue;
+    }
+
+    // fallback
+    out += esc(ch); i++;
+  }
+  return out;
+}
+
+// ─────────────────────────────────────────────
 //  BOOT
 // ─────────────────────────────────────────────
 async function boot() {
-  const saved = SS.load();
-  // hide overlay smoothly after fonts settle
+  // Inject favicon
+  (function(){
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+      <rect width="32" height="32" rx="9" fill="#2c1a0e"/>
+      <path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity=".9"/>
+      <path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".7"/>
+      <path d="M12.5 10.5C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M16 11C16 10 17 10 17 9" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M7 23h18" stroke="rgba(232,213,183,.35)" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`;
+    const link = document.createElement('link');
+    link.rel = 'icon'; link.type = 'image/svg+xml';
+    link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+    document.head.appendChild(link);
+  })();
+
   setTimeout(() => {
     const ol = document.getElementById('loading-overlay');
     ol.classList.add('fade');
     setTimeout(() => ol.style.display = 'none', 420);
   }, 950);
-  if (saved) { currentUser = saved; showContent(); }
-  else showLogin();
+
+  const saved = SS.load();
+  if (saved) {
+    // re-check ban status on boot
+    const { data } = await sb.from('users').select('id,username,role,banned,ban_message').eq('id', saved.id).single();
+    if (data) {
+      if (data.banned) { currentUser = data; SS.save(data); showBanScreen(data.ban_message); return; }
+      currentUser = data; SS.save(data); showContent();
+    } else {
+      showLogin();
+    }
+  } else {
+    showLogin();
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -418,13 +668,25 @@ async function login() {
   err.classList.remove('visible');
   if (!username || !password) { err.textContent = 'Please enter username and password.'; err.classList.add('visible'); return; }
   btn.disabled = true; btn.textContent = 'Signing in…';
-  const { data, error } = await sb.from('users').select('id,username,role').eq('username', username).eq('password', password).single();
+
+  const { data, error } = await sb.from('users')
+    .select('id,username,role,banned,ban_message')
+    .eq('username', username).eq('password', password).single();
+
   if (error || !data) {
     err.textContent = 'Incorrect username or password.';
     err.classList.add('visible');
     btn.disabled = false; btn.textContent = 'Sign in';
     return;
   }
+
+  if (data.banned) {
+    currentUser = data; SS.save(data);
+    btn.disabled = false; btn.textContent = 'Sign in';
+    showBanScreen(data.ban_message);
+    return;
+  }
+
   currentUser = data; SS.save(data); showContent();
 }
 
@@ -441,10 +703,27 @@ function logout() {
 function showLogin() {
   document.getElementById('login-screen').classList.add('active');
   document.getElementById('content-screen').classList.remove('active');
+  document.getElementById('ban-screen').classList.remove('active');
+}
+
+function showBanScreen(msg) {
+  document.getElementById('login-screen').classList.remove('active');
+  document.getElementById('content-screen').classList.remove('active');
+  document.getElementById('header-right').style.display = 'none';
+  document.getElementById('ban-screen').classList.add('active');
+  const msgEl   = document.getElementById('ban-msg-display');
+  const msgText = document.getElementById('ban-msg-text');
+  if (msg && msg.trim()) {
+    msgText.textContent = msg;
+    msgEl.style.display = 'block';
+  } else {
+    msgEl.style.display = 'none';
+  }
 }
 
 async function showContent() {
   document.getElementById('login-screen').classList.remove('active');
+  document.getElementById('ban-screen').classList.remove('active');
   document.getElementById('content-screen').classList.add('active');
   document.getElementById('header-right').style.display = 'flex';
   document.getElementById('user-display').textContent = currentUser.username;
@@ -466,7 +745,6 @@ function switchTab(name, btn) {
   document.getElementById('panel-' + name).classList.add('active');
 
   if (name === 'editor') {
-    // editor tab: if already rendered, just show — no reload
     if (!editorRendered) buildEditor();
   }
   if (name === 'changelog') { loadChangelog(); clearUnread(); }
@@ -495,7 +773,7 @@ function clearUnread() {
 }
 
 // ─────────────────────────────────────────────
-//  CONTENT LOAD (fetch once, cache)
+//  CONTENT LOAD
 // ─────────────────────────────────────────────
 async function loadContent() {
   const { data, error } = await sb.from('content').select('body,visible_to_members').eq('id', 1).single();
@@ -509,13 +787,13 @@ async function loadContent() {
 }
 
 // ─────────────────────────────────────────────
-//  BUILD EDITOR (called once per session load)
+//  BUILD EDITOR
 // ─────────────────────────────────────────────
 function buildEditor() {
   if (!contentLoaded) return;
   editorRendered = true;
 
-  const body = cachedBody || '';
+  const body  = cachedBody || '';
   const lines = body ? body.split('\n') : [''];
   vsTotal = lines.length;
 
@@ -530,9 +808,10 @@ function buildEditor() {
 
 const LANG_BADGE = `<span class="editor-lang">LUA <span>/</span> LUAU</span>`;
 
+// ── OWNER editor: textarea with live highlight backdrop
 function buildOwnerEditor(body, lines) {
   document.getElementById('screen-title').textContent = 'Editor';
-  document.getElementById('screen-subtitle').textContent = 'Auto-saves 1.5 s after you stop typing. Ctrl+F to search.';
+  document.getElementById('screen-subtitle').textContent = 'Auto-saves 1.5 s after you stop typing. Syntax highlighted. Ctrl+F to search.';
 
   document.getElementById('actions-bar').innerHTML = `
     <div class="toggle-row" onclick="handleToggle()">
@@ -561,8 +840,9 @@ function buildOwnerEditor(body, lines) {
       </div>
       <div class="code-body">
         <div class="line-numbers" id="ln-col"><div class="ln-canvas" id="ln-canvas"></div></div>
-        <div class="scroll-viewport" id="scroll-vp">
-          <textarea id="code-textarea" spellcheck="false" oninput="onEdit()">${escHtml(body)}</textarea>
+        <div class="editor-hl-wrapper" id="scroll-vp">
+          <div id="hl-backdrop"></div>
+          <textarea id="code-textarea" spellcheck="false" oninput="onEdit()" onscroll="syncHlScroll()">${escHtml(body)}</textarea>
         </div>
       </div>
       <div class="editor-statusline">
@@ -571,13 +851,33 @@ function buildOwnerEditor(body, lines) {
       </div>
     </div>`;
 
+  // initial highlight
+  updateBackdrop(body);
   initVirtualLineNumbers('scroll-vp', 'ln-col', 'ln-canvas');
   bindSearchShortcut();
 }
 
+function syncHlScroll() {
+  const ta  = document.getElementById('code-textarea');
+  const bd  = document.getElementById('hl-backdrop');
+  const vp  = document.getElementById('scroll-vp');
+  if (!ta || !bd || !vp) return;
+  bd.scrollTop  = ta.scrollTop;
+  bd.scrollLeft = ta.scrollLeft;
+  // sync line numbers
+  if (vp) vp.scrollTop = ta.scrollTop;
+}
+
+function updateBackdrop(text) {
+  const bd = document.getElementById('hl-backdrop');
+  if (!bd) return;
+  bd.innerHTML = luaHighlight(text) + '\n'; // trailing newline prevents last-line clipping
+}
+
+// ── MEMBER viewer: pre with full syntax highlighting
 function buildMemberViewer(body, lines) {
   document.getElementById('screen-title').textContent = 'Content';
-  document.getElementById('screen-subtitle').textContent = 'Read-only — updates live. Ctrl+F to search.';
+  document.getElementById('screen-subtitle').textContent = 'Read-only — updates live. Syntax highlighted. Ctrl+F to search.';
 
   if (!isVisible) {
     document.getElementById('actions-bar').innerHTML = '';
@@ -605,7 +905,7 @@ function buildMemberViewer(body, lines) {
       <div class="code-body">
         <div class="line-numbers" id="ln-col"><div class="ln-canvas" id="ln-canvas"></div></div>
         <div class="scroll-viewport" id="scroll-vp">
-          <pre id="code-pre">${escHtml(body)}</pre>
+          <pre id="code-pre">${luaHighlight(body)}</pre>
         </div>
       </div>
       <div class="editor-statusline">
@@ -620,9 +920,6 @@ function buildMemberViewer(body, lines) {
 
 // ─────────────────────────────────────────────
 //  VIRTUAL LINE NUMBERS
-//  Renders only visible line numbers in the
-//  ln-canvas div, translated via CSS transform.
-//  No DOM thrash, no layout jank.
 // ─────────────────────────────────────────────
 function initVirtualLineNumbers(vpId, colId, canvasId) {
   const vp     = document.getElementById(vpId);
@@ -641,8 +938,8 @@ function initVirtualLineNumbers(vpId, colId, canvasId) {
     let html = '';
     for (let i = firstLine; i <= lastLine; i++) html += (i + 1) + '\n';
     canvas.textContent = html;
-    canvas.style.transform = `translateY(${firstLine * LINE_H + 16}px)`; // 16 = padding-top 1rem
-    col.scrollTop = scrollTop; // keep gutter aligned
+    canvas.style.transform = `translateY(${firstLine * LINE_H + 16}px)`;
+    col.scrollTop = scrollTop;
   }
 
   vp.addEventListener('scroll', () => {
@@ -650,7 +947,6 @@ function initVirtualLineNumbers(vpId, colId, canvasId) {
     vsRafId = requestAnimationFrame(paint);
   }, { passive: true });
 
-  // initial paint
   requestAnimationFrame(paint);
 }
 
@@ -695,7 +991,6 @@ function runSearch(q) {
   const ta  = document.getElementById('code-textarea');
 
   if (ta) {
-    // owner textarea: just find positions, scroll + select
     const text = ta.value;
     const re = new RegExp(escRe(q), 'gi');
     let m;
@@ -705,17 +1000,28 @@ function runSearch(q) {
     return;
   }
   if (pre) {
-    // member pre: inject mark tags
-    const raw  = pre.textContent;
-    const safeQ = escHtml(q);
-    const re   = new RegExp(escRe(safeQ), 'gi');
-    let idx = 0;
-    pre.innerHTML = escHtml(raw).replace(re, m => {
-      const i = idx++;
-      searchMatches.push(i);
-      return `<mark class="sh" data-idx="${i}">${m}</mark>`;
+    // search over raw text, rebuild highlighted html with marks
+    const raw = pre.textContent;
+    const re  = new RegExp(escRe(q), 'gi');
+    let idx = 0, last = 0;
+    let markedRaw = '';
+    let m;
+    while ((m = re.exec(raw)) !== null) {
+      markedRaw += raw.slice(last, m.index) + '\x00' + m[0] + '\x01';
+      last = m.index + m[0].length;
+      searchMatches.push(idx++);
+    }
+    markedRaw += raw.slice(last);
+    // re-highlight and inject marks
+    let hl = luaHighlight(markedRaw);
+    let si = 0;
+    hl = hl.replace(/\x00([\s\S]*?)\x01/g, (_, inner) => {
+      const cur = si === searchIndex;
+      si++;
+      return `<mark class="sh${cur?' current':''}" data-idx="${si-1}">${inner}</mark>`;
     });
-    if (searchMatches.length) { searchIndex = 0; highlightCurrent(); }
+    pre.innerHTML = hl;
+    if (searchMatches.length) { highlightCurrent(); }
     updateSearchInfo(searchMatches.length ? 1 : 0, searchMatches.length);
   }
 }
@@ -723,7 +1029,7 @@ function stepSearch(dir) {
   if (!searchMatches.length) return;
   searchIndex = (searchIndex + dir + searchMatches.length) % searchMatches.length;
   const pre = document.getElementById('code-pre');
-  if (pre) highlightCurrent();
+  if (pre) { runSearch(document.getElementById('search-input')?.value || ''); }
   else scrollTextareaToMatch(searchIndex);
   updateSearchInfo(searchIndex + 1, searchMatches.length);
 }
@@ -743,7 +1049,10 @@ function scrollTextareaToMatch(idx) {
 }
 function clearHighlights() {
   const pre = document.getElementById('code-pre');
-  if (pre) { const t = pre.textContent; pre.innerHTML = escHtml(t); }
+  if (pre) {
+    const raw = pre.textContent;
+    pre.innerHTML = luaHighlight(raw);
+  }
 }
 function updateSearchInfo(cur, total) {
   const el = document.getElementById('search-info');
@@ -774,6 +1083,11 @@ function onEdit() {
   document.getElementById('sl-lines').textContent   = vsTotal.toLocaleString() + ' lines';
   setSaveStatus('unsaved');
   cachedBody = ta.value;
+
+  // debounced highlight update
+  clearTimeout(hlTimer);
+  hlTimer = setTimeout(() => updateBackdrop(ta.value), 120);
+
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => saveContent(ta.value), 1500);
 }
@@ -830,7 +1144,6 @@ async function loadChangelog() {
         </div>
         <div class="cl-diff">
           ${diff>0?`<span class="cl-diff-add">▲ +${diff} lines</span>`:''}
-          ${diff>0&&diff<0?'<span class="cl-diff-sep">·</span>':''}
           ${diff<0?`<span class="cl-diff-rem">▼ ${diff} lines</span>`:''}
           ${diff===0?'<span class="cl-diff-lines">no line change</span>':''}
           <span class="cl-diff-sep">·</span>
@@ -843,25 +1156,96 @@ async function loadChangelog() {
 }
 
 // ─────────────────────────────────────────────
-//  MEMBERS
+//  MEMBERS + BAN SYSTEM
 // ─────────────────────────────────────────────
 async function loadLeaderboard() {
-  const { data, error } = await sb.from('users').select('username,role').order('role').order('username');
+  const { data, error } = await sb.from('users').select('id,username,role,banned,ban_message').order('role').order('username');
   const el = document.getElementById('leaderboard-content');
   if (error || !data || !data.length) { el.innerHTML = '<div class="lb-empty">No members found.</div>'; return; }
+
+  const isOwner = currentUser.role === 'owner';
+
   el.innerHTML = `<div class="lb-list">${data.map(u => {
     const initials = u.username.slice(0, 2).toUpperCase();
-    const isOwner  = u.role === 'owner';
-    const badge    = isOwner
-      ? 'background:var(--espresso);color:var(--cream);border-color:var(--espresso)'
-      : 'background:var(--cream);color:var(--muted);border-color:var(--border-h)';
-    return `<div class="lb-row">
-      <div class="lb-avatar${isOwner?' owner-av':''}">${initials}</div>
-      <span class="lb-name">${escHtml(u.username)}</span>
-      <span style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid;letter-spacing:0.05em;text-transform:uppercase;${badge}">${escHtml(u.role)}</span>
+    const uIsOwner = u.role === 'owner';
+    const isBanned = !!u.banned;
+
+    const roleBadge = uIsOwner
+      ? `<span style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid;letter-spacing:0.05em;text-transform:uppercase;background:var(--espresso);color:var(--cream);border-color:var(--espresso)">${escHtml(u.role)}</span>`
+      : isBanned
+        ? `<span class="banned-pill">Banned</span>`
+        : `<span style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid;letter-spacing:0.05em;text-transform:uppercase;background:var(--cream);color:var(--muted);border-color:var(--border-h)">${escHtml(u.role)}</span>`;
+
+    // Owner sees ban/unban buttons for non-owner members
+    const ownerActions = (isOwner && !uIsOwner) ? `
+      <div class="lb-actions">
+        ${isBanned
+          ? `<button class="btn success" style="font-size:11.5px;padding:5px 12px" onclick="openUnbanModal('${u.id}','${escHtml(u.username)}')">Unban</button>`
+          : `<button class="btn danger"  style="font-size:11.5px;padding:5px 12px" onclick="openBanModal('${u.id}','${escHtml(u.username)}')">Ban</button>`
+        }
+      </div>` : '';
+
+    return `<div class="lb-row${isBanned?' banned-row':''}">
+      <div class="lb-avatar${uIsOwner?' owner-av':isBanned?' banned-av':''}">${initials}</div>
+      <span class="lb-name${isBanned?' banned-name':''}">${escHtml(u.username)}</span>
+      ${roleBadge}
+      ${ownerActions}
     </div>`;
   }).join('')}</div>`;
 }
+
+// ── Ban modal open / confirm
+function openBanModal(userId, username) {
+  banTargetUser   = userId;
+  banTargetAction = 'ban';
+  document.getElementById('modal-title').textContent = `Ban ${username}`;
+  document.getElementById('modal-desc').textContent  = `${username} will be immediately locked out until you unban them. You can include a message they'll see.`;
+  document.getElementById('ban-msg-field').style.display = 'block';
+  document.getElementById('ban-msg-input').value = '';
+  document.getElementById('modal-confirm-btn').textContent = 'Ban member';
+  document.getElementById('modal-confirm-btn').className  = 'btn danger';
+  document.getElementById('ban-modal').classList.add('open');
+}
+
+function openUnbanModal(userId, username) {
+  banTargetUser   = userId;
+  banTargetAction = 'unban';
+  document.getElementById('modal-title').textContent = `Unban ${username}`;
+  document.getElementById('modal-desc').textContent  = `${username} will regain access to the workspace immediately.`;
+  document.getElementById('ban-msg-field').style.display = 'none';
+  document.getElementById('modal-confirm-btn').textContent = 'Unban member';
+  document.getElementById('modal-confirm-btn').className  = 'btn success';
+  document.getElementById('ban-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('ban-modal').classList.remove('open');
+  banTargetUser = null;
+}
+
+async function confirmBan() {
+  if (!banTargetUser) return;
+  const btn = document.getElementById('modal-confirm-btn');
+  btn.disabled = true;
+
+  if (banTargetAction === 'ban') {
+    const msg = document.getElementById('ban-msg-input').value.trim();
+    await sb.from('users').update({ banned: true, ban_message: msg || null }).eq('id', banTargetUser);
+    toast('Member banned');
+  } else {
+    await sb.from('users').update({ banned: false, ban_message: null }).eq('id', banTargetUser);
+    toast('Member unbanned');
+  }
+
+  btn.disabled = false;
+  closeModal();
+  loadLeaderboard(); // refresh list
+}
+
+// Close modal on backdrop click
+document.getElementById('ban-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
 
 // ─────────────────────────────────────────────
 //  COPY
@@ -890,7 +1274,6 @@ sb.channel('content-rt')
     cachedBody = newBody;
     lastSavedLines = newBody ? newBody.split('\n').length : 0;
     editorRendered = false;
-    // Only re-render if editor tab is currently active
     if (document.getElementById('panel-editor')?.classList.contains('active')) {
       buildEditor();
     }
@@ -910,6 +1293,19 @@ sb.channel('changelog-rt')
       showNotif();
     }
     if (document.getElementById('panel-changelog')?.classList.contains('active')) loadChangelog();
+  })
+  .subscribe();
+
+// Watch for ban changes on current user (real-time kick)
+sb.channel('ban-rt')
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, async payload => {
+    if (!currentUser || payload.new.id !== currentUser.id) return;
+    if (payload.new.banned && currentUser.role !== 'owner') {
+      currentUser.banned = true;
+      currentUser.ban_message = payload.new.ban_message;
+      SS.save(currentUser);
+      showBanScreen(payload.new.ban_message);
+    }
   })
   .subscribe();
 
