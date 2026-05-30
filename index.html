@@ -34,6 +34,9 @@
   --tok-varname:  #9CDCFE;
   --tok-special:  #C586C0;
   --tok-plain:    #D4D4D4;
+  --admin-color:  #7c3aed;
+  --admin-bg:     rgba(124,58,237,0.08);
+  --admin-border: rgba(124,58,237,0.22);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -49,6 +52,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .header-right{display:flex;align-items:center;gap:0.9rem}
 .badge{font-size:10.5px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:0.5px solid var(--border);color:var(--muted);background:var(--cream)}
 .badge.owner{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+.badge.admin{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
 .user-name{font-size:13px;color:var(--muted);font-weight:400}
 .btn{font-family:var(--fb);font-size:12.5px;font-weight:500;padding:7px 15px;border-radius:8px;border:0.5px solid var(--border-h);background:transparent;color:var(--brown);cursor:pointer;transition:background 0.13s,border-color 0.13s;line-height:1.4}
 .btn:hover{background:var(--cream)}
@@ -58,6 +62,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .btn.danger:hover{background:#991b1b;border-color:#991b1b}
 .btn.success{background:#15803d;color:#fff;border-color:#15803d}
 .btn.success:hover{background:#166534;border-color:#166534}
+.btn.admin-btn{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
+.btn.admin-btn:hover{background:rgba(124,58,237,0.14)}
 .btn:disabled{opacity:0.35;cursor:not-allowed}
 
 /* SCREENS */
@@ -70,10 +76,12 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .login-card p{font-size:13px;color:var(--muted);margin-bottom:1.75rem;line-height:1.5}
 .field{margin-bottom:1rem}
 .field label{display:block;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px}
-.field input{width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-family:var(--fb);font-size:14px;background:var(--foam);color:var(--espresso);outline:none;transition:border-color 0.13s}
-.field input:focus{border-color:var(--gold)}
+.field input,.field select{width:100%;padding:9px 12px;border:0.5px solid var(--border);border-radius:8px;font-family:var(--fb);font-size:14px;background:var(--foam);color:var(--espresso);outline:none;transition:border-color 0.13s}
+.field input:focus,.field select:focus{border-color:var(--gold)}
 .error-msg{font-size:12px;color:#b91c1c;background:#fef2f2;border:0.5px solid #fca5a5;border-radius:6px;padding:8px 10px;margin-bottom:1rem;display:none}
 .error-msg.visible{display:block}
+.success-msg{font-size:12px;color:#15803d;background:#f0fdf4;border:0.5px solid #86efac;border-radius:6px;padding:8px 10px;margin-bottom:1rem;display:none}
+.success-msg.visible{display:block}
 
 /* BAN SCREEN */
 #ban-screen{display:none;min-height:calc(100vh - 58px);align-items:center;justify-content:center;padding:2rem;flex-direction:column;gap:1.5rem}
@@ -121,7 +129,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .save-note-row input:focus{border-color:var(--gold)}
 .save-note-row input::placeholder{color:var(--muted)}
 
-/* ── PREVIEW CARD (shown before maximize) ── */
+/* ── PREVIEW CARD ── */
 .preview-card{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.12);overflow:hidden;box-shadow:0 2px 0 rgba(201,146,61,0.06),0 16px 56px rgba(44,26,14,0.2)}
 .preview-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);gap:10px}
 .preview-toolbar-left{display:flex;align-items:center;gap:5px}
@@ -134,8 +142,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .editor-save.saving{color:var(--gold)}
 .editor-save.saved{color:#69c98c}
 .editor-save.highlighting{color:#C586C0}
-
-/* ── PREVIEW BODY (blurred teaser) ── */
 .preview-body{position:relative;height:220px;overflow:hidden}
 .preview-blur-layer{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,15,5,0) 0%,rgba(26,15,5,0.6) 50%,rgba(26,15,5,0.97) 100%);z-index:2;pointer-events:none}
 .preview-pre{display:block;width:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;color:var(--tok-plain);padding:1rem 1.5rem;white-space:pre-wrap;word-break:break-word;pointer-events:none;user-select:none}
@@ -149,12 +155,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .pbtn-raw:hover{background:rgba(232,213,183,0.14)}
 .pbtn-download{background:rgba(105,201,140,0.12);color:#69c98c;border:1px solid rgba(105,201,140,0.25)}
 .pbtn-download:hover{background:rgba(105,201,140,0.2)}
-
 .preview-statusline{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:24px;background:#0d0702;border-top:1px solid rgba(201,146,61,0.06);font-family:var(--fc);font-size:10px;color:rgba(232,213,183,0.2)}
 .statusline-left,.statusline-right{display:flex;align-items:center;gap:12px}
 .sl-dot{width:5px;height:5px;border-radius:50%;background:#69c98c;opacity:0.65;display:inline-block;margin-right:5px;vertical-align:1px}
-
-/* ── HIDDEN STATE ── */
 .hidden-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem;gap:0.9rem;background:#1a0f05;color:rgba(232,213,183,0.2);font-size:13px;border-radius:var(--r);border:1px solid rgba(201,146,61,0.07);min-height:300px;font-family:var(--fc)}
 
 /* ── MAXIMIZE OVERLAY ── */
@@ -171,8 +174,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .max-action-btn.dl:hover{background:rgba(105,201,140,0.18)}
 .max-action-btn.close{background:rgba(185,28,28,0.12);color:#ee6b6b;border-color:rgba(185,28,28,0.22)}
 .max-action-btn.close:hover{background:rgba(185,28,28,0.22)}
-
-/* Search bar */
 .search-bar{display:none;align-items:center;gap:7px;padding:6px 12px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.08);flex-shrink:0}
 .search-bar.visible{display:flex}
 .search-bar input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(201,146,61,0.18);border-radius:6px;padding:5px 9px;font-family:var(--fc);font-size:12px;color:#e8d5b7;outline:none;transition:border-color 0.13s}
@@ -185,8 +186,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .sclose:hover{color:#ee6b6b}
 mark.sh{background:rgba(201,146,61,0.3);border-radius:2px}
 mark.sh.current{background:var(--gold);color:#1a0f05}
-
-/* Maximize code body */
 .max-body{flex:1;display:flex;overflow:hidden;min-height:0}
 .line-numbers{flex-shrink:0;width:52px;background:#0d0702;border-right:1px solid rgba(201,146,61,0.05);overflow:hidden;user-select:none;position:relative}
 .ln-inner{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden}
@@ -196,44 +195,25 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .scroll-viewport::-webkit-scrollbar-track{background:transparent}
 .scroll-viewport::-webkit-scrollbar-thumb{background:rgba(201,146,61,0.13);border-radius:4px}
 .scroll-viewport::-webkit-scrollbar-thumb:hover{background:rgba(201,146,61,0.25)}
-
-/* Owner textarea */
 #code-textarea{display:block;width:100%;min-height:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;color:#e8d5b7;background:transparent;border:none;outline:none;resize:none;padding:1rem 1.5rem;tab-size:2;white-space:pre;overflow:visible;caret-color:var(--gold)}
-
-/* Member pre */
 #code-pre{display:block;width:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;color:var(--tok-plain);padding:1rem 1.5rem;white-space:pre-wrap;word-break:break-word;cursor:default}
-
-/* Syntax tokens */
-.tok-kw   {color:var(--tok-keyword)}
-.tok-bi   {color:var(--tok-builtin)}
-.tok-str  {color:var(--tok-string)}
-.tok-num  {color:var(--tok-number)}
-.tok-cmt  {color:var(--tok-comment);font-style:italic}
-.tok-fn   {color:var(--tok-func)}
-.tok-op   {color:var(--tok-operator)}
-.tok-var  {color:var(--tok-varname)}
-.tok-sp   {color:var(--tok-special)}
-.tok-plain{color:var(--tok-plain)}
-
+.tok-kw{color:var(--tok-keyword)}.tok-bi{color:var(--tok-builtin)}.tok-str{color:var(--tok-string)}.tok-num{color:var(--tok-number)}.tok-cmt{color:var(--tok-comment);font-style:italic}.tok-fn{color:var(--tok-func)}.tok-op{color:var(--tok-operator)}.tok-var{color:var(--tok-varname)}.tok-sp{color:var(--tok-special)}.tok-plain{color:var(--tok-plain)}
 .max-statusline{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:24px;background:#080401;border-top:1px solid rgba(201,146,61,0.05);font-family:var(--fc);font-size:10px;color:rgba(232,213,183,0.18);flex-shrink:0}
-
-/* OWNER editor (in maximize) */
 .code-wrapper{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.1);overflow:hidden;box-shadow:0 2px 0 rgba(201,146,61,0.06),0 16px 56px rgba(44,26,14,0.2)}
 .editor-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);gap:10px}
 .editor-toolbar-left{display:flex;align-items:center;gap:5px}
 .editor-toolbar-right{display:flex;align-items:center;gap:10px}
 .editor-statusline{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:24px;background:#0d0702;border-top:1px solid rgba(201,146,61,0.06);font-family:var(--fc);font-size:10px;color:rgba(232,213,183,0.2)}
-
-/* LOADING SKELETON */
 .editor-skeleton{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.1);overflow:hidden;min-height:300px;display:flex;flex-direction:column}
 .skel-toolbar{height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);display:flex;align-items:center;padding:0 15px;gap:8px}
 .skel-tab{height:18px;width:90px;border-radius:4px;background:rgba(201,146,61,0.06);animation:shimmer 1.4s infinite linear}
 .skel-body{flex:1;padding:1rem 1.5rem;display:flex;flex-direction:column;gap:10px}
 .skel-line{height:13px;border-radius:3px;background:rgba(201,146,61,0.05);animation:shimmer 1.4s infinite linear}
 @keyframes shimmer{0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
-
-/* STATUS BAR */
 .status-bar{display:flex;align-items:center;justify-content:space-between;padding:0.55rem 0;margin-top:0.55rem;font-size:11px;color:var(--muted);font-family:var(--fc);flex-wrap:wrap;gap:0.5rem}
+.max-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1rem;color:rgba(232,213,183,0.3);font-family:var(--fc);font-size:13px}
+.max-spinner{width:28px;height:28px;border:2px solid rgba(201,146,61,0.15);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* CHANGELOG */
 .changelog-empty{text-align:center;padding:4rem 2rem;color:var(--muted);font-size:13px}
@@ -261,12 +241,58 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .lb-row.banned-row:hover{background:#fee2e2}
 .lb-avatar{width:31px;height:31px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;color:var(--brown);flex-shrink:0;border:0.5px solid var(--border)}
 .lb-avatar.owner-av{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+.lb-avatar.admin-av{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
 .lb-avatar.banned-av{background:#fee2e2;color:#b91c1c;border-color:rgba(185,28,28,0.2)}
 .lb-name{flex:1;font-size:13px;font-weight:500;color:var(--espresso)}
 .lb-name.banned-name{color:#b91c1c;text-decoration:line-through;text-decoration-color:rgba(185,28,28,0.4)}
 .lb-empty{text-align:center;padding:3rem 2rem;color:var(--muted);font-size:13px}
 .lb-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .banned-pill{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:3px 9px;border-radius:20px;background:#fee2e2;color:#b91c1c;border:0.5px solid rgba(185,28,28,0.25)}
+.role-pill{font-size:10.5px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:0.5px solid}
+.role-pill.owner{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+.role-pill.admin{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
+.role-pill.member{background:var(--cream);color:var(--muted);border-color:var(--border-h)}
+
+/* ── NOTIFICATIONS TAB ── */
+.notif-compose{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1.2rem;display:flex;flex-direction:column;gap:0.75rem}
+.notif-compose-top{display:flex;align-items:flex-start;gap:10px}
+.notif-compose-avatar{width:30px;height:30px;border-radius:50%;background:var(--espresso);color:var(--cream);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.notif-compose-avatar.admin{background:var(--admin-bg);color:var(--admin-color);border:0.5px solid var(--admin-border)}
+.notif-compose textarea{flex:1;border:none;outline:none;font-family:var(--fb);font-size:13.5px;color:var(--espresso);background:transparent;resize:none;min-height:60px;line-height:1.55;padding-top:4px}
+.notif-compose textarea::placeholder{color:var(--muted)}
+.notif-compose-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.5rem;border-top:0.5px solid var(--border)}
+.notif-char-count{font-size:11px;color:var(--muted);font-family:var(--fc)}
+.notif-char-count.over{color:#b91c1c}
+.notif-list{display:flex;flex-direction:column;gap:9px}
+.notif-item{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.1rem;transition:background 0.11s}
+.notif-item:hover{background:var(--cream)}
+.notif-item.unread-notif{border-color:rgba(201,146,61,0.35);background:rgba(201,146,61,0.04)}
+.notif-item-header{display:flex;align-items:center;gap:9px;margin-bottom:0.55rem}
+.notif-item-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.notif-item-avatar.owner-av{background:var(--espresso);color:var(--cream)}
+.notif-item-avatar.admin-av{background:var(--admin-bg);color:var(--admin-color);border:0.5px solid var(--admin-border)}
+.notif-item-name{font-size:13px;font-weight:500;color:var(--espresso)}
+.notif-item-role{font-size:10px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;padding:2px 7px;border-radius:20px;border:0.5px solid}
+.notif-item-role.owner{background:var(--espresso);color:var(--cream);border-color:var(--espresso)}
+.notif-item-role.admin{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
+.notif-item-time{font-size:11px;color:var(--muted);font-family:var(--fc);margin-left:auto}
+.notif-item-body{font-size:13.5px;color:var(--espresso);line-height:1.6}
+.notif-unread-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-left:auto}
+.notif-empty{text-align:center;padding:4rem 2rem;color:var(--muted);font-size:13px}
+.notif-delete-btn{background:none;border:none;cursor:pointer;padding:3px 7px;color:var(--muted);font-size:12px;border-radius:5px;transition:color 0.12s,background 0.12s;line-height:1;opacity:0;transition:opacity 0.15s}
+.notif-item:hover .notif-delete-btn{opacity:1}
+.notif-delete-btn:hover{color:#b91c1c;background:#fef2f2}
+
+/* CREATE MEMBER TAB */
+.create-member-form{background:#fff;border:0.5px solid var(--border);border-radius:14px;padding:1.5rem;max-width:440px}
+.create-member-form h3{font-family:var(--ff);font-size:1rem;font-weight:600;color:var(--espresso);margin-bottom:0.25rem;letter-spacing:-0.01em}
+.create-member-form p{font-size:12.5px;color:var(--muted);margin-bottom:1.25rem;line-height:1.5}
+.role-select-row{display:flex;gap:8px;margin-bottom:1rem}
+.role-radio{flex:1;position:relative}
+.role-radio input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+.role-radio label{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:8px;border:0.5px solid var(--border);font-size:12.5px;font-weight:500;cursor:pointer;transition:all 0.13s;color:var(--muted);background:var(--foam)}
+.role-radio input:checked + label.member-label{background:var(--cream);color:var(--brown);border-color:var(--border-h)}
+.role-radio input:checked + label.admin-label{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
 
 /* BAN MODAL */
 .modal-overlay{position:fixed;inset:0;z-index:600;background:rgba(44,26,14,0.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s}
@@ -301,10 +327,8 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .nf-title{font-weight:600;margin-bottom:2px;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold)}
 .nf-body{font-size:12.5px;color:rgba(232,213,183,0.82)}
 
-/* Loading spinner for maximize */
-.max-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1rem;color:rgba(232,213,183,0.3);font-family:var(--fc);font-size:13px}
-.max-spinner{width:28px;height:28px;border:2px solid rgba(201,146,61,0.15);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* Spinner inline */
+.inline-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(107,76,42,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:-3px;margin-right:6px}
 </style>
 </head>
 <body>
@@ -315,7 +339,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 </div>
 
 <div id="notif-flash">
-  <div class="nf-title">Content updated</div>
+  <div class="nf-title" id="notif-flash-title">Content updated</div>
   <div class="nf-body" id="notif-body"></div>
 </div>
 
@@ -430,13 +454,18 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 
 <!-- CONTENT -->
 <div id="content-screen" class="screen">
-  <div class="tabs-nav">
+  <div class="tabs-nav" id="tabs-nav">
     <button class="tab-btn active" onclick="switchTab('editor',this)" id="tab-editor">Editor</button>
     <button class="tab-btn" onclick="switchTab('changelog',this)" id="tab-changelog">
       Changelog
       <span class="tab-notif" id="notif-badge" style="display:none">0</span>
     </button>
+    <button class="tab-btn" onclick="switchTab('notifications',this)" id="tab-notifications">
+      Notifications
+      <span class="tab-notif" id="notif-msg-badge" style="display:none">0</span>
+    </button>
     <button class="tab-btn" onclick="switchTab('leaderboard',this)" id="tab-leaderboard">Members</button>
+    <!-- Create member tab: shown to owner + admin only, injected dynamically -->
   </div>
 
   <!-- EDITOR PANEL -->
@@ -468,12 +497,62 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
     </div>
   </div>
 
+  <!-- NOTIFICATIONS PANEL -->
+  <div class="tab-panel" id="panel-notifications">
+    <div class="panel-header">
+      <div><h2>Notifications</h2><p>Announcements from the owner and admins.</p></div>
+    </div>
+    <!-- Compose box: injected if owner or admin -->
+    <div id="notif-compose-area"></div>
+    <div id="notifications-content">
+      <div class="notif-empty"><div class="ce-icon">🔔</div>No notifications yet.</div>
+    </div>
+  </div>
+
   <!-- MEMBERS PANEL -->
   <div class="tab-panel" id="panel-leaderboard">
     <div class="panel-header">
       <div><h2>Members</h2><p>Everyone with access to this workspace.</p></div>
     </div>
     <div id="leaderboard-content"><div class="lb-empty">Loading…</div></div>
+  </div>
+
+  <!-- CREATE MEMBER PANEL (owner + admin) -->
+  <div class="tab-panel" id="panel-create">
+    <div class="panel-header">
+      <div><h2>Create Member</h2><p>Add new members to this workspace.</p></div>
+    </div>
+    <div class="create-member-form">
+      <h3>New account</h3>
+      <p>The new user can sign in immediately with these credentials.</p>
+      <div id="create-error" class="error-msg"></div>
+      <div id="create-success" class="success-msg"></div>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="new-username" placeholder="e.g. john_doe" autocomplete="off" maxlength="32"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="new-password" placeholder="••••••••" autocomplete="new-password" maxlength="64"/>
+      </div>
+      <!-- Role selection: only shown to owner -->
+      <div id="role-select-wrap" style="display:none">
+        <div class="field">
+          <label>Role</label>
+          <div class="role-select-row">
+            <div class="role-radio">
+              <input type="radio" name="new-role" id="role-member" value="member" checked/>
+              <label for="role-member" class="member-label">👤 Member</label>
+            </div>
+            <div class="role-radio">
+              <input type="radio" name="new-role" id="role-admin" value="admin"/>
+              <label for="role-admin" class="admin-label">🛡 Admin</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn primary" id="create-btn" onclick="createMember()" style="width:100%;padding:10px;margin-top:0.25rem">Create account</button>
+    </div>
   </div>
 </div>
 
@@ -509,38 +588,44 @@ let isVisible      = true;
 let saveTimer      = null;
 let lastSavedLines = 0;
 let unreadCount    = 0;
+let unreadNotifCount = 0;
 
-// Lazy content — nothing loaded until user clicks maximize/raw/download
-let metaLoaded     = false;   // we load just metadata (line count, visibility) on login
-let fullLoaded     = false;   // full body + highlighted_body loaded on demand
+let metaLoaded     = false;
+let fullLoaded     = false;
 let cachedBody     = null;
 let cachedHl       = null;
-let previewHl      = null;    // first ~60 lines for the blurred teaser
+let previewHl      = null;
 let totalLines     = 0;
 
-// Maximize state
 let maximizeOpen   = false;
 let maxRendered    = false;
 
-// Search
 let searchMatches  = [];
 let searchIndex    = 0;
 
-// Ban modal
 let banTargetUser   = null;
 let banTargetAction = 'ban';
 
 const LINE_H = 21;
 
 // ─────────────────────────────────────────────
+//  HELPERS  (role checks)
+// ─────────────────────────────────────────────
+const isOwner = () => currentUser?.role === 'owner';
+const isAdmin = () => currentUser?.role === 'admin';
+const isElevated = () => isOwner() || isAdmin(); // owner or admin
+
+// ─────────────────────────────────────────────
 //  SESSION
 // ─────────────────────────────────────────────
 const SS = {
-  save:        u  => localStorage.setItem('mocha_user', JSON.stringify(u)),
-  clear:       () => localStorage.removeItem('mocha_user'),
-  load:        () => { try { return JSON.parse(localStorage.getItem('mocha_user')); } catch { return null; } },
-  lastSeen:    () => parseInt(localStorage.getItem('mocha_last_seen') || '0'),
-  setLastSeen: id => localStorage.setItem('mocha_last_seen', String(id)),
+  save:           u  => localStorage.setItem('mocha_user', JSON.stringify(u)),
+  clear:          () => localStorage.removeItem('mocha_user'),
+  load:           () => { try { return JSON.parse(localStorage.getItem('mocha_user')); } catch { return null; } },
+  lastSeen:       () => parseInt(localStorage.getItem('mocha_last_seen') || '0'),
+  setLastSeen:    id => localStorage.setItem('mocha_last_seen', String(id)),
+  lastSeenNotif:  () => parseInt(localStorage.getItem('mocha_last_notif') || '0'),
+  setLastSeenNotif: id => localStorage.setItem('mocha_last_notif', String(id)),
 };
 
 // ─────────────────────────────────────────────
@@ -628,10 +713,32 @@ async function showContent() {
   document.getElementById('user-display').textContent = currentUser.username;
   const badge = document.getElementById('role-badge');
   badge.textContent = currentUser.role;
-  badge.className = 'badge' + (currentUser.role === 'owner' ? ' owner' : '');
-  if (currentUser.role === 'owner') document.getElementById('save-note-row').style.display = 'flex';
+  badge.className = 'badge' + (isOwner() ? ' owner' : isAdmin() ? ' admin' : '');
+
+  // Owner gets save note row
+  if (isOwner()) document.getElementById('save-note-row').style.display = 'flex';
+
+  // Inject "Create" tab for owner + admin
+  injectCreateTab();
+
   await loadMeta();
   checkUnread();
+  checkUnreadNotifs();
+}
+
+// ─────────────────────────────────────────────
+//  INJECT CREATE TAB  (owner + admin)
+// ─────────────────────────────────────────────
+function injectCreateTab() {
+  if (!isElevated()) return;
+  const nav = document.getElementById('tabs-nav');
+  if (document.getElementById('tab-create')) return; // already injected
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn';
+  btn.id = 'tab-create';
+  btn.innerHTML = isOwner() ? '✦ Create Member' : '✦ Create Member';
+  btn.onclick = function() { switchTab('create', this); };
+  nav.appendChild(btn);
 }
 
 // ─────────────────────────────────────────────
@@ -642,13 +749,15 @@ function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('panel-' + name).classList.add('active');
-  if (name === 'changelog')   { loadChangelog(); clearUnread(); }
-  if (name === 'leaderboard') loadLeaderboard();
-  if (name !== 'editor') closeSearch();
+  if (name === 'changelog')      { loadChangelog(); clearUnread(); }
+  if (name === 'leaderboard')    loadLeaderboard();
+  if (name === 'notifications')  { loadNotifications(); clearUnreadNotifs(); }
+  if (name === 'create')         setupCreateForm();
+  if (name !== 'editor')         closeSearch();
 }
 
 // ─────────────────────────────────────────────
-//  UNREAD
+//  UNREAD  (changelog)
 // ─────────────────────────────────────────────
 async function checkUnread() {
   const { data } = await sb.from('changelog').select('id').gt('id', SS.lastSeen()).order('id', { ascending: false });
@@ -667,13 +776,29 @@ function clearUnread() {
 }
 
 // ─────────────────────────────────────────────
-//  LOAD META — only fetches visibility + line
-//  count on login. Full body loaded on demand.
+//  UNREAD  (notifications)
+// ─────────────────────────────────────────────
+async function checkUnreadNotifs() {
+  const { data } = await sb.from('notifications').select('id').gt('id', SS.lastSeenNotif()).order('id', { ascending: false });
+  unreadNotifCount = data ? data.length : 0; updateNotifBadge();
+}
+function updateNotifBadge() {
+  const b = document.getElementById('notif-msg-badge');
+  if (unreadNotifCount > 0) { b.textContent = unreadNotifCount; b.style.display = 'inline-flex'; }
+  else b.style.display = 'none';
+}
+function clearUnreadNotifs() {
+  unreadNotifCount = 0; updateNotifBadge();
+  sb.from('notifications').select('id').order('id',{ascending:false}).limit(1).then(({data}) => {
+    if (data && data[0]) SS.setLastSeenNotif(data[0].id);
+  });
+}
+
+// ─────────────────────────────────────────────
+//  LOAD META
 // ─────────────────────────────────────────────
 async function loadMeta() {
-  // For owner: fetch highlighted_body first few lines for preview teaser
-  // We select highlighted_body but store only a slice for the blurred preview
-  const cols = currentUser.role === 'owner'
+  const cols = isOwner()
     ? 'visible_to_members,body'
     : 'visible_to_members,highlighted_body';
 
@@ -683,18 +808,15 @@ async function loadMeta() {
   isVisible  = data?.visible_to_members ?? true;
   metaLoaded = true;
 
-  if (currentUser.role === 'owner') {
-    // Owner gets full body immediately (they need to edit)
+  if (isOwner()) {
     cachedBody     = data?.body || '';
     totalLines     = cachedBody ? cachedBody.split('\n').length : 0;
     lastSavedLines = totalLines;
     fullLoaded     = true;
     previewHl      = escHtml(cachedBody.split('\n').slice(0, 55).join('\n'));
   } else {
-    // Member: store highlighted preview slice, defer full load
     const hl       = data?.highlighted_body || null;
     cachedHl       = hl;
-    // Get a preview by slicing the raw HTML by newlines (approximate)
     if (hl) {
       const lines  = hl.split('\n');
       previewHl    = lines.slice(0, 55).join('\n');
@@ -703,7 +825,7 @@ async function loadMeta() {
       previewHl    = null;
       totalLines   = 0;
     }
-    fullLoaded = true; // we have full hl already since it's the same column
+    fullLoaded = true;
   }
 
   document.getElementById('status-label').textContent = '● Connected';
@@ -712,18 +834,17 @@ async function loadMeta() {
 }
 
 // ─────────────────────────────────────────────
-//  BUILD PREVIEW CARD  (the blurred teaser)
+//  BUILD PREVIEW CARD
 // ─────────────────────────────────────────────
 function buildPreviewCard() {
   const area = document.getElementById('main-area');
 
-  if (currentUser.role === 'owner') {
-    // Owner gets the full editor inline — no blurred card
+  if (isOwner()) {
     buildOwnerEditor();
     return;
   }
 
-  // Member: hidden state
+  // Admin or member: show viewer
   if (!isVisible) {
     document.getElementById('actions-bar').innerHTML = '';
     area.innerHTML = `<div class="hidden-state"><div style="font-size:2rem;opacity:0.2;margin-bottom:.5rem">⬛</div><span>content hidden by owner</span></div>`;
@@ -731,7 +852,6 @@ function buildPreviewCard() {
     return;
   }
 
-  // Member: blurred preview card
   document.getElementById('screen-title').textContent    = 'Content';
   document.getElementById('screen-subtitle').textContent = 'Maximize to view, or download the raw file.';
   document.getElementById('actions-bar').innerHTML       = '';
@@ -769,7 +889,7 @@ function buildPreviewCard() {
 }
 
 // ─────────────────────────────────────────────
-//  OWNER EDITOR  (inline, full edit)
+//  OWNER EDITOR
 // ─────────────────────────────────────────────
 function buildOwnerEditor() {
   const area = document.getElementById('main-area');
@@ -825,7 +945,7 @@ function buildOwnerEditor() {
 }
 
 // ─────────────────────────────────────────────
-//  MAXIMIZE  (member full-screen viewer)
+//  MAXIMIZE
 // ─────────────────────────────────────────────
 async function openMaximize() {
   const overlay = document.getElementById('maximize-overlay');
@@ -834,12 +954,10 @@ async function openMaximize() {
   maximizeOpen = true;
   bindSearchShortcut();
 
-  if (maxRendered) return; // already built
+  if (maxRendered) return;
 
-  // Show spinner while loading
   document.getElementById('max-body').innerHTML = `<div class="max-loading"><div class="max-spinner"></div><span>Loading content…</span></div>`;
 
-  // Ensure full content is available
   if (!fullLoaded || !cachedHl) {
     const { data } = await sb.from('content').select('body,highlighted_body,visible_to_members').eq('id', 1).single();
     if (data) {
@@ -878,7 +996,6 @@ function closeMaximize() {
   closeSearch();
 }
 
-// Owner preview — shows the syntax-highlighted version (what members see)
 async function openOwnerMaximize() {
   const overlay = document.getElementById('maximize-overlay');
   overlay.classList.add('open');
@@ -912,10 +1029,9 @@ async function openOwnerMaximize() {
 }
 
 // ─────────────────────────────────────────────
-//  RAW VIEW  — opens plain text in new tab
+//  RAW / DOWNLOAD
 // ─────────────────────────────────────────────
 async function viewRaw() {
-  // Ensure we have the raw body
   let body = cachedBody;
   if (!body) {
     toast('Fetching raw content…');
@@ -927,13 +1043,9 @@ async function viewRaw() {
   const url  = URL.createObjectURL(blob);
   window.open(url, '_blank');
   setTimeout(() => URL.revokeObjectURL(url), 10000);
-
   await sb.from('copy_log').insert({ user_id: currentUser.id, username: currentUser.username });
 }
 
-// ─────────────────────────────────────────────
-//  DOWNLOAD
-// ─────────────────────────────────────────────
 async function downloadFile() {
   let body = cachedBody;
   if (!body) {
@@ -950,12 +1062,11 @@ async function downloadFile() {
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 5000);
   toast('Downloading content.lua…');
-
   await sb.from('copy_log').insert({ user_id: currentUser.id, username: currentUser.username });
 }
 
 // ─────────────────────────────────────────────
-//  VIRTUAL LINE NUMBERS  (fixed renderer)
+//  VIRTUAL LINE NUMBERS
 // ─────────────────────────────────────────────
 function initVirtualLineNumbers(vpId, colId, canvasId, lineCount) {
   const vp     = document.getElementById(vpId);
@@ -978,23 +1089,16 @@ function initVirtualLineNumbers(vpId, colId, canvasId, lineCount) {
     for (let i = firstLine; i <= lastLine; i++) nums += (i + 1) + '\n';
 
     canvas.textContent = nums;
-    // Offset: each number is in position (firstLine * LINE_H) from top
-    // Add 1rem (16px) to match the pre/textarea padding-top
     canvas.style.paddingTop = (firstLine * LINE_H + 16) + 'px';
-
-    // Sync the column scroll with the viewport
     col.scrollTop = scrollTop;
   }
 
-  // Sync line numbers col scroll silently (it has overflow:hidden so we set scrollTop directly)
   vp.addEventListener('scroll', () => {
     if (rafId) return;
     rafId = requestAnimationFrame(paint);
   }, { passive: true });
 
-  // Also update total when content changes (owner editor)
   vp._updateTotal = (n) => { total = n; paint(); };
-
   requestAnimationFrame(paint);
 }
 
@@ -1021,7 +1125,6 @@ function onEdit() {
   document.getElementById('line-count').textContent = lines.toLocaleString() + ' lines';
   document.getElementById('sl-lines').textContent   = lines.toLocaleString() + ' lines';
   setSaveStatus('unsaved');
-  // Update line numbers
   const vp = document.getElementById('scroll-vp');
   if (vp && vp._updateTotal) vp._updateTotal(lines);
   clearTimeout(saveTimer);
@@ -1032,11 +1135,11 @@ function setSaveStatus(state) {
   const el = document.getElementById('save-status');
   if (!el) return;
   el.className = 'editor-save';
-  if      (state === 'unsaved')      el.textContent = 'Unsaved…';
-  else if (state === 'saving')      { el.textContent = 'Saving…';       el.classList.add('saving'); }
-  else if (state === 'highlighting'){ el.textContent = 'Highlighting…'; el.classList.add('highlighting'); }
-  else if (state === 'saved')       { el.textContent = 'Saved ✓';       el.classList.add('saved'); }
-  else if (state === 'error')         el.textContent = 'Error';
+  if      (state === 'unsaved')       el.textContent = 'Unsaved…';
+  else if (state === 'saving')       { el.textContent = 'Saving…';       el.classList.add('saving'); }
+  else if (state === 'highlighting') { el.textContent = 'Highlighting…'; el.classList.add('highlighting'); }
+  else if (state === 'saved')        { el.textContent = 'Saved ✓';       el.classList.add('saved'); }
+  else if (state === 'error')          el.textContent = 'Error';
 }
 
 async function saveContent(body) {
@@ -1061,7 +1164,6 @@ async function saveContent(body) {
     });
     const json = await res.json();
     if (!json.ok) throw new Error(json.error || 'highlight failed');
-    // Invalidate cached hl so next maximize re-fetches
     cachedHl    = null;
     maxRendered = false;
   } catch (err) {
@@ -1080,7 +1182,6 @@ function bindSearchShortcut() {
 }
 function globalKeyHandler(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-    // Only trigger if maximize is open or owner editor is visible
     const editorActive = document.getElementById('panel-editor')?.classList.contains('active');
     if (!editorActive && !maximizeOpen) return;
     e.preventDefault(); openSearch();
@@ -1227,6 +1328,103 @@ async function loadChangelog() {
 }
 
 // ─────────────────────────────────────────────
+//  NOTIFICATIONS TAB
+// ─────────────────────────────────────────────
+function setupNotifCompose() {
+  const area = document.getElementById('notif-compose-area');
+  if (!isElevated()) { area.innerHTML = ''; return; }
+
+  const initials = currentUser.username.slice(0, 2).toUpperCase();
+  const avClass  = isOwner() ? '' : 'admin';
+
+  area.innerHTML = `
+    <div class="notif-compose">
+      <div class="notif-compose-top">
+        <div class="notif-compose-avatar ${avClass}">${initials}</div>
+        <textarea id="notif-text" placeholder="Write an announcement for all members…" maxlength="600" oninput="updateCharCount()"></textarea>
+      </div>
+      <div class="notif-compose-footer">
+        <span class="notif-char-count" id="notif-char-count">0 / 600</span>
+        <button class="btn primary" id="notif-send-btn" onclick="sendNotification()">Publish</button>
+      </div>
+    </div>`;
+}
+
+function updateCharCount() {
+  const ta  = document.getElementById('notif-text');
+  const el  = document.getElementById('notif-char-count');
+  if (!ta || !el) return;
+  const len = ta.value.length;
+  el.textContent = len + ' / 600';
+  el.className   = 'notif-char-count' + (len > 560 ? ' over' : '');
+}
+
+async function sendNotification() {
+  const ta  = document.getElementById('notif-text');
+  const btn = document.getElementById('notif-send-btn');
+  const msg = ta?.value.trim();
+  if (!msg) return;
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="inline-spinner"></span>Publishing…';
+
+  const { error } = await sb.from('notifications').insert({
+    author_id:   currentUser.id,
+    author_name: currentUser.username,
+    author_role: currentUser.role,
+    message:     msg,
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'Publish';
+
+  if (error) { toast('Failed to publish'); return; }
+  ta.value = '';
+  updateCharCount();
+  toast('Notification published');
+  loadNotifications();
+}
+
+async function loadNotifications() {
+  setupNotifCompose();
+  const { data, error } = await sb.from('notifications').select('*').order('id', { ascending: false }).limit(50);
+  const el = document.getElementById('notifications-content');
+  if (error || !data || !data.length) {
+    el.innerHTML = '<div class="notif-empty"><div class="ce-icon">🔔</div>No notifications yet.</div>';
+    return;
+  }
+
+  const lastSeen = SS.lastSeenNotif();
+  el.innerHTML = `<div class="notif-list">${data.map(n => {
+    const isNew  = n.id > lastSeen;
+    const date   = new Date(n.created_at);
+    const ts     = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+                 + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    const initials = n.author_name.slice(0, 2).toUpperCase();
+    const avCls  = n.author_role === 'owner' ? 'owner-av' : 'admin-av';
+    const canDel = isOwner() || (isAdmin() && n.author_id === currentUser.id);
+
+    return `<div class="notif-item${isNew?' unread-notif':''}">
+      <div class="notif-item-header">
+        <div class="notif-item-avatar ${avCls}">${initials}</div>
+        <span class="notif-item-name">${escHtml(n.author_name)}</span>
+        <span class="notif-item-role ${n.author_role}">${n.author_role}</span>
+        <span class="notif-item-time">${ts}</span>
+        ${canDel ? `<button class="notif-delete-btn" title="Delete" onclick="deleteNotification(${n.id})">✕</button>` : ''}
+      </div>
+      <div class="notif-item-body">${escHtml(n.message)}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+async function deleteNotification(id) {
+  const { error } = await sb.from('notifications').delete().eq('id', id);
+  if (error) { toast('Failed to delete'); return; }
+  toast('Notification deleted');
+  loadNotifications();
+}
+
+// ─────────────────────────────────────────────
 //  MEMBERS + BAN SYSTEM
 // ─────────────────────────────────────────────
 async function loadLeaderboard() {
@@ -1234,26 +1432,39 @@ async function loadLeaderboard() {
     .select('id,username,role,banned,ban_message').order('role').order('username');
   const el = document.getElementById('leaderboard-content');
   if (error || !data || !data.length) { el.innerHTML = '<div class="lb-empty">No members found.</div>'; return; }
-  const isOwner = currentUser.role === 'owner';
+
   el.innerHTML = `<div class="lb-list">${data.map(u => {
     const initials = u.username.slice(0, 2).toUpperCase();
     const uIsOwner = u.role === 'owner';
+    const uIsAdmin = u.role === 'admin';
     const isBanned = !!u.banned;
-    const roleBadge = uIsOwner
-      ? `<span style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid;letter-spacing:0.05em;text-transform:uppercase;background:var(--espresso);color:var(--cream);border-color:var(--espresso)">${escHtml(u.role)}</span>`
-      : isBanned
-        ? `<span class="banned-pill">Banned</span>`
-        : `<span style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid;letter-spacing:0.05em;text-transform:uppercase;background:var(--cream);color:var(--muted);border-color:var(--border-h)">${escHtml(u.role)}</span>`;
-    const ownerActions = (isOwner && !uIsOwner) ? `
+
+    // Can current user ban this person?
+    // Owner can ban anyone except self
+    // Admin can ban members only (not other admins, not owner)
+    const canBan = !isBanned && !uIsOwner
+      && (isOwner() ? u.id !== currentUser.id : isAdmin() && u.role === 'member');
+    const canUnban = isBanned && (isOwner() || (isAdmin() && u.role === 'member'));
+
+    const avClass = uIsOwner ? 'owner-av' : uIsAdmin ? 'admin-av' : isBanned ? 'banned-av' : '';
+    const nameClass = isBanned ? 'banned-name' : '';
+
+    let rolePill;
+    if (uIsOwner)      rolePill = `<span class="role-pill owner">owner</span>`;
+    else if (uIsAdmin) rolePill = `<span class="role-pill admin">admin</span>`;
+    else if (isBanned) rolePill = `<span class="banned-pill">Banned</span>`;
+    else               rolePill = `<span class="role-pill member">member</span>`;
+
+    const actions = (canBan || canUnban) ? `
       <div class="lb-actions">
-        ${isBanned
-          ? `<button class="btn success" style="font-size:11.5px;padding:5px 12px" onclick="openUnbanModal('${u.id}','${escHtml(u.username)}')">Unban</button>`
-          : `<button class="btn danger"  style="font-size:11.5px;padding:5px 12px" onclick="openBanModal('${u.id}','${escHtml(u.username)}')">Ban</button>`}
+        ${canBan   ? `<button class="btn danger"  style="font-size:11.5px;padding:5px 12px" onclick="openBanModal('${u.id}','${escHtml(u.username)}')">Ban</button>` : ''}
+        ${canUnban ? `<button class="btn success" style="font-size:11.5px;padding:5px 12px" onclick="openUnbanModal('${u.id}','${escHtml(u.username)}')">Unban</button>` : ''}
       </div>` : '';
+
     return `<div class="lb-row${isBanned?' banned-row':''}">
-      <div class="lb-avatar${uIsOwner?' owner-av':isBanned?' banned-av':''}">${initials}</div>
-      <span class="lb-name${isBanned?' banned-name':''}">${escHtml(u.username)}</span>
-      ${roleBadge}${ownerActions}
+      <div class="lb-avatar ${avClass}">${initials}</div>
+      <span class="lb-name ${nameClass}">${escHtml(u.username)}</span>
+      ${rolePill}${actions}
     </div>`;
   }).join('')}</div>`;
 }
@@ -1261,7 +1472,7 @@ async function loadLeaderboard() {
 function openBanModal(userId, username) {
   banTargetUser = userId; banTargetAction = 'ban';
   document.getElementById('modal-title').textContent = `Ban ${username}`;
-  document.getElementById('modal-desc').textContent  = `${username} will be immediately locked out until you unban them.`;
+  document.getElementById('modal-desc').textContent  = `${username} will be immediately locked out until unbanned.`;
   document.getElementById('ban-msg-field').style.display = 'block';
   document.getElementById('ban-msg-input').value = '';
   document.getElementById('modal-confirm-btn').textContent = 'Ban member';
@@ -1301,7 +1512,81 @@ document.getElementById('ban-modal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeModal();
 });
 
-// Close maximize on Escape key
+// ─────────────────────────────────────────────
+//  CREATE MEMBER  (owner + admin)
+// ─────────────────────────────────────────────
+function setupCreateForm() {
+  // Only owner sees the role picker
+  document.getElementById('role-select-wrap').style.display = isOwner() ? 'block' : 'none';
+  // Clear fields
+  document.getElementById('new-username').value = '';
+  document.getElementById('new-password').value = '';
+  document.getElementById('create-error').classList.remove('visible');
+  document.getElementById('create-success').classList.remove('visible');
+  if (isOwner()) document.getElementById('role-member').checked = true;
+}
+
+async function createMember() {
+  const usernameEl = document.getElementById('new-username');
+  const passwordEl = document.getElementById('new-password');
+  const errEl      = document.getElementById('create-error');
+  const okEl       = document.getElementById('create-success');
+  const btn        = document.getElementById('create-btn');
+  errEl.classList.remove('visible');
+  okEl.classList.remove('visible');
+
+  const username = usernameEl.value.trim();
+  const password = passwordEl.value;
+
+  if (!username || username.length < 2) {
+    errEl.textContent = 'Username must be at least 2 characters.'; errEl.classList.add('visible'); return;
+  }
+  if (!password || password.length < 4) {
+    errEl.textContent = 'Password must be at least 4 characters.'; errEl.classList.add('visible'); return;
+  }
+
+  // Determine role
+  let role = 'member';
+  if (isOwner()) {
+    const selected = document.querySelector('input[name="new-role"]:checked');
+    role = selected ? selected.value : 'member';
+  }
+  // Admins can only create members
+  if (isAdmin()) role = 'member';
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="inline-spinner"></span>Creating…';
+
+  // Check if username already exists
+  const { data: existing } = await sb.from('users').select('id').eq('username', username).maybeSingle();
+  if (existing) {
+    errEl.textContent = 'Username already taken. Choose another.';
+    errEl.classList.add('visible');
+    btn.disabled = false; btn.textContent = 'Create account'; return;
+  }
+
+  const { error } = await sb.from('users').insert({
+    username,
+    password,
+    role,
+    banned: false,
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'Create account';
+
+  if (error) {
+    errEl.textContent = 'Failed to create account. Try again.'; errEl.classList.add('visible'); return;
+  }
+
+  okEl.textContent = `Account "${username}" created as ${role}!`;
+  okEl.classList.add('visible');
+  usernameEl.value = '';
+  passwordEl.value = '';
+  toast(`Member "${username}" created`);
+}
+
+// Close maximize on Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && maximizeOpen) closeMaximize();
 });
@@ -1311,15 +1596,13 @@ document.addEventListener('keydown', e => {
 // ─────────────────────────────────────────────
 sb.channel('content-rt')
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'content' }, async payload => {
-    if (currentUser?.role !== 'member') return;
+    if (isOwner()) return;
     isVisible  = payload.new?.visible_to_members ?? true;
     cachedBody = payload.new?.body ?? '';
     cachedHl   = payload.new?.highlighted_body ?? null;
     totalLines = cachedBody ? cachedBody.split('\n').length : 0;
-    // Reset so next maximize re-fetches fresh
     maxRendered = false;
     fullLoaded  = true;
-    // Rebuild preview and re-slice highlight
     if (cachedHl) {
       const lines = cachedHl.split('\n');
       previewHl   = lines.slice(0, 55).join('\n');
@@ -1331,17 +1614,32 @@ sb.channel('content-rt')
 
 sb.channel('changelog-rt')
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'changelog' }, async payload => {
-    if (currentUser?.role !== 'owner') {
-      unreadCount++;
-      updateBadge();
-      const badge = document.getElementById('notif-badge');
-      badge.classList.remove('pulse'); void badge.offsetWidth; badge.classList.add('pulse');
-      const diff = (payload.new.lines_after||0) - (payload.new.lines_before||0);
-      const ds   = diff > 0 ? `+${diff} lines` : diff < 0 ? `${diff} lines` : 'no line change';
-      document.getElementById('notif-body').textContent = ds + (payload.new.note ? ` — "${payload.new.note}"` : '');
-      showNotif();
-    }
+    if (isOwner()) return;
+    unreadCount++;
+    updateBadge();
+    const badge = document.getElementById('notif-badge');
+    badge.classList.remove('pulse'); void badge.offsetWidth; badge.classList.add('pulse');
+    const diff = (payload.new.lines_after||0) - (payload.new.lines_before||0);
+    const ds   = diff > 0 ? `+${diff} lines` : diff < 0 ? `${diff} lines` : 'no line change';
+    document.getElementById('notif-flash-title').textContent = 'Content updated';
+    document.getElementById('notif-body').textContent = ds + (payload.new.note ? ` — "${payload.new.note}"` : '');
+    showNotif();
     if (document.getElementById('panel-changelog')?.classList.contains('active')) loadChangelog();
+  })
+  .subscribe();
+
+sb.channel('notifications-rt')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications' }, async payload => {
+    // Don't notify the person who just posted
+    if (payload.new.author_id === currentUser?.id) return;
+    unreadNotifCount++;
+    updateNotifBadge();
+    const badge = document.getElementById('notif-msg-badge');
+    badge.classList.remove('pulse'); void badge.offsetWidth; badge.classList.add('pulse');
+    document.getElementById('notif-flash-title').textContent = `📢 ${payload.new.author_name}`;
+    document.getElementById('notif-body').textContent = payload.new.message.slice(0, 80) + (payload.new.message.length > 80 ? '…' : '');
+    showNotif();
+    if (document.getElementById('panel-notifications')?.classList.contains('active')) loadNotifications();
   })
   .subscribe();
 
