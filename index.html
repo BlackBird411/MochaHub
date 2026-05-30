@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mocha</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --mocha-cream: #f5ede0;
+    --mocha-latte: #e8d5b7;
+    --mocha-brown: #6b4c2a;
+    --mocha-espresso: #2c1a0e;
+    --mocha-foam: #faf6f0;
+    --mocha-gold: #c9923d;
+    --mocha-muted: #9c7a5a;
+    --mocha-border: rgba(107,76,42,0.15);
+    --mocha-border-hover: rgba(107,76,42,0.3);
+    --mocha-shadow: 0 4px 24px rgba(44,26,14,0.08);
+    --mocha-radius: 12px;
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-code: 'DM Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--mocha-foam); color: var(--mocha-espresso); min-height: 100vh; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: -1;
+    background: radial-gradient(ellipse 80% 50% at 10% 20%, rgba(201,146,61,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 60% at 90% 80%, rgba(107,76,42,0.06) 0%, transparent 60%), var(--mocha-foam);
+    pointer-events: none;
+  }
+
+  /* HEADER */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2.5rem;
+    border-bottom: 0.5px solid var(--mocha-border);
+    background: rgba(250,246,240,0.92); backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 34px; height: 34px; background: var(--mocha-espresso); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo-icon svg { width: 18px; height: 18px; }
+  .logo-text { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; color: var(--mocha-espresso); letter-spacing: -0.02em; }
+  .header-right { display: flex; align-items: center; gap: 1rem; }
+  .badge { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--mocha-border); color: var(--mocha-muted); background: var(--mocha-cream); }
+  .badge.owner { background: var(--mocha-espresso); color: var(--mocha-cream); border-color: var(--mocha-espresso); }
+  .btn { font-family: var(--font-body); font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: 8px; border: 0.5px solid var(--mocha-border-hover); background: transparent; color: var(--mocha-brown); cursor: pointer; transition: all 0.15s ease; }
+  .btn:hover { background: var(--mocha-cream); }
+  .btn.primary { background: var(--mocha-espresso); color: var(--mocha-cream); border-color: var(--mocha-espresso); }
+  .btn.primary:hover { background: var(--mocha-brown); border-color: var(--mocha-brown); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+  #login-screen { display: none; min-height: calc(100vh - 65px); align-items: center; justify-content: center; padding: 2rem; }
+  #login-screen.active { display: flex; }
+  .login-card { width: 100%; max-width: 380px; background: #fff; border: 0.5px solid var(--mocha-border); border-radius: 16px; padding: 2.5rem; box-shadow: var(--mocha-shadow); }
+  .login-card h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 500; margin-bottom: 0.3rem; color: var(--mocha-espresso); }
+  .login-card p { font-size: 13px; color: var(--mocha-muted); margin-bottom: 1.75rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 12px; font-weight: 500; color: var(--mocha-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .field input { width: 100%; padding: 10px 12px; border: 0.5px solid var(--mocha-border); border-radius: 8px; font-family: var(--font-body); font-size: 14px; background: var(--mocha-foam); color: var(--mocha-espresso); outline: none; transition: border-color 0.15s; }
+  .field input:focus { border-color: var(--mocha-gold); }
+  .error-msg { font-size: 12px; color: #b91c1c; background: #fef2f2; border: 0.5px solid #fca5a5; border-radius: 6px; padding: 8px 10px; margin-bottom: 1rem; display: none; }
+  .error-msg.visible { display: block; }
+
+  /* CONTENT SCREEN */
+  #content-screen { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 3rem; }
+  #content-screen.active { display: block; }
+
+  /* TABS NAV */
+  .tabs-nav {
+    display: flex; align-items: center; gap: 0; margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--mocha-border);
+  }
+  .tab-btn {
+    font-family: var(--font-body); font-size: 13px; font-weight: 500;
+    padding: 10px 20px; background: transparent; border: none;
+    color: var(--mocha-muted); cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: all 0.15s; position: relative; display: flex; align-items: center; gap: 7px;
+  }
+  .tab-btn:hover { color: var(--mocha-brown); }
+  .tab-btn.active { color: var(--mocha-espresso); border-bottom-color: var(--mocha-gold); }
+  .tab-notif {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 18px; height: 18px; padding: 0 5px;
+    background: var(--mocha-gold); color: #fff;
+    border-radius: 9px; font-size: 10px; font-weight: 600;
+    line-height: 1;
+    transition: transform 0.2s;
+  }
+  .tab-notif.pulse { animation: notifPulse 0.4s ease; }
+  @keyframes notifPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.35)} }
+
+  /* TAB PANELS */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* EDITOR PANEL HEADER */
+  .panel-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem; }
+  .panel-header h2 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: var(--mocha-espresso); }
+  .panel-header p { font-size: 13px; color: var(--mocha-muted); margin-top: 2px; }
+  .actions-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  /* TOGGLE */
+  .toggle-row { display: flex; align-items: center; gap: 10px; padding: 9px 13px; background: var(--mocha-cream); border: 0.5px solid var(--mocha-border); border-radius: 8px; font-size: 13px; color: var(--mocha-brown); cursor: pointer; user-select: none; }
+  .toggle-switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+  .toggle-track { position: absolute; inset: 0; background: var(--mocha-latte); border-radius: 20px; transition: background 0.2s; }
+  .toggle-track.on { background: var(--mocha-gold); }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .toggle-thumb.on { left: 18px; }
+
+  /* SAVE NOTE */
+  .save-note-row { display: flex; align-items: center; gap: 8px; margin-bottom: 0.75rem; }
+  .save-note-row input {
+    flex: 1; padding: 8px 12px; border: 0.5px solid var(--mocha-border);
+    border-radius: 8px; font-family: var(--font-body); font-size: 13px;
+    background: var(--mocha-foam); color: var(--mocha-espresso); outline: none;
+    transition: border-color 0.15s;
+  }
+  .save-note-row input:focus { border-color: var(--mocha-gold); }
+  .save-note-row input::placeholder { color: var(--mocha-muted); }
+
+  /* CODE WRAPPER */
+  .code-wrapper { background: #1c1007; border-radius: var(--mocha-radius); border: 1px solid rgba(201,146,61,0.12); overflow: hidden; box-shadow: 0 2px 0 rgba(201,146,61,0.08), 0 12px 48px rgba(44,26,14,0.18); }
+  .editor-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 42px; background: #150d04; border-bottom: 1px solid rgba(201,146,61,0.08); gap: 12px; }
+  .editor-toolbar-left { display: flex; align-items: center; gap: 6px; }
+  .editor-tab { display: flex; align-items: center; gap: 7px; padding: 5px 12px; background: #1c1007; border: 1px solid rgba(201,146,61,0.1); border-bottom: none; border-radius: 6px 6px 0 0; font-family: var(--font-code); font-size: 11.5px; color: rgba(232,213,183,0.55); position: relative; top: 1px; }
+  .editor-tab-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mocha-gold); opacity: 0.6; flex-shrink: 0; }
+  .editor-toolbar-right { display: flex; align-items: center; gap: 10px; }
+  .editor-lang { font-family: var(--font-code); font-size: 10.5px; color: rgba(232,213,183,0.22); letter-spacing: 0.05em; text-transform: uppercase; }
+  .editor-save { font-family: var(--font-code); font-size: 11px; color: rgba(232,213,183,0.3); min-width: 64px; text-align: right; }
+  .code-body { display: flex; max-height: 65vh; overflow: hidden; }
+  .line-numbers { flex-shrink: 0; width: 48px; padding: 1.25rem 0; background: #150d04; border-right: 1px solid rgba(201,146,61,0.06); overflow: hidden; user-select: none; }
+  .line-numbers-inner { font-family: var(--font-code); font-size: 12px; line-height: 1.7; color: rgba(232,213,183,0.18); text-align: right; padding-right: 12px; white-space: pre; }
+  #code-textarea, #code-view { flex: 1; font-family: var(--font-code); font-size: 12.5px; line-height: 1.7; color: #e8d5b7; background: transparent; border: none; outline: none; resize: none; padding: 1.25rem 1.5rem; display: block; min-height: 480px; overflow-y: auto; overflow-x: auto; tab-size: 2; white-space: pre; }
+  #code-textarea { cursor: text; }
+  #code-view { cursor: default; white-space: pre-wrap; word-break: break-word; }
+  #code-textarea::-webkit-scrollbar, #code-view::-webkit-scrollbar { width: 6px; height: 6px; }
+  #code-textarea::-webkit-scrollbar-thumb, #code-view::-webkit-scrollbar-thumb { background: rgba(201,146,61,0.15); border-radius: 3px; }
+  .editor-statusline { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 26px; background: #0f0804; border-top: 1px solid rgba(201,146,61,0.07); font-family: var(--font-code); font-size: 10.5px; color: rgba(232,213,183,0.22); }
+  .statusline-left, .statusline-right { display: flex; align-items: center; gap: 14px; }
+  .sl-dot { width: 5px; height: 5px; border-radius: 50%; background: #69c98c; opacity: 0.7; display: inline-block; margin-right: 5px; vertical-align: 1px; }
+  .hidden-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 2rem; gap: 1rem; background: #1c1007; color: rgba(232,213,183,0.25); font-size: 13px; border-radius: var(--mocha-radius); border: 1px solid rgba(201,146,61,0.08); min-height: 300px; font-family: var(--font-code); }
+
+  /* ── CHANGELOG PANEL ── */
+  .changelog-empty { text-align: center; padding: 4rem 2rem; color: var(--mocha-muted); font-size: 13px; }
+  .changelog-empty .ce-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
+
+  .changelog-list { display: flex; flex-direction: column; gap: 0; }
+  .cl-item {
+    display: flex; gap: 0; position: relative;
+  }
+  .cl-item:not(:last-child) .cl-line { height: 100%; }
+
+  .cl-left {
+    display: flex; flex-direction: column; align-items: center;
+    width: 40px; flex-shrink: 0; padding-top: 2px;
+  }
+  .cl-circle {
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--mocha-gold); border: 2px solid var(--mocha-foam);
+    flex-shrink: 0; z-index: 1; margin-top: 4px;
+  }
+  .cl-circle.fresh { background: #69c98c; box-shadow: 0 0 0 3px rgba(105,201,140,0.2); }
+  .cl-line { width: 1.5px; flex: 1; background: var(--mocha-border); margin-top: 4px; }
+
+  .cl-body {
+    flex: 1; padding: 0 0 1.5rem 0.75rem;
+  }
+  .cl-header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .cl-time { font-size: 11.5px; color: var(--mocha-muted); font-family: var(--font-code); }
+  .cl-new-badge { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; background: rgba(105,201,140,0.15); color: #2d7a4f; border-radius: 4px; border: 0.5px solid rgba(105,201,140,0.3); }
+
+  .cl-diff {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 12px;
+    background: #1c1007; border-radius: 8px;
+    border: 1px solid rgba(201,146,61,0.1);
+    font-family: var(--font-code); font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .cl-diff-add { color: #69c98c; }
+  .cl-diff-rem { color: #ee6b6b; }
+  .cl-diff-sep { color: rgba(232,213,183,0.2); }
+  .cl-diff-lines { color: rgba(232,213,183,0.35); }
+
+  .cl-note {
+    font-size: 13px; color: var(--mocha-espresso);
+    background: var(--mocha-cream);
+    border-left: 3px solid var(--mocha-gold);
+    padding: 7px 12px; border-radius: 0 6px 6px 0;
+    font-style: italic;
+  }
+
+  /* ── LEADERBOARD PANEL ── */
+  .lb-podium {
+    display: flex; align-items: flex-end; justify-content: center;
+    gap: 12px; margin-bottom: 2rem; padding: 1.5rem 1rem 0;
+  }
+  .lb-pod {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    flex: 1; max-width: 140px;
+  }
+  .lb-pod-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 16px;
+    border: 2px solid transparent;
+    font-family: var(--font-body);
+  }
+  .lb-pod.rank-1 .lb-pod-avatar { background: #fff8e6; border-color: #f5c842; color: #7a5c0a; font-size: 20px; width: 58px; height: 58px; }
+  .lb-pod.rank-2 .lb-pod-avatar { background: #f0f0f0; border-color: #b0b0b0; color: #555; }
+  .lb-pod.rank-3 .lb-pod-avatar { background: #fff0e8; border-color: #d4855a; color: #7a3c1a; }
+  .lb-pod-name { font-size: 12px; font-weight: 500; color: var(--mocha-espresso); text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-pod-count { font-family: var(--font-code); font-size: 11px; color: var(--mocha-muted); }
+  .lb-pod-bar {
+    width: 100%; border-radius: 6px 6px 0 0;
+    background: var(--mocha-latte);
+    min-height: 20px;
+  }
+  .lb-pod.rank-1 .lb-pod-bar { background: linear-gradient(180deg, #f5c842, #c9923d); }
+  .lb-pod.rank-2 .lb-pod-bar { background: linear-gradient(180deg, #c8c8c8, #a0a0a0); }
+  .lb-pod.rank-3 .lb-pod-bar { background: linear-gradient(180deg, #e8a87c, #c0703a); }
+
+  .lb-list { display: flex; flex-direction: column; gap: 6px; }
+  .lb-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border-radius: 10px;
+    background: #fff; border: 0.5px solid var(--mocha-border);
+    transition: background 0.12s;
+  }
+  .lb-row:hover { background: var(--mocha-cream); }
+  .lb-rank { font-family: var(--font-code); font-size: 12px; color: var(--mocha-muted); width: 20px; text-align: right; flex-shrink: 0; }
+  .lb-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--mocha-cream); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--mocha-brown); flex-shrink: 0; border: 0.5px solid var(--mocha-border); }
+  .lb-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--mocha-espresso); }
+  .lb-bar-wrap { width: 120px; height: 6px; background: var(--mocha-latte); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+  .lb-bar-fill { height: 100%; background: var(--mocha-gold); border-radius: 3px; transition: width 0.5s ease; }
+  .lb-count { font-family: var(--font-code); font-size: 12px; color: var(--mocha-muted); width: 48px; text-align: right; flex-shrink: 0; }
+  .lb-empty { text-align: center; padding: 3rem 2rem; color: var(--mocha-muted); font-size: 13px; }
+
+  /* STATUS BAR */
+  .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0; margin-top: 0.6rem; font-size: 11.5px; color: var(--mocha-muted); font-family: var(--font-code); flex-wrap: wrap; gap: 0.5rem; }
+
+  /* TOAST */
+  #toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--mocha-espresso); color: var(--mocha-cream); padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; z-index: 999; }
+  #toast.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  /* LOADING */
+  #loading-overlay { position: fixed; inset: 0; z-index: 9999; background: var(--mocha-foam); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
+  .loader-logo { font-family: var(--font-display); font-size: 2.4rem; font-weight: 600; color: var(--mocha-espresso); letter-spacing: -0.02em; }
+  .loader-bar { width: 180px; height: 2px; background: var(--mocha-latte); border-radius: 2px; overflow: hidden; }
+  .loader-fill { height: 100%; width: 0%; background: var(--mocha-gold); border-radius: 2px; animation: loadFill 0.9s ease-out forwards; }
+  @keyframes loadFill { to { width: 100%; } }
+
+  /* NOTIFICATION FLASH OVERLAY */
+  #notif-flash {
+    position: fixed; top: 72px; right: 1.5rem; z-index: 500;
+    background: var(--mocha-espresso); color: var(--mocha-cream);
+    border-left: 3px solid var(--mocha-gold);
+    padding: 12px 16px; border-radius: 10px;
+    font-size: 13px; max-width: 280px;
+    box-shadow: 0 4px 20px rgba(44,26,14,0.2);
+    transform: translateX(120%);
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+  }
+  #notif-flash.show { transform: translateX(0); }
+  #notif-flash .nf-title { font-weight: 600; margin-bottom: 3px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--mocha-gold); }
+  #notif-flash .nf-body { font-size: 13px; color: rgba(232,213,183,0.85); }
+</style>
+</head>
+<body>
+
+<div id="loading-overlay">
+  <div class="loader-logo">Mocha<span style="color:var(--mocha-gold)">.</span></div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- NOTIFICATION SLIDE-IN -->
+<div id="notif-flash">
+  <div class="nf-title">Content updated</div>
+  <div class="nf-body" id="notif-body"></div>
+</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 4.5L2.5 9L6 13.5" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 4.5L15.5 9L12 13.5" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10.5 3L7.5 15" stroke="rgba(232,213,183,0.45)" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="logo-text">Mocha</span>
+  </div>
+  <div class="header-right" id="header-right" style="display:none;">
+    <span class="badge" id="role-badge">member</span>
+    <span id="user-display" style="font-size:13px;color:var(--mocha-muted);"></span>
+    <button class="btn" onclick="logout()">Sign out</button>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<div id="login-screen" class="screen">
+  <div class="login-card">
+    <h2>Welcome back</h2>
+    <p>Sign in to access the Mocha workspace</p>
+    <div id="login-error" class="error-msg">Incorrect username or password.</div>
+    <div class="field">
+      <label>Username</label>
+      <input type="text" id="username-input" placeholder="your username" autocomplete="username" />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="password-input" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()" />
+    </div>
+    <button class="btn primary" id="login-btn" onclick="login()" style="width:100%;margin-top:0.5rem;padding:11px;">Sign in</button>
+  </div>
+</div>
+
+<!-- CONTENT SCREEN -->
+<div id="content-screen" class="screen">
+
+  <!-- TABS -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('editor', this)" id="tab-editor">
+      Editor
+    </button>
+    <button class="tab-btn" onclick="switchTab('changelog', this)" id="tab-changelog">
+      Changelog
+      <span class="tab-notif" id="notif-badge" style="display:none;">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('leaderboard', this)" id="tab-leaderboard">
+      Leaderboard
+    </button>
+  </div>
+
+  <!-- EDITOR TAB -->
+  <div class="tab-panel active" id="panel-editor">
+    <div class="panel-header">
+      <div>
+        <h2 id="screen-title">Content</h2>
+        <p id="screen-subtitle"></p>
+      </div>
+      <div class="actions-bar" id="actions-bar"></div>
+    </div>
+    <!-- Owner save-note row, hidden for members -->
+    <div class="save-note-row" id="save-note-row" style="display:none;">
+      <input type="text" id="save-note-input" placeholder="Optional: describe what you changed (shown in changelog)…" maxlength="200" />
+    </div>
+    <div id="main-area"></div>
+    <div class="status-bar">
+      <span id="status-label">● Connected</span>
+      <span id="line-count"></span>
+    </div>
+  </div>
+
+  <!-- CHANGELOG TAB -->
+  <div class="tab-panel" id="panel-changelog">
+    <div class="panel-header">
+      <div>
+        <h2>Changelog</h2>
+        <p>Every time the owner saves, a record appears here.</p>
+      </div>
+    </div>
+    <div id="changelog-content">
+      <div class="changelog-empty"><div class="ce-icon">📋</div>No changes recorded yet.</div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD TAB -->
+  <div class="tab-panel" id="panel-leaderboard">
+    <div class="panel-header">
+      <div>
+        <h2>Copy Leaderboard</h2>
+        <p>Who's been reading the most.</p>
+      </div>
+    </div>
+    <div id="leaderboard-content">
+      <div class="lb-empty">No copies recorded yet.</div>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+const SUPABASE_URL  = 'https://jglkhgsajqpjydkqbyzn.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpnbGtoZ3NhanFwanlka3FieXpuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDE0MjIzNiwiZXhwIjoyMDk1NzE4MjM2fQ.CURAPtKnUqz9-efrztfvoYLn-1p1a6Kxha3Fkas8Ff0';
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let currentUser  = null;
+let isVisible    = true;
+let saveTimer    = null;
+let lastSavedLines = 0;
+let unreadCount  = 0;
+let lastSeenChangelogId = 0;
+
+function saveSession(u) { localStorage.setItem('mocha_user', JSON.stringify(u)); }
+function clearSession()  { localStorage.removeItem('mocha_user'); }
+function loadSession()   { try { return JSON.parse(localStorage.getItem('mocha_user')); } catch { return null; } }
+function getLastSeen()   { return parseInt(localStorage.getItem('mocha_last_seen') || '0'); }
+function setLastSeen(id) { localStorage.setItem('mocha_last_seen', String(id)); }
+
+async function boot() {
+  const saved = loadSession();
+  setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 900);
+  if (saved) { currentUser = saved; showContent(); }
+  else showLogin();
+}
+
+async function login() {
+  const username = document.getElementById('username-input').value.trim();
+  const password = document.getElementById('password-input').value;
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-error');
+  err.classList.remove('visible');
+  if (!username || !password) { err.textContent = 'Please enter username and password.'; err.classList.add('visible'); return; }
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  const { data, error } = await sb.from('users').select('id, username, role').eq('username', username).eq('password', password).single();
+  if (error || !data) {
+    err.textContent = 'Incorrect username or password.';
+    err.classList.add('visible');
+    btn.disabled = false; btn.textContent = 'Sign in';
+    return;
+  }
+  currentUser = data; saveSession(data); showContent();
+}
+
+function logout() {
+  currentUser = null; clearSession();
+  document.getElementById('header-right').style.display = 'none';
+  document.getElementById('username-input').value = '';
+  document.getElementById('password-input').value = '';
+  showLogin();
+}
+
+function showLogin() {
+  document.getElementById('login-screen').classList.add('active');
+  document.getElementById('content-screen').classList.remove('active');
+}
+
+async function showContent() {
+  document.getElementById('login-screen').classList.remove('active');
+  document.getElementById('content-screen').classList.add('active');
+  document.getElementById('header-right').style.display = 'flex';
+  document.getElementById('user-display').textContent = currentUser.username;
+  const badge = document.getElementById('role-badge');
+  badge.textContent = currentUser.role;
+  badge.className = 'badge' + (currentUser.role === 'owner' ? ' owner' : '');
+  if (currentUser.role === 'owner') document.getElementById('save-note-row').style.display = 'flex';
+  await loadContent();
+  await checkUnread();
+}
+
+// ── TABS ──────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'changelog') {
+    loadChangelog();
+    clearUnread();
+  }
+  if (name === 'leaderboard') loadLeaderboard();
+}
+
+// ── UNREAD BADGE ──────────────────────────────
+async function checkUnread() {
+  const lastSeen = getLastSeen();
+  const { data } = await sb.from('changelog').select('id').gt('id', lastSeen).order('id', { ascending: false });
+  unreadCount = data ? data.length : 0;
+  updateBadge();
+}
+
+function updateBadge() {
+  const badge = document.getElementById('notif-badge');
+  if (unreadCount > 0) {
+    badge.textContent = unreadCount;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function clearUnread() {
+  unreadCount = 0;
+  updateBadge();
+  // mark all as seen
+  sb.from('changelog').select('id').order('id', { ascending: false }).limit(1).then(({ data }) => {
+    if (data && data[0]) setLastSeen(data[0].id);
+  });
+}
+
+// ── CONTENT ───────────────────────────────────
+async function loadContent() {
+  const { data, error } = await sb.from('content').select('body, visible_to_members').eq('id', 1).single();
+  if (error) { document.getElementById('status-label').textContent = '○ Connection error'; return; }
+  isVisible = data?.visible_to_members ?? true;
+  const body = data?.body || '';
+  lastSavedLines = body ? body.split('\n').length : 0;
+  if (currentUser.role === 'owner') renderOwnerView(body, isVisible);
+  else renderMemberView(body, isVisible);
+}
+
+function lineNumbersFor(text) {
+  const count = (text || '').split('\n').length;
+  let s = '';
+  for (let i = 1; i <= Math.min(count, 9999); i++) s += i + '\n';
+  return s;
+}
+
+function renderOwnerView(body, visible) {
+  document.getElementById('screen-title').textContent = 'Editor';
+  document.getElementById('screen-subtitle').textContent = 'Auto-saves 1.5s after you stop typing. Add a note above to describe changes.';
+  const lines = body ? body.split('\n').length : 0;
+  document.getElementById('line-count').textContent = lines.toLocaleString() + ' lines';
+  document.getElementById('actions-bar').innerHTML = `
+    <div class="toggle-row" onclick="handleToggle()">
+      <div class="toggle-switch">
+        <div class="toggle-track ${visible ? 'on' : ''}" id="tog-track"></div>
+        <div class="toggle-thumb ${visible ? 'on' : ''}" id="tog-thumb"></div>
+      </div>
+      <span id="vis-label">${visible ? 'Visible to members' : 'Hidden from members'}</span>
+    </div>
+    <button class="btn primary" onclick="copyContent()">Copy all</button>
+  `;
+  document.getElementById('main-area').innerHTML = `
+    <div class="code-wrapper">
+      <div class="editor-toolbar">
+        <div class="editor-toolbar-left">
+          <div class="editor-tab"><div class="editor-tab-dot"></div>content.txt</div>
+        </div>
+        <div class="editor-toolbar-right">
+          <span class="editor-lang">plaintext</span>
+          <span class="editor-save" id="save-status">Ready</span>
+        </div>
+      </div>
+      <div class="code-body">
+        <div class="line-numbers"><div class="line-numbers-inner" id="ln-inner">${lineNumbersFor(body)}</div></div>
+        <textarea id="code-textarea" spellcheck="false" oninput="onEdit()">${escapeHtml(body)}</textarea>
+      </div>
+      <div class="editor-statusline">
+        <div class="statusline-left"><span><span class="sl-dot"></span>Mocha Editor</span><span>UTF-8</span></div>
+        <div class="statusline-right"><span id="sl-lines">${lines.toLocaleString()} lines</span><span>LF</span></div>
+      </div>
+    </div>`;
+  const ta = document.getElementById('code-textarea');
+  const ln = document.getElementById('ln-inner');
+  ta.addEventListener('scroll', () => { ln.parentElement.scrollTop = ta.scrollTop; });
+}
+
+function renderMemberView(body, visible) {
+  document.getElementById('screen-title').textContent = 'Content';
+  document.getElementById('screen-subtitle').textContent = 'Read-only — updates live as the owner edits.';
+  if (!visible) {
+    document.getElementById('actions-bar').innerHTML = '';
+    document.getElementById('main-area').innerHTML = `<div class="hidden-state"><div style="font-size:2rem;opacity:0.2;margin-bottom:0.5rem">⬛</div><span>content hidden by owner</span></div>`;
+    document.getElementById('line-count').textContent = '';
+    return;
+  }
+  const lines = body ? body.split('\n').length : 0;
+  document.getElementById('line-count').textContent = lines.toLocaleString() + ' lines';
+  document.getElementById('actions-bar').innerHTML = `<button class="btn primary" onclick="copyContent()">Copy all</button>`;
+  document.getElementById('main-area').innerHTML = `
+    <div class="code-wrapper">
+      <div class="editor-toolbar">
+        <div class="editor-toolbar-left">
+          <div class="editor-tab"><div class="editor-tab-dot"></div>content.txt</div>
+        </div>
+        <div class="editor-toolbar-right">
+          <span class="editor-lang">read-only</span>
+          <span class="editor-save">${lines.toLocaleString()} lines</span>
+        </div>
+      </div>
+      <div class="code-body">
+        <div class="line-numbers"><div class="line-numbers-inner" id="ln-inner">${lineNumbersFor(body)}</div></div>
+        <pre id="code-view">${escapeHtml(body)}</pre>
+      </div>
+      <div class="editor-statusline">
+        <div class="statusline-left"><span><span class="sl-dot"></span>Mocha Viewer</span><span>UTF-8</span></div>
+        <div class="statusline-right"><span>${lines.toLocaleString()} lines</span><span>LF</span></div>
+      </div>
+    </div>`;
+  const pre = document.getElementById('code-view');
+  const ln = document.getElementById('ln-inner');
+  if (pre) pre.addEventListener('scroll', () => { ln.parentElement.scrollTop = pre.scrollTop; });
+}
+
+// ── TOGGLE ────────────────────────────────────
+async function handleToggle() {
+  isVisible = !isVisible;
+  document.getElementById('tog-track').className = 'toggle-track' + (isVisible ? ' on' : '');
+  document.getElementById('tog-thumb').className = 'toggle-thumb' + (isVisible ? ' on' : '');
+  document.getElementById('vis-label').textContent = isVisible ? 'Visible to members' : 'Hidden from members';
+  const { error } = await sb.from('content').update({ visible_to_members: isVisible }).eq('id', 1);
+  if (!error) toast(isVisible ? 'Now visible to members' : 'Hidden from members');
+}
+
+// ── EDITING ───────────────────────────────────
+function onEdit() {
+  const ta = document.getElementById('code-textarea');
+  const lines = ta.value.split('\n').length;
+  document.getElementById('line-count').textContent = lines.toLocaleString() + ' lines';
+  document.getElementById('sl-lines').textContent = lines.toLocaleString() + ' lines';
+  document.getElementById('save-status').textContent = 'Unsaved…';
+  document.getElementById('ln-inner').textContent = lineNumbersFor(ta.value);
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => saveContent(ta.value), 1500);
+}
+
+async function saveContent(body) {
+  document.getElementById('save-status').textContent = 'Saving…';
+  const linesAfter = body ? body.split('\n').length : 0;
+  const linesBefore = lastSavedLines;
+  const note = (document.getElementById('save-note-input')?.value || '').trim();
+
+  const { error } = await sb.from('content').update({ body, updated_at: new Date().toISOString() }).eq('id', 1);
+  if (error) { document.getElementById('save-status').textContent = 'Save failed'; return; }
+
+  // Log to changelog
+  await sb.from('changelog').insert({ lines_before: linesBefore, lines_after: linesAfter, note });
+  lastSavedLines = linesAfter;
+  document.getElementById('save-status').textContent = 'Saved ✓';
+}
+
+// ── CHANGELOG ────────────────────────────────
+async function loadChangelog() {
+  const { data, error } = await sb.from('changelog').select('*').order('id', { ascending: false }).limit(50);
+  const el = document.getElementById('changelog-content');
+  if (error || !data || data.length === 0) {
+    el.innerHTML = '<div class="changelog-empty"><div class="ce-icon">📋</div>No changes recorded yet.</div>';
+    return;
+  }
+  const lastSeen = getLastSeen();
+  el.innerHTML = `<div class="changelog-list">${data.map((entry, i) => {
+    const isNew = entry.id > lastSeen;
+    const diff = entry.lines_after - entry.lines_before;
+    const added = diff > 0 ? '+' + diff : null;
+    const removed = diff < 0 ? diff : null;
+    const date = new Date(entry.created_at);
+    const timeStr = date.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+      + ' · ' + date.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+    const isLast = i === data.length - 1;
+    return `<div class="cl-item">
+      <div class="cl-left">
+        <div class="cl-circle ${isNew ? 'fresh' : ''}"></div>
+        ${!isLast ? '<div class="cl-line"></div>' : ''}
+      </div>
+      <div class="cl-body">
+        <div class="cl-header">
+          <span class="cl-time">${timeStr}</span>
+          ${isNew ? '<span class="cl-new-badge">New</span>' : ''}
+        </div>
+        <div class="cl-diff">
+          ${added ? `<span class="cl-diff-add">▲ ${added} lines</span>` : ''}
+          ${added && removed ? '<span class="cl-diff-sep">·</span>' : ''}
+          ${removed ? `<span class="cl-diff-rem">▼ ${Math.abs(diff)} lines</span>` : ''}
+          ${!added && !removed ? '<span class="cl-diff-lines">no line change</span>' : ''}
+          <span class="cl-diff-sep">·</span>
+          <span class="cl-diff-lines">${entry.lines_after.toLocaleString()} lines total</span>
+        </div>
+        ${entry.note ? `<div class="cl-note">${escapeHtml(entry.note)}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ── LEADERBOARD ──────────────────────────────
+async function loadLeaderboard() {
+  const { data, error } = await sb.from('copy_log').select('username');
+  const el = document.getElementById('leaderboard-content');
+  if (error || !data || data.length === 0) {
+    el.innerHTML = '<div class="lb-empty">No copies recorded yet. Hit "Copy all" to appear here.</div>';
+    return;
+  }
+  // tally
+  const counts = {};
+  data.forEach(r => { counts[r.username] = (counts[r.username] || 0) + 1; });
+  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  const max = sorted[0]?.[1] || 1;
+
+  // podium (top 3)
+  const podiumOrder = [sorted[1], sorted[0], sorted[2]].filter(Boolean);
+  const podiumRanks = [2, 1, 3];
+  const podiumHeights = [60, 90, 45];
+
+  let podiumHTML = '';
+  if (sorted.length >= 2) {
+    podiumHTML = `<div class="lb-podium">` + podiumOrder.map((entry, i) => {
+      const rank = podiumRanks[i];
+      const h = podiumHeights[i];
+      const initials = entry[0].slice(0,2).toUpperCase();
+      const medals = ['🥈','🥇','🥉'];
+      return `<div class="lb-pod rank-${rank}">
+        <div class="lb-pod-avatar">${rank === 1 ? medals[1] : rank === 2 ? medals[0] : medals[2]}</div>
+        <div class="lb-pod-name">${escapeHtml(entry[0])}</div>
+        <div class="lb-pod-count">${entry[1]} copies</div>
+        <div class="lb-pod-bar" style="height:${h}px"></div>
+      </div>`;
+    }).join('') + `</div>`;
+  }
+
+  const listHTML = `<div class="lb-list">` + sorted.map((entry, i) => {
+    const pct = Math.round((entry[1] / max) * 100);
+    const initials = entry[0].slice(0,2).toUpperCase();
+    return `<div class="lb-row">
+      <span class="lb-rank">${i+1}</span>
+      <div class="lb-avatar">${initials}</div>
+      <span class="lb-name">${escapeHtml(entry[0])}</span>
+      <div class="lb-bar-wrap"><div class="lb-bar-fill" style="width:${pct}%"></div></div>
+      <span class="lb-count">${entry[1]}×</span>
+    </div>`;
+  }).join('') + `</div>`;
+
+  el.innerHTML = podiumHTML + listHTML;
+}
+
+// ── COPY ──────────────────────────────────────
+async function copyContent() {
+  const ta = document.getElementById('code-textarea');
+  const pre = document.getElementById('code-view');
+  const text = ta ? ta.value : pre ? pre.textContent : '';
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    toast('Copied to clipboard');
+    // log to leaderboard
+    if (currentUser) {
+      await sb.from('copy_log').insert({ user_id: currentUser.id, username: currentUser.username });
+    }
+  } catch { toast('Copy failed — try selecting manually'); }
+}
+
+// ── REALTIME ──────────────────────────────────
+sb.channel('content-rt')
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'content' }, async () => {
+    if (currentUser?.role === 'member') await loadContent();
+  })
+  .subscribe();
+
+sb.channel('changelog-rt')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'changelog' }, async (payload) => {
+    if (currentUser?.role !== 'owner') {
+      // bump badge
+      unreadCount++;
+      updateBadge();
+      const badge = document.getElementById('notif-badge');
+      badge.classList.remove('pulse');
+      void badge.offsetWidth;
+      badge.classList.add('pulse');
+      // show slide-in notification
+      const diff = (payload.new.lines_after || 0) - (payload.new.lines_before || 0);
+      const diffStr = diff > 0 ? `+${diff} lines` : diff < 0 ? `${diff} lines` : 'no line change';
+      const noteStr = payload.new.note ? ` — "${payload.new.note}"` : '';
+      document.getElementById('notif-body').textContent = diffStr + noteStr;
+      showNotif();
+    }
+    // if changelog tab is open, reload it
+    if (document.getElementById('panel-changelog').classList.contains('active')) {
+      await loadChangelog();
+    }
+  })
+  .subscribe();
+
+let notifTimer;
+function showNotif() {
+  const el = document.getElementById('notif-flash');
+  el.classList.add('show');
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => el.classList.remove('show'), 4500);
+}
+
+// ── HELPERS ───────────────────────────────────
+function escapeHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('visible'), 2500);
+}
+
+boot();
+</script>
+</body>
+</html>
