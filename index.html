@@ -5,32 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mocha — Private Workspace</title>
 
-<!-- ═══════════════════════════════════════════
-     OPEN GRAPH / DISCORD EMBED TAGS
-     These make Discord, Slack, iMessage, etc.
-     show a rich preview card when you share the link.
-     ═══════════════════════════════════════════ -->
 <meta property="og:type"        content="website" />
 <meta property="og:title"       content="Mocha — Private Workspace" />
 <meta property="og:description" content="A secure, invite-only workspace. Sign in to access the content." />
 <meta property="og:url"         content="https://your-mocha-url.com" />
-<!-- og:image: inline SVG rendered as a data URL won't work for embeds —
-     you need a real hosted image URL. Replace this with your actual image URL.
-     Ideal size: 1200×630 px. We've pre-built an OG image below that you can
-     screenshot/export, or use the /og-image endpoint trick described in the
-     comments at the bottom of this file. -->
 <meta property="og:image"       content="https://your-mocha-url.com/og-image.png" />
 <meta property="og:image:width"  content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:site_name"   content="Mocha" />
-
-<!-- Twitter card (also used by many other platforms) -->
 <meta name="twitter:card"        content="summary_large_image" />
 <meta name="twitter:title"       content="Mocha — Private Workspace" />
 <meta name="twitter:description" content="A secure, invite-only workspace. Sign in to access the content." />
 <meta name="twitter:image"       content="https://your-mocha-url.com/og-image.png" />
-
-<!-- Theme colour (shows in browser tab bar on mobile) -->
 <meta name="theme-color" content="#2c1a0e" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -75,7 +61,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-grad
 /* HEADER */
 header{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 2.5rem;border-bottom:0.5px solid var(--border);background:rgba(250,246,240,0.94);backdrop-filter:blur(16px);position:sticky;top:0;z-index:100;height:58px}
 .logo{display:flex;align-items:center;gap:11px;text-decoration:none}
-.logo-mark{width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.logo-mark{width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .logo-text{font-family:var(--ff);font-size:1.5rem;font-weight:600;color:var(--espresso);letter-spacing:-0.03em;line-height:1}
 .logo-text em{font-style:italic;color:var(--gold)}
 .header-right{display:flex;align-items:center;gap:0.9rem}
@@ -316,9 +302,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .role-radio input:checked + label.member-label{background:var(--cream);color:var(--brown);border-color:var(--border-h)}
 .role-radio input:checked + label.admin-label{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
 
-/* ═══════════════════════════════════════════════════════
-   LOGIN MONITOR MODAL — shown to owner when clicking a member
-   ═══════════════════════════════════════════════════════ */
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;z-index:600;background:rgba(44,26,14,0.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s}
 .modal-overlay.open{opacity:1;pointer-events:auto}
 .modal-box{background:#fff;border:0.5px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(44,26,14,0.18);transform:scale(0.95) translateY(8px);transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),opacity 0.2s;opacity:0}
@@ -332,7 +316,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .modal-field textarea::placeholder{color:var(--muted)}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:0.5rem}
 
-/* Login Monitor modal — extra wide */
+/* Login Monitor modal */
 #login-monitor-modal .modal-box{max-width:520px}
 .lm-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
 .lm-avatar{width:40px;height:40px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--brown);flex-shrink:0;border:0.5px solid var(--border)}
@@ -340,17 +324,14 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .lm-avatar.banned-av{background:#fee2e2;color:#b91c1c;border-color:rgba(185,28,28,0.2)}
 .lm-title-col h3{font-family:var(--ff);font-size:1.05rem;font-weight:600;color:var(--espresso);margin:0}
 .lm-title-col p{font-size:12px;color:var(--muted);margin:2px 0 0}
-
 .lm-section-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:8px}
 .lm-logs{display:flex;flex-direction:column;gap:5px;max-height:300px;overflow-y:auto;padding-right:2px}
 .lm-logs::-webkit-scrollbar{width:5px}
 .lm-logs::-webkit-scrollbar-track{background:transparent}
 .lm-logs::-webkit-scrollbar-thumb{background:var(--latte);border-radius:3px}
-
 .lm-log-row{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:9px;background:var(--foam);border:0.5px solid var(--border);transition:background 0.1s}
 .lm-log-row:hover{background:var(--cream)}
 .lm-log-row.flagged{background:#fef2f2;border-color:rgba(185,28,28,0.2)}
-
 .lm-flag-icon{font-size:14px;flex-shrink:0;margin-top:1px}
 .lm-log-details{flex:1;min-width:0}
 .lm-log-ip{font-family:var(--fc);font-size:11.5px;font-weight:500;color:var(--espresso);margin-bottom:2px}
@@ -358,17 +339,14 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .lm-log-time{font-size:11px;color:var(--muted);font-family:var(--fc)}
 .lm-log-city{font-size:11px;color:var(--muted)}
 .lm-log-ua{font-size:10.5px;color:var(--muted);font-style:italic;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-
 .lm-empty{text-align:center;padding:2rem;color:var(--muted);font-size:13px;font-style:italic}
 .lm-spinner{display:flex;align-items:center;justify-content:center;padding:2rem;gap:10px;color:var(--muted);font-size:13px}
 .lm-spinner-icon{width:18px;height:18px;border:2px solid var(--latte);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
-
 .lm-stat-row{display:flex;gap:8px;margin-bottom:1rem}
 .lm-stat{flex:1;background:var(--foam);border:0.5px solid var(--border);border-radius:8px;padding:9px 12px;text-align:center}
 .lm-stat-num{font-family:var(--ff);font-size:1.3rem;font-weight:600;color:var(--espresso);line-height:1}
 .lm-stat-label{font-size:10.5px;color:var(--muted);margin-top:3px;letter-spacing:0.03em}
 .lm-stat.warn .lm-stat-num{color:#b91c1c}
-
 .lm-footer{display:flex;justify-content:space-between;gap:8px;margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--border);flex-wrap:wrap}
 .lm-unique-ips{font-size:11px;color:var(--muted);font-family:var(--fc);display:flex;align-items:center;gap:5px}
 .lm-unique-ips span{font-weight:600;color:var(--espresso)}
@@ -380,8 +358,9 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 /* LOADING */
 #loading-overlay{position:fixed;inset:0;z-index:9999;background:var(--foam);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;transition:opacity 0.4s}
 #loading-overlay.fade{opacity:0;pointer-events:none}
-.loader-logo{font-family:var(--ff);font-size:2.6rem;font-weight:600;color:var(--espresso);letter-spacing:-0.03em}
-.loader-logo em{font-style:italic;color:var(--gold)}
+.loader-logo{display:flex;align-items:center;gap:14px}
+.loader-logo-text{font-family:var(--ff);font-size:2.6rem;font-weight:600;color:var(--espresso);letter-spacing:-0.03em}
+.loader-logo-text em{font-style:italic;color:var(--gold)}
 .loader-bar{width:160px;height:2px;background:var(--latte);border-radius:2px;overflow:hidden}
 .loader-fill{height:100%;width:0%;background:var(--gold);border-radius:2px;animation:loadFill 1s ease-out forwards}
 @keyframes loadFill{to{width:100%}}
@@ -398,7 +377,26 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 <body>
 
 <div id="loading-overlay">
-  <div class="loader-logo">Mo<em>c</em>ha</div>
+  <div class="loader-logo">
+    <!-- NEW LOGO: Coffee cup with MC monogram -->
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cup body -->
+      <path d="M10 20h32l-3.5 20a3 3 0 0 1-2.96 2.5H16.46A3 3 0 0 1 13.5 40L10 20Z" fill="#2c1a0e"/>
+      <!-- Cup shine -->
+      <path d="M15 24l1.5 12" stroke="rgba(232,213,183,0.12)" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Handle -->
+      <path d="M38 24h4a5 5 0 0 1 0 10h-4" stroke="#2c1a0e" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <!-- Saucer -->
+      <ellipse cx="26" cy="43.5" rx="16" ry="2.5" fill="#2c1a0e" opacity="0.18"/>
+      <!-- Steam wisps -->
+      <path d="M19 14 C19 11.5 21 11.5 21 9" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M26 13 C26 10.5 28 10.5 28 8" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+      <path d="M33 14 C33 11.5 35 11.5 35 9" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.4"/>
+      <!-- MC monogram on cup -->
+      <text x="26" y="34" font-family="Georgia, serif" font-size="13" font-weight="700" fill="#c9923d" text-anchor="middle" letter-spacing="-0.5">MC</text>
+    </svg>
+    <span class="loader-logo-text">Mo<em>c</em>ha</span>
+  </div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
 </div>
 
@@ -423,25 +421,16 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
-     LOGIN MONITOR MODAL (owner only)
-     Shows when owner clicks the 👁 icon on any member row
-     ═══════════════════════════════════════════════════════ -->
+<!-- LOGIN MONITOR MODAL -->
 <div class="modal-overlay" id="login-monitor-modal">
   <div class="modal-box" style="max-width:520px">
-    <div class="lm-header" id="lm-header">
-      <!-- filled dynamically -->
-    </div>
-    <div class="lm-stat-row" id="lm-stats">
-      <!-- filled dynamically -->
-    </div>
+    <div class="lm-header" id="lm-header"></div>
+    <div class="lm-stat-row" id="lm-stats"></div>
     <div class="lm-section-label">Login History</div>
     <div class="lm-logs" id="lm-logs">
       <div class="lm-spinner"><div class="lm-spinner-icon"></div>Loading logs…</div>
     </div>
-    <div class="lm-footer" id="lm-footer">
-      <!-- filled dynamically -->
-    </div>
+    <div class="lm-footer" id="lm-footer"></div>
   </div>
 </div>
 
@@ -489,13 +478,15 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 <header>
   <a class="logo" href="#">
     <div class="logo-mark">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="32" height="32" rx="9" fill="#2c1a0e"/>
-        <path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity="0.9"/>
-        <path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
-        <path d="M12.5 10.5 C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,0.45)" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M16 11 C16 10 17 10 17 9" stroke="rgba(232,213,183,0.45)" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M7 23h18" stroke="rgba(232,213,183,0.35)" stroke-width="1.4" stroke-linecap="round"/>
+      <!-- NEW HEADER LOGO: Refined coffee cup with MC -->
+      <svg width="36" height="36" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 20h32l-3.5 20a3 3 0 0 1-2.96 2.5H16.46A3 3 0 0 1 13.5 40L10 20Z" fill="#2c1a0e"/>
+        <path d="M15 24l1.5 12" stroke="rgba(232,213,183,0.12)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M38 24h4a5 5 0 0 1 0 10h-4" stroke="#2c1a0e" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M19 14 C19 11.5 21 11.5 21 9" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.7"/>
+        <path d="M26 13 C26 10.5 28 10.5 28 8" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.55"/>
+        <path d="M33 14 C33 11.5 35 11.5 35 9" stroke="#c9923d" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.4"/>
+        <text x="26" y="34" font-family="Georgia, serif" font-size="13" font-weight="700" fill="#c9923d" text-anchor="middle" letter-spacing="-0.5">MC</text>
       </svg>
     </div>
     <span class="logo-text">Mo<em>c</em>ha</span>
@@ -642,9 +633,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 <div id="toast"></div>
 
 <script>
-// ─────────────────────────────────────────────
-//  CONFIG
-// ─────────────────────────────────────────────
 const SUPABASE_URL      = 'https://jglkhgsajqpjydkqbyzn.supabase.co';
 const SUPABASE_ANON     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpnbGtoZ3NhanFwanlka3FieXpuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDE0MjIzNiwiZXhwIjoyMDk1NzE4MjM2fQ.CURAPtKnUqz9-efrztfvoYLn-1p1a6Kxha3Fkas8Ff0';
 const EDGE_FUNCTION_URL = 'https://jglkhgsajqpjydkqbyzn.supabase.co/functions/v1/highlight-lua';
@@ -652,9 +640,6 @@ const EDGE_FUNCTION_URL = 'https://jglkhgsajqpjydkqbyzn.supabase.co/functions/v1
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-// ─────────────────────────────────────────────
-//  STATE
-// ─────────────────────────────────────────────
 let currentUser    = null;
 let isVisible      = true;
 let saveTimer      = null;
@@ -675,16 +660,10 @@ let banTargetUser  = null;
 let banTargetAction = 'ban';
 const LINE_H = 21;
 
-// ─────────────────────────────────────────────
-//  ROLE HELPERS
-// ─────────────────────────────────────────────
 const isOwner    = () => currentUser?.role === 'owner';
 const isAdmin    = () => currentUser?.role === 'admin';
 const isElevated = () => isOwner() || isAdmin();
 
-// ─────────────────────────────────────────────
-//  SESSION
-// ─────────────────────────────────────────────
 const SS = {
   save:             u  => localStorage.setItem('mocha_user', JSON.stringify(u)),
   clear:            () => localStorage.removeItem('mocha_user'),
@@ -695,9 +674,6 @@ const SS = {
   setLastSeenNotif: id => localStorage.setItem('mocha_last_notif', String(id)),
 };
 
-// ─────────────────────────────────────────────
-//  BOOT
-// ─────────────────────────────────────────────
 async function boot() {
   setTimeout(() => {
     const ol = document.getElementById('loading-overlay');
@@ -717,9 +693,6 @@ async function boot() {
   } else { showLogin(); }
 }
 
-// ─────────────────────────────────────────────
-//  AUTH
-// ─────────────────────────────────────────────
 async function login() {
   const username = document.getElementById('username-input').value.trim();
   const password = document.getElementById('password-input').value;
@@ -745,41 +718,20 @@ async function login() {
   }
 
   currentUser = data; SS.save(data);
-
-  // ── Record login event ──────────────────────────────────────────────────
-  // We grab a rough IP/geo from a free public API (ipapi.co).
-  // This runs in the background — don't await it so login feels instant.
   recordLoginEvent(data.id, data.username);
-
   showContent();
 }
 
-// ─────────────────────────────────────────────
-//  RECORD LOGIN EVENT  (fire-and-forget)
-// ─────────────────────────────────────────────
 async function recordLoginEvent(userId, username) {
   try {
-    // Use ipapi.co free tier — returns JSON with ip, city, country_name, etc.
-    // No key needed for up to 1000 requests/day per IP.
     const geoRes  = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(4000) });
     const geo     = geoRes.ok ? await geoRes.json() : {};
     const ip      = geo.ip      || 'unknown';
     const city    = geo.city    || '';
     const country = geo.country_name || '';
     const ua      = navigator.userAgent.slice(0, 220);
-
-    await sb.from('login_logs').insert({
-      user_id:  userId,
-      username: username,
-      ip:       ip,
-      city:     city,
-      country:  country,
-      ua:       ua,
-    });
-  } catch (e) {
-    // silently ignore — don't break the login flow
-    console.warn('Login event record failed:', e);
-  }
+    await sb.from('login_logs').insert({ user_id: userId, username, ip, city, country, ua });
+  } catch (e) { console.warn('Login event record failed:', e); }
 }
 
 function logout() {
@@ -826,9 +778,6 @@ async function showContent() {
   checkUnreadNotifs();
 }
 
-// ─────────────────────────────────────────────
-//  INJECT CREATE TAB
-// ─────────────────────────────────────────────
 function injectCreateTab() {
   if (!isElevated()) return;
   const nav = document.getElementById('tabs-nav');
@@ -840,9 +789,6 @@ function injectCreateTab() {
   nav.appendChild(btn);
 }
 
-// ─────────────────────────────────────────────
-//  TABS
-// ─────────────────────────────────────────────
 function switchTab(name, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -855,9 +801,6 @@ function switchTab(name, btn) {
   if (name !== 'editor')        closeSearch();
 }
 
-// ─────────────────────────────────────────────
-//  UNREAD
-// ─────────────────────────────────────────────
 async function checkUnread() {
   const { data } = await sb.from('changelog').select('id').gt('id', SS.lastSeen()).order('id', { ascending: false });
   unreadCount = data ? data.length : 0; updateBadge();
@@ -890,9 +833,6 @@ function clearUnreadNotifs() {
   });
 }
 
-// ─────────────────────────────────────────────
-//  LOAD META
-// ─────────────────────────────────────────────
 async function loadMeta() {
   const cols = isOwner() ? 'visible_to_members,body' : 'visible_to_members,highlighted_body';
   const { data, error } = await sb.from('content').select(cols).eq('id', 1).single();
@@ -925,9 +865,6 @@ async function loadMeta() {
   buildPreviewCard();
 }
 
-// ─────────────────────────────────────────────
-//  BUILD PREVIEW CARD
-// ─────────────────────────────────────────────
 function buildPreviewCard() {
   const area = document.getElementById('main-area');
   if (isOwner()) { buildOwnerEditor(); return; }
@@ -975,9 +912,6 @@ function buildPreviewCard() {
     </div>`;
 }
 
-// ─────────────────────────────────────────────
-//  OWNER EDITOR
-// ─────────────────────────────────────────────
 function buildOwnerEditor() {
   const area = document.getElementById('main-area');
   document.getElementById('screen-title').textContent    = 'Editor';
@@ -1031,9 +965,6 @@ function buildOwnerEditor() {
   bindSearchShortcut();
 }
 
-// ─────────────────────────────────────────────
-//  MAXIMIZE
-// ─────────────────────────────────────────────
 async function openMaximize() {
   const overlay = document.getElementById('maximize-overlay');
   overlay.classList.add('open');
@@ -1088,9 +1019,6 @@ async function openOwnerMaximize() {
   renderMaximizeContent();
 }
 
-// ─────────────────────────────────────────────
-//  RAW / DOWNLOAD
-// ─────────────────────────────────────────────
 async function viewRaw() {
   let body = cachedBody;
   if (!body) { toast('Fetching raw content…'); const { data } = await sb.from('content').select('body').eq('id', 1).single(); body = data?.body || ''; cachedBody = body; }
@@ -1111,9 +1039,6 @@ async function downloadFile() {
   await sb.from('copy_log').insert({ user_id: currentUser.id, username: currentUser.username });
 }
 
-// ─────────────────────────────────────────────
-//  VIRTUAL LINE NUMBERS
-// ─────────────────────────────────────────────
 function initVirtualLineNumbers(vpId, colId, canvasId, lineCount) {
   const vp = document.getElementById(vpId), col = document.getElementById(colId), canvas = document.getElementById(canvasId);
   if (!vp || !col || !canvas) return;
@@ -1132,9 +1057,6 @@ function initVirtualLineNumbers(vpId, colId, canvasId, lineCount) {
   requestAnimationFrame(paint);
 }
 
-// ─────────────────────────────────────────────
-//  TOGGLE VISIBILITY
-// ─────────────────────────────────────────────
 async function handleToggle() {
   isVisible = !isVisible;
   document.getElementById('tog-track').className = 'toggle-track' + (isVisible ? ' on' : '');
@@ -1144,9 +1066,6 @@ async function handleToggle() {
   toast(isVisible ? 'Now visible to members' : 'Hidden from members');
 }
 
-// ─────────────────────────────────────────────
-//  EDIT + SAVE
-// ─────────────────────────────────────────────
 function onEdit() {
   const ta = document.getElementById('code-textarea');
   const lines = ta.value.split('\n').length;
@@ -1190,9 +1109,6 @@ async function saveContent(body) {
   setSaveStatus('saved');
 }
 
-// ─────────────────────────────────────────────
-//  SEARCH
-// ─────────────────────────────────────────────
 function bindSearchShortcut() {
   document.removeEventListener('keydown', globalKeyHandler);
   document.addEventListener('keydown', globalKeyHandler);
@@ -1270,9 +1186,6 @@ function clearHighlights() { const pre = document.getElementById('code-pre'); if
 function updateSearchInfo(cur, total) { const el = document.getElementById('search-info'); if (el) el.textContent = total === 0 ? 'No results' : `${cur} / ${total}`; }
 function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
-// ─────────────────────────────────────────────
-//  COPY
-// ─────────────────────────────────────────────
 async function copyContent() {
   const ta   = document.getElementById('code-textarea');
   const pre  = document.getElementById('code-pre');
@@ -1285,9 +1198,6 @@ async function copyContent() {
   } catch { toast('Copy failed — try selecting manually'); }
 }
 
-// ─────────────────────────────────────────────
-//  CHANGELOG
-// ─────────────────────────────────────────────
 async function loadChangelog() {
   const { data, error } = await sb.from('changelog').select('*').order('id', { ascending: false }).limit(50);
   const el = document.getElementById('changelog-content');
@@ -1322,9 +1232,6 @@ async function loadChangelog() {
   }).join('')}</div>`;
 }
 
-// ─────────────────────────────────────────────
-//  NOTIFICATIONS
-// ─────────────────────────────────────────────
 function setupNotifCompose() {
   const area = document.getElementById('notif-compose-area');
   if (!isElevated()) { area.innerHTML = ''; return; }
@@ -1395,9 +1302,6 @@ async function deleteNotification(id) {
   toast('Notification deleted'); loadNotifications();
 }
 
-// ─────────────────────────────────────────────
-//  MEMBERS + BAN SYSTEM
-// ─────────────────────────────────────────────
 async function loadLeaderboard() {
   const { data, error } = await sb.from('users').select('id,username,role,banned,ban_message').order('role').order('username');
   const el = document.getElementById('leaderboard-content');
@@ -1417,7 +1321,6 @@ async function loadLeaderboard() {
     else if (isBanned) rolePill = `<span class="banned-pill">Banned</span>`;
     else               rolePill = `<span class="role-pill member">member</span>`;
 
-    // Eye / monitor button — only shown to owner
     const monitorBtn = isOwner()
       ? `<button class="btn" style="font-size:11.5px;padding:5px 10px;color:var(--muted);border-color:var(--border)" title="View login history" onclick="openLoginMonitor('${u.id}','${escHtml(u.username)}','${u.role}',${isBanned})">👁</button>`
       : '';
@@ -1437,9 +1340,6 @@ async function loadLeaderboard() {
   }).join('')}</div>`;
 }
 
-// ─────────────────────────────────────────────
-//  LOGIN MONITOR MODAL  (owner only)
-// ─────────────────────────────────────────────
 async function openLoginMonitor(userId, username, role, isBanned) {
   const modal   = document.getElementById('login-monitor-modal');
   const header  = document.getElementById('lm-header');
@@ -1467,15 +1367,11 @@ async function openLoginMonitor(userId, username, role, isBanned) {
     <div class="lm-stat"><div class="lm-stat-num">—</div><div class="lm-stat-label">Countries</div></div>`;
   logs.innerHTML   = `<div class="lm-spinner"><div class="lm-spinner-icon"></div>Loading…</div>`;
   footer.innerHTML = '';
-
   modal.classList.add('open');
 
-  // ── Fetch logs ────────────────────────────────────────────────
   const { data, error } = await sb.from('login_logs')
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
-    .limit(60);
+    .select('*').eq('user_id', userId)
+    .order('created_at', { ascending: false }).limit(60);
 
   if (error || !data || data.length === 0) {
     logs.innerHTML = `<div class="lm-empty">No login records yet for this account.</div>`;
@@ -1484,12 +1380,10 @@ async function openLoginMonitor(userId, username, role, isBanned) {
     return;
   }
 
-  // ── Compute stats ─────────────────────────────────────────────
   const uniqueIPs      = [...new Set(data.map(r => r.ip).filter(Boolean))];
   const uniqueCountries= [...new Set(data.map(r => r.country).filter(Boolean))];
-  const flagMultiIP    = uniqueIPs.length > 3; // flag if 4+ different IPs
+  const flagMultiIP    = uniqueIPs.length > 3;
 
-  // Update stat cards
   const statEls = stats.querySelectorAll('.lm-stat');
   statEls[0].querySelector('.lm-stat-num').textContent = data.length;
   statEls[1].querySelector('.lm-stat-num').textContent = uniqueIPs.length;
@@ -1497,20 +1391,15 @@ async function openLoginMonitor(userId, username, role, isBanned) {
   statEls[2].querySelector('.lm-stat-num').textContent = uniqueCountries.length;
   if (uniqueCountries.length > 2) statEls[2].classList.add('warn');
 
-  // ── Render rows ───────────────────────────────────────────────
   logs.innerHTML = data.map(r => {
     const date  = new Date(r.created_at);
     const ts    = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
                 + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-    // Heuristic flag: unusual if IP appears fewer than 2 times or country is unique
     const ipCount = data.filter(x => x.ip === r.ip).length;
     const isSuspect = ipCount === 1 && data.length > 2;
     const flag  = isSuspect ? '⚠️' : '🌐';
-
-    // Parse a friendly browser string from UA
     const uaShort = parseUA(r.ua || '');
     const location = [r.city, r.country].filter(Boolean).join(', ') || 'Unknown location';
-
     return `<div class="lm-log-row${isSuspect?' flagged':''}">
       <div class="lm-flag-icon">${flag}</div>
       <div class="lm-log-details">
@@ -1524,7 +1413,6 @@ async function openLoginMonitor(userId, username, role, isBanned) {
     </div>`;
   }).join('');
 
-  // ── Footer with IP list ────────────────────────────────────────
   footer.innerHTML = `
     <div class="lm-unique-ips">
       Unique IPs: <span>${uniqueIPs.slice(0,6).map(ip => escHtml(ip)).join(', ')}${uniqueIPs.length > 6 ? ' …' : ''}</span>
@@ -1539,7 +1427,6 @@ function closeLoginMonitor() {
   document.getElementById('login-monitor-modal').classList.remove('open');
 }
 
-// Friendly UA parser (no library needed)
 function parseUA(ua) {
   if (!ua) return 'Unknown browser';
   if (/Edg\//i.test(ua))    return 'Microsoft Edge on ' + getOS(ua);
@@ -1558,14 +1445,10 @@ function getOS(ua) {
   return 'Unknown OS';
 }
 
-// Close login monitor on backdrop click
 document.getElementById('login-monitor-modal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeLoginMonitor();
 });
 
-// ─────────────────────────────────────────────
-//  BAN MODAL
-// ─────────────────────────────────────────────
 function openBanModal(userId, username) {
   banTargetUser = userId; banTargetAction = 'ban';
   document.getElementById('modal-title').textContent = `Ban ${username}`;
@@ -1602,9 +1485,6 @@ async function confirmBan() {
 }
 document.getElementById('ban-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 
-// ─────────────────────────────────────────────
-//  CREATE MEMBER
-// ─────────────────────────────────────────────
 function setupCreateForm() {
   document.getElementById('role-select-wrap').style.display = isOwner() ? 'block' : 'none';
   document.getElementById('new-username').value = '';
@@ -1638,15 +1518,12 @@ async function createMember() {
   toast(`Member "${username}" created`);
 }
 
-// ─────────────────────────────────────────────
-//  REALTIME
-// ─────────────────────────────────────────────
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && maximizeOpen) closeMaximize(); });
 
 sb.channel('content-rt')
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'content' }, async payload => {
     if (isOwner()) return;
-    isVisible = payload.new?.visible_to_members ?? true;
+    isVisible  = payload.new?.visible_to_members ?? true;
     cachedBody = payload.new?.body ?? ''; cachedHl = payload.new?.highlighted_body ?? null;
     totalLines = cachedBody ? cachedBody.split('\n').length : 0;
     maxRendered = false; fullLoaded = true;
@@ -1698,9 +1575,6 @@ function showNotif() {
   notifTimer = setTimeout(() => el.classList.remove('show'), 4500);
 }
 
-// ─────────────────────────────────────────────
-//  HELPERS
-// ─────────────────────────────────────────────
 function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 let toastTimer;
 function toast(msg) {
@@ -1709,11 +1583,18 @@ function toast(msg) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('visible'), 2500);
 }
 
-// ─────────────────────────────────────────────
-//  FAVICON
-// ─────────────────────────────────────────────
+// ── FAVICON: new coffee cup MC logo ──────────────────────────────────────
 (function(){
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#2c1a0e"/><path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity=".9"/><path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".7"/><path d="M12.5 10.5C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M16 11C16 10 17 10 17 9" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M7 23h18" stroke="rgba(232,213,183,.35)" stroke-width="1.4" stroke-linecap="round"/></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+    <rect width="52" height="52" rx="12" fill="#1a0f05"/>
+    <path d="M10 20h32l-3.5 20a3 3 0 0 1-2.96 2.5H16.46A3 3 0 0 1 13.5 40L10 20Z" fill="#c9923d"/>
+    <path d="M15 24l1.5 12" stroke="rgba(232,213,183,0.12)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M38 24h4a5 5 0 0 1 0 10h-4" stroke="#c9923d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M19 14 C19 11.5 21 11.5 21 9" stroke="rgba(201,146,61,0.8)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M26 13 C26 10.5 28 10.5 28 8" stroke="rgba(201,146,61,0.6)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M33 14 C33 11.5 35 11.5 35 9" stroke="rgba(201,146,61,0.45)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <text x="26" y="35" font-family="Georgia,serif" font-size="12" font-weight="700" fill="#1a0f05" text-anchor="middle" letter-spacing="-0.5">MC</text>
+  </svg>`;
   const link = document.createElement('link'); link.rel = 'icon'; link.type = 'image/svg+xml';
   link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
   document.head.appendChild(link);
@@ -1724,89 +1605,49 @@ boot();
 
 <!--
 ═══════════════════════════════════════════════════════════════════════════
-  SUPABASE: Create the login_logs table by running this SQL in your
-  Supabase SQL editor (Dashboard → SQL Editor → New query):
+  OG IMAGE — uncomment this block, open in browser, screenshot the div,
+  then host the screenshot as your og:image URL.
 
-  CREATE TABLE IF NOT EXISTS public.login_logs (
-    id          bigserial PRIMARY KEY,
-    user_id     uuid        NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
-    username    text        NOT NULL,
-    ip          text,
-    city        text,
-    country     text,
-    ua          text,
-    created_at  timestamptz NOT NULL DEFAULT now()
-  );
-
-  -- Allow the app to insert rows (uses service-role key, so this is fine)
-  ALTER TABLE public.login_logs ENABLE ROW LEVEL SECURITY;
-  CREATE POLICY "service_role_all" ON public.login_logs
-    FOR ALL USING (true) WITH CHECK (true);
-
-  -- Index for fast per-user lookups
-  CREATE INDEX ON public.login_logs (user_id, created_at DESC);
-
+  The logo below is your new coffee cup MC mark at large scale.
 ═══════════════════════════════════════════════════════════════════════════
-  OG IMAGE (Discord embed photo):
-
-  The og:image must be a real hosted URL — data URIs don't work in embeds.
-  Two easy options:
-
-  OPTION A — Upload a static image:
-    1. Design your embed image (1200×630 px) using any tool.
-       Canva, Figma, or even screenshot the OG image generator below.
-    2. Upload it to your hosting (Vercel, Netlify, GitHub Pages, etc.)
-    3. Replace "https://your-mocha-url.com/og-image.png" in the
-       <meta property="og:image"> tag with the real URL.
-
-  OPTION B — Vercel OG (auto-generated from code, zero effort):
-    If you deploy on Vercel, add a file at /api/og.tsx using
-    @vercel/og and it will generate the image on-demand.
-    Example: https://vercel.com/docs/functions/og-image-generation
-
-  The embed image below is what you should aim for visually —
-  dark espresso background, Mocha logo, "Private Workspace" tagline,
-  gold accent, locked icon. Screenshot it from the browser to use as
-  your static og:image.
-
-  Also update og:url with your actual deployed URL.
-═══════════════════════════════════════════════════════════════════════════
--->
-
-<!--
-  ╔══════════════════════════════════════════════════════════════════════╗
-  ║  OG IMAGE PREVIEW (1200×630)  —  Open this in browser, screenshot  ║
-  ║  the element below, then host it as your og:image.                  ║
-  ╚══════════════════════════════════════════════════════════════════════╝
-  Uncomment the block below temporarily to screenshot your OG image:
 
 <div id="og-preview" style="
-  width:1200px;height:630px;background:#1a0f05;
+  width:1200px;height:630px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   font-family:'Fraunces',serif;position:fixed;top:0;left:0;z-index:99999;
-  border:1px solid rgba(201,146,61,0.15);gap:28px;
-  background-image:radial-gradient(ellipse 60% 55% at 20% 30%,rgba(201,146,61,0.08),transparent),
-                   radial-gradient(ellipse 45% 45% at 80% 70%,rgba(107,76,42,0.06),transparent)">
-  <div style="display:flex;align-items:center;gap:18px">
-    <svg width="72" height="72" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="32" height="32" rx="9" fill="#2c1a0e"/>
-      <path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity=".9"/>
-      <path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".7"/>
-      <path d="M12.5 10.5C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M16 11C16 10 17 10 17 9" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M7 23h18" stroke="rgba(232,213,183,.35)" stroke-width="1.4" stroke-linecap="round"/>
-    </svg>
-    <span style="font-size:72px;font-weight:600;color:#faf6f0;letter-spacing:-0.03em;line-height:1">
+  gap:32px;
+  background:#120a02;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 20% 25%, rgba(201,146,61,0.11), transparent),
+    radial-gradient(ellipse 55% 55% at 82% 75%, rgba(107,76,42,0.09), transparent),
+    radial-gradient(circle 2px at 15% 80%, rgba(201,146,61,0.3), transparent),
+    radial-gradient(circle 1.5px at 85% 20%, rgba(201,146,61,0.25), transparent);">
+
+  <!-- Big cup logo -->
+  <svg width="200" height="200" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="52" height="52" rx="12" fill="#1a0f05"/>
+    <path d="M10 20h32l-3.5 20a3 3 0 0 1-2.96 2.5H16.46A3 3 0 0 1 13.5 40L10 20Z" fill="#c9923d"/>
+    <path d="M15 24l1.5 12" stroke="rgba(232,213,183,0.1)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M38 24h4a5 5 0 0 1 0 10h-4" stroke="#c9923d" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M19 14 C19 11.5 21 11.5 21 9" stroke="rgba(201,146,61,0.8)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M26 13 C26 10.5 28 10.5 28 8" stroke="rgba(201,146,61,0.6)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M33 14 C33 11.5 35 11.5 35 9" stroke="rgba(201,146,61,0.45)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <text x="26" y="35" font-family="Georgia,serif" font-size="12" font-weight="700" fill="#1a0f05" text-anchor="middle" letter-spacing="-0.5">MC</text>
+  </svg>
+
+  <!-- Wordmark -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+    <span style="font-size:88px;font-weight:600;color:#faf6f0;letter-spacing:-0.03em;line-height:1">
       Mo<em style="font-style:italic;color:#c9923d">c</em>ha
     </span>
+    <div style="width:64px;height:2px;background:rgba(201,146,61,0.45);border-radius:2px"></div>
+    <span style="font-size:22px;color:rgba(232,213,183,0.55);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:0.12em;text-transform:uppercase">Private Workspace</span>
+    <span style="font-size:15px;color:rgba(156,122,90,0.5);font-family:'JetBrains Mono',monospace;letter-spacing:0.07em;margin-top:4px">🔒 Invite only · Sign in to access</span>
   </div>
-  <div style="width:60px;height:2px;background:rgba(201,146,61,0.4);border-radius:2px"></div>
-  <div style="text-align:center;display:flex;flex-direction:column;gap:10px">
-    <span style="font-size:28px;color:rgba(232,213,183,0.7);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:0.04em;text-transform:uppercase">Private Workspace</span>
-    <span style="font-size:18px;color:rgba(156,122,90,0.65);font-family:'JetBrains Mono',monospace;letter-spacing:0.06em">🔒 Invite only · Sign in to access</span>
-  </div>
-  <div style="position:absolute;bottom:32px;font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(156,122,90,0.4);letter-spacing:0.06em">your-mocha-url.com</div>
+
+  <div style="position:absolute;bottom:28px;font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(156,122,90,0.35);letter-spacing:0.07em">your-mocha-url.com</div>
 </div>
 -->
+
 </body>
 </html>
