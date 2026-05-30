@@ -25,18 +25,17 @@
   --fb: 'Inter', sans-serif;
   --fc: 'JetBrains Mono', monospace;
 
-  /* Lua / VS Code Dark+ token colors */
-  --tok-keyword:   #569CD6; /* blue — keywords */
-  --tok-builtin:   #4EC9B0; /* teal — built-ins */
-  --tok-string:    #CE9178; /* orange-brown — strings */
-  --tok-number:    #B5CEA8; /* light green — numbers */
-  --tok-comment:   #6A9955; /* green — comments */
-  --tok-func:      #DCDCAA; /* yellow — function calls */
-  --tok-operator:  #D4D4D4; /* light grey — operators */
-  --tok-varname:   #9CDCFE; /* light blue — variables/identifiers after local */
-  --tok-special:   #C586C0; /* purple — special (self, true, false, nil) */
-  --tok-plain:     #D4D4D4; /* default text */
-  --tok-table:     #4FC1FF; /* bright blue — table/class names */
+  /* Lua / VS Code Dark+ token colors — used by pre only */
+  --tok-keyword:  #569CD6;
+  --tok-builtin:  #4EC9B0;
+  --tok-string:   #CE9178;
+  --tok-number:   #B5CEA8;
+  --tok-comment:  #6A9955;
+  --tok-func:     #DCDCAA;
+  --tok-operator: #D4D4D4;
+  --tok-varname:  #9CDCFE;
+  --tok-special:  #C586C0;
+  --tok-plain:    #D4D4D4;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -88,7 +87,7 @@ header{display:flex;align-items:center;justify-content:space-between;
 #ban-screen{display:none;min-height:calc(100vh - 58px);align-items:center;justify-content:center;padding:2rem;flex-direction:column;gap:1.5rem}
 #ban-screen.active{display:flex}
 .ban-card{width:100%;max-width:420px;background:#fff;border:1px solid rgba(185,28,28,0.18);border-radius:18px;padding:2.8rem;box-shadow:0 8px 40px rgba(185,28,28,0.08);text-align:center}
-.ban-icon{font-size:3.2rem;margin-bottom:1rem;display:block;opacity:0.85}
+.ban-icon{font-size:3.2rem;margin-bottom:1rem;display:block}
 .ban-card h2{font-family:var(--ff);font-size:1.5rem;font-weight:600;color:#b91c1c;margin-bottom:0.5rem;letter-spacing:-0.02em}
 .ban-card p{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:1rem}
 .ban-message-box{background:#fef2f2;border:0.5px solid #fca5a5;border-radius:8px;padding:12px 15px;font-size:13px;color:#7f1d1d;font-style:italic;line-height:1.6;text-align:left;margin-top:0.5rem}
@@ -131,7 +130,7 @@ header{display:flex;align-items:center;justify-content:space-between;
 .save-note-row input::placeholder{color:var(--muted)}
 
 /* ── EDITOR SHELL ── */
-.code-wrapper{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.1);overflow:hidden;box-shadow:0 2px 0 rgba(201,146,61,0.06),0 16px 56px rgba(44,26,14,0.2);will-change:transform;contain:layout style}
+.code-wrapper{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.1);overflow:hidden;box-shadow:0 2px 0 rgba(201,146,61,0.06),0 16px 56px rgba(44,26,14,0.2)}
 .editor-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);gap:10px}
 .editor-toolbar-left{display:flex;align-items:center;gap:5px}
 .editor-tab{display:flex;align-items:center;gap:6px;padding:4px 11px;background:#1a0f05;border:1px solid rgba(201,146,61,0.09);border-bottom:none;border-radius:5px 5px 0 0;font-family:var(--fc);font-size:11px;color:rgba(232,213,183,0.45);position:relative;top:1px}
@@ -139,9 +138,10 @@ header{display:flex;align-items:center;justify-content:space-between;
 .editor-toolbar-right{display:flex;align-items:center;gap:10px}
 .editor-lang{font-family:var(--fc);font-size:10px;color:rgba(232,213,183,0.55);letter-spacing:0.04em;background:rgba(201,146,61,0.09);border:1px solid rgba(201,146,61,0.16);padding:2px 7px;border-radius:4px}
 .editor-lang span{color:rgba(232,213,183,0.25);margin:0 3px}
-.editor-save{font-family:var(--fc);font-size:10.5px;color:rgba(232,213,183,0.28);min-width:60px;text-align:right;transition:color 0.2s}
+.editor-save{font-family:var(--fc);font-size:10.5px;color:rgba(232,213,183,0.28);min-width:90px;text-align:right;transition:color 0.2s}
 .editor-save.saving{color:var(--gold)}
 .editor-save.saved{color:#69c98c}
+.editor-save.highlighting{color:#C586C0}
 
 /* SEARCH BAR */
 .search-bar{display:none;align-items:center;gap:7px;padding:6px 12px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.08)}
@@ -154,10 +154,10 @@ header{display:flex;align-items:center;justify-content:space-between;
 .snav:hover{color:var(--gold);background:rgba(201,146,61,0.09)}
 .sclose{background:none;border:none;cursor:pointer;padding:3px 7px;color:rgba(232,213,183,0.3);font-size:13px;border-radius:4px;transition:color 0.12s;line-height:1;margin-left:1px}
 .sclose:hover{color:#ee6b6b}
-mark.sh{background:rgba(201,146,61,0.3);color:#e8d5b7;border-radius:2px}
+mark.sh{background:rgba(201,146,61,0.3);border-radius:2px}
 mark.sh.current{background:var(--gold);color:#1a0f05}
 
-/* VIRTUAL EDITOR BODY */
+/* EDITOR BODY */
 .code-body{display:flex;height:62vh;overflow:hidden;position:relative}
 .line-numbers{flex-shrink:0;width:46px;background:#120a02;border-right:1px solid rgba(201,146,61,0.05);overflow:hidden;user-select:none;position:relative}
 .ln-canvas{position:absolute;top:0;left:0;width:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;color:rgba(232,213,183,0.16);text-align:right;padding-right:10px;white-space:nowrap;will-change:transform}
@@ -166,39 +166,46 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .scroll-viewport::-webkit-scrollbar-track{background:transparent}
 .scroll-viewport::-webkit-scrollbar-thumb{background:rgba(201,146,61,0.13);border-radius:4px}
 .scroll-viewport::-webkit-scrollbar-thumb:hover{background:rgba(201,146,61,0.25)}
-/* owner: real textarea inside viewport */
-#code-textarea{display:block;width:100%;min-height:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;color:#e8d5b7;background:transparent;border:none;outline:none;resize:none;padding:1rem 1.5rem;tab-size:2;white-space:pre;overflow:visible;caret-color:var(--gold)}
-/* member: highlighted pre inside viewport */
-#code-pre{display:block;width:100%;min-height:100%;font-family:var(--fc);font-size:12.5px;line-height:21px;padding:1rem 1.5rem;white-space:pre-wrap;word-break:break-word;cursor:default;color:var(--tok-plain)}
 
-/* ── Syntax token colours applied via spans ── */
+/* ── OWNER textarea — plain, no overlay, no crash ── */
+#code-textarea{
+  display:block;width:100%;min-height:100%;
+  font-family:var(--fc);font-size:12.5px;line-height:21px;
+  color:#e8d5b7;            /* readable warm white — no tokens needed here */
+  background:transparent;
+  border:none;outline:none;resize:none;
+  padding:1rem 1.5rem;tab-size:2;
+  white-space:pre;overflow:visible;
+  caret-color:var(--gold);
+}
+
+/* ── MEMBER pre — receives server-rendered highlighted HTML ── */
+#code-pre{
+  display:block;width:100%;min-height:100%;
+  font-family:var(--fc);font-size:12.5px;line-height:21px;
+  color:var(--tok-plain);
+  padding:1rem 1.5rem;
+  white-space:pre-wrap;word-break:break-word;cursor:default;
+}
+
+/* Syntax token colours (applied by backend-generated spans) */
 .tok-kw   { color: var(--tok-keyword);  }
 .tok-bi   { color: var(--tok-builtin);  }
 .tok-str  { color: var(--tok-string);   }
 .tok-num  { color: var(--tok-number);   }
-.tok-cmt  { color: var(--tok-comment);  font-style: italic; }
+.tok-cmt  { color: var(--tok-comment);  font-style:italic; }
 .tok-fn   { color: var(--tok-func);     }
 .tok-op   { color: var(--tok-operator); }
 .tok-var  { color: var(--tok-varname);  }
 .tok-sp   { color: var(--tok-special);  }
-.tok-tbl  { color: var(--tok-table);    }
 .tok-plain{ color: var(--tok-plain);    }
-
-/* owner textarea: syntax overlay approach */
-.editor-hl-wrapper{position:relative;flex:1;overflow:auto}
-.editor-hl-wrapper::-webkit-scrollbar{width:7px;height:7px}
-.editor-hl-wrapper::-webkit-scrollbar-track{background:transparent}
-.editor-hl-wrapper::-webkit-scrollbar-thumb{background:rgba(201,146,61,0.13);border-radius:4px}
-.editor-hl-wrapper::-webkit-scrollbar-thumb:hover{background:rgba(201,146,61,0.25)}
-#hl-backdrop{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;font-family:var(--fc);font-size:12.5px;line-height:21px;padding:1rem 1.5rem;white-space:pre-wrap;word-break:break-word;overflow:hidden}
-#code-textarea{position:relative;z-index:2;background:transparent;color:transparent;caret-color:var(--gold);width:100%;min-height:100%;border:none;outline:none;resize:none;padding:1rem 1.5rem;tab-size:2;font-family:var(--fc);font-size:12.5px;line-height:21px;white-space:pre-wrap;word-break:break-word;overflow:visible}
 
 .editor-statusline{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:24px;background:#0d0702;border-top:1px solid rgba(201,146,61,0.06);font-family:var(--fc);font-size:10px;color:rgba(232,213,183,0.2)}
 .statusline-left,.statusline-right{display:flex;align-items:center;gap:12px}
 .sl-dot{width:5px;height:5px;border-radius:50%;background:#69c98c;opacity:0.65;display:inline-block;margin-right:5px;vertical-align:1px}
 .hidden-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem;gap:0.9rem;background:#1a0f05;color:rgba(232,213,183,0.2);font-size:13px;border-radius:var(--r);border:1px solid rgba(201,146,61,0.07);min-height:300px;font-family:var(--fc)}
 
-/* LOADING SKELETON for editor */
+/* LOADING SKELETON */
 .editor-skeleton{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.1);overflow:hidden;min-height:300px;display:flex;flex-direction:column}
 .skel-toolbar{height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);display:flex;align-items:center;padding:0 15px;gap:8px}
 .skel-tab{height:18px;width:90px;border-radius:4px;background:rgba(201,146,61,0.06);animation:shimmer 1.4s infinite linear}
@@ -227,7 +234,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .cl-diff-sep{color:rgba(232,213,183,0.18)}.cl-diff-lines{color:rgba(232,213,183,0.32)}
 .cl-note{font-size:13px;color:var(--espresso);background:var(--cream);border-left:3px solid var(--gold);padding:6px 11px;border-radius:0 6px 6px 0;font-style:italic;line-height:1.5}
 
-/* ── MEMBERS ── */
+/* MEMBERS */
 .lb-list{display:flex;flex-direction:column;gap:5px}
 .lb-row{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:10px;background:#fff;border:0.5px solid var(--border);transition:background 0.11s}
 .lb-row:hover{background:var(--cream)}
@@ -240,6 +247,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .lb-name.banned-name{color:#b91c1c;text-decoration:line-through;text-decoration-color:rgba(185,28,28,0.4)}
 .lb-empty{text-align:center;padding:3rem 2rem;color:var(--muted);font-size:13px}
 .lb-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.banned-pill{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:3px 9px;border-radius:20px;background:#fee2e2;color:#b91c1c;border:0.5px solid rgba(185,28,28,0.25)}
 
 /* BAN MODAL */
 .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(44,26,14,0.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s}
@@ -254,7 +262,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .modal-field textarea:focus{border-color:var(--gold)}
 .modal-field textarea::placeholder{color:var(--muted)}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:0.5rem}
-.banned-pill{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;padding:3px 9px;border-radius:20px;background:#fee2e2;color:#b91c1c;border:0.5px solid rgba(185,28,28,0.25)}
 
 /* TOAST */
 #toast{position:fixed;bottom:2rem;right:2rem;background:var(--espresso);color:var(--cream);padding:9px 17px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity 0.18s,transform 0.18s;z-index:999}
@@ -367,7 +374,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
     <button class="tab-btn" onclick="switchTab('leaderboard',this)" id="tab-leaderboard">Members</button>
   </div>
 
-  <!-- EDITOR -->
+  <!-- EDITOR PANEL -->
   <div class="tab-panel active" id="panel-editor">
     <div class="panel-header">
       <div>
@@ -399,7 +406,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
     </div>
   </div>
 
-  <!-- CHANGELOG -->
+  <!-- CHANGELOG PANEL -->
   <div class="tab-panel" id="panel-changelog">
     <div class="panel-header">
       <div><h2>Changelog</h2><p>Every save by the owner appears here.</p></div>
@@ -409,7 +416,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
     </div>
   </div>
 
-  <!-- MEMBERS -->
+  <!-- MEMBERS PANEL -->
   <div class="tab-panel" id="panel-leaderboard">
     <div class="panel-header">
       <div><h2>Members</h2><p>Everyone with access to this workspace.</p></div>
@@ -421,6 +428,19 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 <div id="toast"></div>
 
 <script>
+// ─────────────────────────────────────────────
+//  CONFIG — update EDGE_FUNCTION_URL after deploy
+// ─────────────────────────────────────────────
+const SUPABASE_URL      = 'https://jglkhgsajqpjydkqbyzn.supabase.co';
+const SUPABASE_ANON     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpnbGtoZ3NhanFwanlka3FieXpuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDE0MjIzNiwiZXhwIjoyMDk1NzE4MjM2fQ.CURAPtKnUqz9-efrztfvoYLn-1p1a6Kxha3Fkas8Ff0';
+
+// ↓ Set this after you deploy the Edge Function (Step 4 in the guide)
+// It looks like: https://jglkhgsajqpjydkqbyzn.supabase.co/functions/v1/highlight-lua
+const EDGE_FUNCTION_URL = 'https://jglkhgsajqpjydkqbyzn.supabase.co/functions/v1/highlight-lua';
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
 // ─────────────────────────────────────────────
 //  FAVICON
 // ─────────────────────────────────────────────
@@ -440,202 +460,43 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 })();
 
 // ─────────────────────────────────────────────
-//  SUPABASE
-// ─────────────────────────────────────────────
-const SUPABASE_URL  = 'https://jglkhgsajqpjydkqbyzn.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpnbGtoZ3NhanFwanlka3FieXpuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDE0MjIzNiwiZXhwIjoyMDk1NzE4MjM2fQ.CURAPtKnUqz9-efrztfvoYLn-1p1a6Kxha3Fkas8Ff0';
-const { createClient } = supabase;
-const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
-
-// ─────────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────────
-let currentUser   = null;
-let isVisible     = true;
-let saveTimer     = null;
-let lastSavedLines= 0;
-let unreadCount   = 0;
-let hlTimer       = null; // highlight debounce
-
-let cachedBody    = null;
-let contentLoaded = false;
-let editorRendered= false;
+let currentUser    = null;
+let isVisible      = true;
+let saveTimer      = null;
+let lastSavedLines = 0;
+let unreadCount    = 0;
+let cachedBody     = null;
+let cachedHl       = null;   // cached highlighted_body from DB
+let contentLoaded  = false;
+let editorRendered = false;
 
 const LINE_H = 21;
-let vsTotal   = 0;
-let vsOffset  = 0;
-let vsRafId   = null;
+let vsTotal  = 0;
+let vsRafId  = null;
 
 let searchMatches = [];
 let searchIndex   = 0;
 
-// ban modal state
-let banTargetUser  = null;
-let banTargetAction= 'ban'; // 'ban' | 'unban'
+let banTargetUser   = null;
+let banTargetAction = 'ban';
 
 // ─────────────────────────────────────────────
 //  SESSION
 // ─────────────────────────────────────────────
 const SS = {
-  save : u  => localStorage.setItem('mocha_user', JSON.stringify(u)),
-  clear: () => localStorage.removeItem('mocha_user'),
-  load : () => { try { return JSON.parse(localStorage.getItem('mocha_user')); } catch { return null; } },
-  lastSeen:  () => parseInt(localStorage.getItem('mocha_last_seen') || '0'),
+  save:    u  => localStorage.setItem('mocha_user', JSON.stringify(u)),
+  clear:   () => localStorage.removeItem('mocha_user'),
+  load:    () => { try { return JSON.parse(localStorage.getItem('mocha_user')); } catch { return null; } },
+  lastSeen:    () => parseInt(localStorage.getItem('mocha_last_seen') || '0'),
   setLastSeen: id => localStorage.setItem('mocha_last_seen', String(id)),
 };
-
-// ─────────────────────────────────────────────
-//  LUA SYNTAX HIGHLIGHTER
-//  Full tokeniser — no external deps.
-//  Matches VS Code Dark+ token colours.
-// ─────────────────────────────────────────────
-const LUA_KEYWORDS = new Set([
-  'and','break','do','else','elseif','end','false','for','function',
-  'goto','if','in','local','nil','not','or','repeat','return','then',
-  'true','until','while'
-]);
-const LUA_SPECIAL = new Set(['true','false','nil','self','_G','_ENV']);
-const LUA_BUILTINS = new Set([
-  'assert','collectgarbage','dofile','error','getmetatable','ipairs',
-  'load','loadfile','next','pairs','pcall','print','rawequal','rawget',
-  'rawlen','rawset','require','select','setmetatable','tonumber','tostring',
-  'type','warn','xpcall','unpack','table','string','math','io','os','file',
-  'coroutine','package','utf8','bit32','debug','_VERSION',
-  // Roblox/Luau builtins
-  'game','workspace','script','Instance','Vector3','Vector2','CFrame',
-  'Color3','BrickColor','UDim','UDim2','Enum','tick','wait','spawn','delay',
-  'task','typeof','rawget','rawset','setfenv','getfenv'
-]);
-
-function luaHighlight(code) {
-  // We tokenise character by character with regexes per token type.
-  // Returns HTML string with <span class="tok-*"> wrappers.
-  let out = '';
-  let i   = 0;
-  const len = code.length;
-
-  function peek(n) { return code.slice(i, i + (n || 1)); }
-  function esc(s)  { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function emit(cls, raw) { out += `<span class="${cls}">${esc(raw)}</span>`; i += raw.length; }
-
-  while (i < len) {
-    const ch = code[i];
-
-    // ── Long strings / long comments [[ ... ]]
-    if (ch === '-' && peek(2) === '--') {
-      // long comment?
-      if (code[i+2] === '[') {
-        let eq = 0; let j = i+3;
-        while (j < len && code[j] === '=') { eq++; j++; }
-        if (j < len && code[j] === '[') {
-          // long comment
-          const close = ']' + '='.repeat(eq) + ']';
-          const end = code.indexOf(close, j+1);
-          const raw = end === -1 ? code.slice(i) : code.slice(i, end + close.length);
-          emit('tok-cmt', raw);
-          continue;
-        }
-      }
-      // single-line comment
-      const nl = code.indexOf('\n', i);
-      const raw = nl === -1 ? code.slice(i) : code.slice(i, nl);
-      emit('tok-cmt', raw);
-      continue;
-    }
-
-    // ── Long string [[ ... ]]
-    if (ch === '[') {
-      let eq = 0; let j = i+1;
-      while (j < len && code[j] === '=') { eq++; j++; }
-      if (j < len && code[j] === '[') {
-        const close = ']' + '='.repeat(eq) + ']';
-        const end = code.indexOf(close, j+1);
-        const raw = end === -1 ? code.slice(i) : code.slice(i, end + close.length);
-        emit('tok-str', raw);
-        continue;
-      }
-    }
-
-    // ── String literals
-    if (ch === '"' || ch === "'") {
-      let j = i+1; let raw = ch;
-      while (j < len) {
-        if (code[j] === '\\') { raw += code[j] + (code[j+1]||''); j+=2; continue; }
-        if (code[j] === ch || code[j] === '\n') { raw += code[j]; j++; break; }
-        raw += code[j]; j++;
-      }
-      emit('tok-str', raw);
-      continue;
-    }
-
-    // ── Numbers (hex, float, int)
-    if (/[0-9]/.test(ch) || (ch === '.' && /[0-9]/.test(code[i+1]||''))) {
-      const m = code.slice(i).match(/^0[xX][0-9a-fA-F_]+|^[0-9][0-9_]*(?:\.[0-9_]*)?(?:[eE][+-]?[0-9_]+)?/);
-      if (m) { emit('tok-num', m[0]); continue; }
-    }
-
-    // ── Identifiers / keywords
-    if (/[a-zA-Z_]/.test(ch)) {
-      const m = code.slice(i).match(/^[a-zA-Z_][a-zA-Z0-9_]*/);
-      if (m) {
-        const word = m[0];
-        // peek ahead: if followed by whitespace + ( or just (, it's a function call
-        const after = code.slice(i + word.length).trimStart();
-        const isCall = after[0] === '(' || after[0] === '"' || after[0] === "'";
-        if (LUA_SPECIAL.has(word)) { emit('tok-sp', word); continue; }
-        if (LUA_KEYWORDS.has(word)) { emit('tok-kw', word); continue; }
-        if (LUA_BUILTINS.has(word)) { emit('tok-bi', word); continue; }
-        if (isCall) { emit('tok-fn', word); continue; }
-        // Check if previous non-ws token was 'local' → variable declaration
-        const prev = out.replace(/<[^>]+>/g,'').trimEnd();
-        if (/\blocal\s*$/.test(prev)) { emit('tok-var', word); continue; }
-        emit('tok-plain', word);
-        continue;
-      }
-    }
-
-    // ── Operators + punctuation
-    if (/[+\-*/%^#&|~<>=(){}[\];:,.?]/.test(ch)) {
-      // multi-char operators
-      const two = peek(2);
-      if (['==','~=','<=','>=','..','::','//'].includes(two)) { emit('tok-op', two); continue; }
-      if (two === '..') { emit('tok-op', two); continue; }
-      emit('tok-op', ch); i++; continue;
-    }
-
-    // ── Whitespace / newlines — pass through unmodified (no wrap = no class = default color)
-    if (ch === ' ' || ch === '\t' || ch === '\r' || ch === '\n') {
-      // emit raw without escaping newlines so layout is preserved
-      out += ch === '&' ? '&amp;' : ch;
-      i++; continue;
-    }
-
-    // fallback
-    out += esc(ch); i++;
-  }
-  return out;
-}
 
 // ─────────────────────────────────────────────
 //  BOOT
 // ─────────────────────────────────────────────
 async function boot() {
-  // Inject favicon
-  (function(){
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-      <rect width="32" height="32" rx="9" fill="#2c1a0e"/>
-      <path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity=".9"/>
-      <path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".7"/>
-      <path d="M12.5 10.5C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M16 11C16 10 17 10 17 9" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M7 23h18" stroke="rgba(232,213,183,.35)" stroke-width="1.4" stroke-linecap="round"/>
-    </svg>`;
-    const link = document.createElement('link');
-    link.rel = 'icon'; link.type = 'image/svg+xml';
-    link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
-    document.head.appendChild(link);
-  })();
-
   setTimeout(() => {
     const ol = document.getElementById('loading-overlay');
     ol.classList.add('fade');
@@ -644,17 +505,14 @@ async function boot() {
 
   const saved = SS.load();
   if (saved) {
-    // re-check ban status on boot
-    const { data } = await sb.from('users').select('id,username,role,banned,ban_message').eq('id', saved.id).single();
+    const { data } = await sb.from('users')
+      .select('id,username,role,banned,ban_message')
+      .eq('id', saved.id).single();
     if (data) {
       if (data.banned) { currentUser = data; SS.save(data); showBanScreen(data.ban_message); return; }
       currentUser = data; SS.save(data); showContent();
-    } else {
-      showLogin();
-    }
-  } else {
-    showLogin();
-  }
+    } else { showLogin(); }
+  } else { showLogin(); }
 }
 
 // ─────────────────────────────────────────────
@@ -679,20 +537,17 @@ async function login() {
     btn.disabled = false; btn.textContent = 'Sign in';
     return;
   }
-
   if (data.banned) {
     currentUser = data; SS.save(data);
     btn.disabled = false; btn.textContent = 'Sign in';
-    showBanScreen(data.ban_message);
-    return;
+    showBanScreen(data.ban_message); return;
   }
-
   currentUser = data; SS.save(data); showContent();
 }
 
 function logout() {
   currentUser = null; SS.clear();
-  cachedBody = null; contentLoaded = false; editorRendered = false;
+  cachedBody = null; cachedHl = null; contentLoaded = false; editorRendered = false;
   document.getElementById('header-right').style.display = 'none';
   document.getElementById('username-input').value = '';
   document.getElementById('password-input').value = '';
@@ -713,12 +568,8 @@ function showBanScreen(msg) {
   document.getElementById('ban-screen').classList.add('active');
   const msgEl   = document.getElementById('ban-msg-display');
   const msgText = document.getElementById('ban-msg-text');
-  if (msg && msg.trim()) {
-    msgText.textContent = msg;
-    msgEl.style.display = 'block';
-  } else {
-    msgEl.style.display = 'none';
-  }
+  if (msg && msg.trim()) { msgText.textContent = msg; msgEl.style.display = 'block'; }
+  else { msgEl.style.display = 'none'; }
 }
 
 async function showContent() {
@@ -743,11 +594,8 @@ function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('panel-' + name).classList.add('active');
-
-  if (name === 'editor') {
-    if (!editorRendered) buildEditor();
-  }
-  if (name === 'changelog') { loadChangelog(); clearUnread(); }
+  if (name === 'editor'      && !editorRendered) buildEditor();
+  if (name === 'changelog')  { loadChangelog(); clearUnread(); }
   if (name === 'leaderboard') loadLeaderboard();
   if (name !== 'editor') closeSearch();
 }
@@ -757,8 +605,7 @@ function switchTab(name, btn) {
 // ─────────────────────────────────────────────
 async function checkUnread() {
   const { data } = await sb.from('changelog').select('id').gt('id', SS.lastSeen()).order('id', { ascending: false });
-  unreadCount = data ? data.length : 0;
-  updateBadge();
+  unreadCount = data ? data.length : 0; updateBadge();
 }
 function updateBadge() {
   const b = document.getElementById('notif-badge');
@@ -773,16 +620,23 @@ function clearUnread() {
 }
 
 // ─────────────────────────────────────────────
-//  CONTENT LOAD
+//  CONTENT LOAD — fetches both raw body AND
+//  pre-rendered highlighted_body from DB
 // ─────────────────────────────────────────────
 async function loadContent() {
-  const { data, error } = await sb.from('content').select('body,visible_to_members').eq('id', 1).single();
+  const { data, error } = await sb
+    .from('content')
+    .select('body,highlighted_body,visible_to_members')
+    .eq('id', 1).single();
+
   if (error) { document.getElementById('status-label').textContent = '○ Connection error'; return; }
-  isVisible     = data?.visible_to_members ?? true;
-  cachedBody    = data?.body || '';
-  lastSavedLines= cachedBody ? cachedBody.split('\n').length : 0;
-  contentLoaded = true;
-  editorRendered= false;
+
+  isVisible      = data?.visible_to_members ?? true;
+  cachedBody     = data?.body || '';
+  cachedHl       = data?.highlighted_body || null;
+  lastSavedLines = cachedBody ? cachedBody.split('\n').length : 0;
+  contentLoaded  = true;
+  editorRendered = false;
   buildEditor();
 }
 
@@ -794,24 +648,23 @@ function buildEditor() {
   editorRendered = true;
 
   const body  = cachedBody || '';
-  const lines = body ? body.split('\n') : [''];
-  vsTotal = lines.length;
+  vsTotal = body ? body.split('\n').length : 1;
 
   document.getElementById('status-label').textContent = '● Connected';
-  document.getElementById('line-count').textContent = vsTotal.toLocaleString() + ' lines';
+  document.getElementById('line-count').textContent   = vsTotal.toLocaleString() + ' lines';
 
-  if (currentUser.role === 'owner') buildOwnerEditor(body, lines);
-  else buildMemberViewer(body, lines);
+  if (currentUser.role === 'owner') buildOwnerEditor(body);
+  else buildMemberViewer(body, cachedHl);
 
   document.getElementById('editor-skeleton')?.remove();
 }
 
 const LANG_BADGE = `<span class="editor-lang">LUA <span>/</span> LUAU</span>`;
 
-// ── OWNER editor: textarea with live highlight backdrop
-function buildOwnerEditor(body, lines) {
-  document.getElementById('screen-title').textContent = 'Editor';
-  document.getElementById('screen-subtitle').textContent = 'Auto-saves 1.5 s after you stop typing. Syntax highlighted. Ctrl+F to search.';
+// ── OWNER: plain textarea, zero tokenising, zero crashes
+function buildOwnerEditor(body) {
+  document.getElementById('screen-title').textContent     = 'Editor';
+  document.getElementById('screen-subtitle').textContent  = 'Auto-saves 1.5 s after you stop typing. Members see it syntax-highlighted. Ctrl+F to search.';
 
   document.getElementById('actions-bar').innerHTML = `
     <div class="toggle-row" onclick="handleToggle()">
@@ -829,71 +682,10 @@ function buildOwnerEditor(body, lines) {
         <div class="editor-toolbar-left">
           <div class="editor-tab"><div class="editor-tab-dot"></div>content.lua</div>
         </div>
-        <div class="editor-toolbar-right">${LANG_BADGE}<span class="editor-save" id="save-status">Ready</span></div>
-      </div>
-      <div class="search-bar" id="search-bar">
-        <input type="text" id="search-input" placeholder="Search…" oninput="onSearchInput()" onkeydown="onSearchKey(event)"/>
-        <span class="search-bar-info" id="search-info">No results</span>
-        <button class="snav" onclick="stepSearch(-1)">▲</button>
-        <button class="snav" onclick="stepSearch(1)">▼</button>
-        <button class="sclose" onclick="closeSearch()">✕</button>
-      </div>
-      <div class="code-body">
-        <div class="line-numbers" id="ln-col"><div class="ln-canvas" id="ln-canvas"></div></div>
-        <div class="editor-hl-wrapper" id="scroll-vp">
-          <div id="hl-backdrop"></div>
-          <textarea id="code-textarea" spellcheck="false" oninput="onEdit()" onscroll="syncHlScroll()">${escHtml(body)}</textarea>
+        <div class="editor-toolbar-right">
+          ${LANG_BADGE}
+          <span class="editor-save" id="save-status">Ready</span>
         </div>
-      </div>
-      <div class="editor-statusline">
-        <div class="statusline-left"><span><span class="sl-dot"></span>Mocha Editor</span><span>UTF-8</span></div>
-        <div class="statusline-right"><span id="sl-lines">${vsTotal.toLocaleString()} lines</span><span>LF</span></div>
-      </div>
-    </div>`;
-
-  // initial highlight
-  updateBackdrop(body);
-  initVirtualLineNumbers('scroll-vp', 'ln-col', 'ln-canvas');
-  bindSearchShortcut();
-}
-
-function syncHlScroll() {
-  const ta  = document.getElementById('code-textarea');
-  const bd  = document.getElementById('hl-backdrop');
-  const vp  = document.getElementById('scroll-vp');
-  if (!ta || !bd || !vp) return;
-  bd.scrollTop  = ta.scrollTop;
-  bd.scrollLeft = ta.scrollLeft;
-  // sync line numbers
-  if (vp) vp.scrollTop = ta.scrollTop;
-}
-
-function updateBackdrop(text) {
-  const bd = document.getElementById('hl-backdrop');
-  if (!bd) return;
-  bd.innerHTML = luaHighlight(text) + '\n'; // trailing newline prevents last-line clipping
-}
-
-// ── MEMBER viewer: pre with full syntax highlighting
-function buildMemberViewer(body, lines) {
-  document.getElementById('screen-title').textContent = 'Content';
-  document.getElementById('screen-subtitle').textContent = 'Read-only — updates live. Syntax highlighted. Ctrl+F to search.';
-
-  if (!isVisible) {
-    document.getElementById('actions-bar').innerHTML = '';
-    document.getElementById('main-area').innerHTML = `<div class="hidden-state"><div style="font-size:2rem;opacity:0.2;margin-bottom:.5rem">⬛</div><span>content hidden by owner</span></div>`;
-    document.getElementById('line-count').textContent = '';
-    return;
-  }
-
-  document.getElementById('actions-bar').innerHTML = `<button class="btn primary" onclick="copyContent()">Copy all</button>`;
-  document.getElementById('main-area').innerHTML = `
-    <div class="code-wrapper">
-      <div class="editor-toolbar">
-        <div class="editor-toolbar-left">
-          <div class="editor-tab"><div class="editor-tab-dot"></div>content.lua</div>
-        </div>
-        <div class="editor-toolbar-right">${LANG_BADGE}<span class="editor-save">${vsTotal.toLocaleString()} lines</span></div>
       </div>
       <div class="search-bar" id="search-bar">
         <input type="text" id="search-input" placeholder="Search…" oninput="onSearchInput()" onkeydown="onSearchKey(event)"/>
@@ -905,7 +697,57 @@ function buildMemberViewer(body, lines) {
       <div class="code-body">
         <div class="line-numbers" id="ln-col"><div class="ln-canvas" id="ln-canvas"></div></div>
         <div class="scroll-viewport" id="scroll-vp">
-          <pre id="code-pre">${luaHighlight(body)}</pre>
+          <textarea id="code-textarea" spellcheck="false" oninput="onEdit()">${escHtml(body)}</textarea>
+        </div>
+      </div>
+      <div class="editor-statusline">
+        <div class="statusline-left"><span><span class="sl-dot"></span>Mocha Editor</span><span>UTF-8</span></div>
+        <div class="statusline-right"><span id="sl-lines">${vsTotal.toLocaleString()} lines</span><span>LF</span></div>
+      </div>
+    </div>`;
+
+  initVirtualLineNumbers('scroll-vp', 'ln-col', 'ln-canvas');
+  bindSearchShortcut();
+}
+
+// ── MEMBER: pre gets server-rendered highlighted HTML from DB
+function buildMemberViewer(body, highlightedHtml) {
+  document.getElementById('screen-title').textContent    = 'Content';
+  document.getElementById('screen-subtitle').textContent = 'Read-only — updates live with syntax highlighting. Ctrl+F to search.';
+
+  if (!isVisible) {
+    document.getElementById('actions-bar').innerHTML = '';
+    document.getElementById('main-area').innerHTML = `<div class="hidden-state"><div style="font-size:2rem;opacity:0.2;margin-bottom:.5rem">⬛</div><span>content hidden by owner</span></div>`;
+    document.getElementById('line-count').textContent = '';
+    return;
+  }
+
+  // Use server-rendered HTML if available, otherwise plain text fallback
+  const preContent = highlightedHtml || escHtml(body);
+
+  document.getElementById('actions-bar').innerHTML = `<button class="btn primary" onclick="copyContent()">Copy all</button>`;
+  document.getElementById('main-area').innerHTML = `
+    <div class="code-wrapper">
+      <div class="editor-toolbar">
+        <div class="editor-toolbar-left">
+          <div class="editor-tab"><div class="editor-tab-dot"></div>content.lua</div>
+        </div>
+        <div class="editor-toolbar-right">
+          ${LANG_BADGE}
+          <span class="editor-save">${vsTotal.toLocaleString()} lines</span>
+        </div>
+      </div>
+      <div class="search-bar" id="search-bar">
+        <input type="text" id="search-input" placeholder="Search…" oninput="onSearchInput()" onkeydown="onSearchKey(event)"/>
+        <span class="search-bar-info" id="search-info">No results</span>
+        <button class="snav" onclick="stepSearch(-1)">▲</button>
+        <button class="snav" onclick="stepSearch(1)">▼</button>
+        <button class="sclose" onclick="closeSearch()">✕</button>
+      </div>
+      <div class="code-body">
+        <div class="line-numbers" id="ln-col"><div class="ln-canvas" id="ln-canvas"></div></div>
+        <div class="scroll-viewport" id="scroll-vp">
+          <pre id="code-pre">${preContent}</pre>
         </div>
       </div>
       <div class="editor-statusline">
@@ -930,11 +772,9 @@ function initVirtualLineNumbers(vpId, colId, canvasId) {
   function paint() {
     vsRafId = null;
     const scrollTop = vp.scrollTop;
-    const vpH       = vp.clientHeight;
     const firstLine = Math.max(0, Math.floor(scrollTop / LINE_H));
-    const visCount  = Math.ceil(vpH / LINE_H) + 2;
+    const visCount  = Math.ceil(vp.clientHeight / LINE_H) + 2;
     const lastLine  = Math.min(vsTotal - 1, firstLine + visCount);
-
     let html = '';
     for (let i = firstLine; i <= lastLine; i++) html += (i + 1) + '\n';
     canvas.textContent = html;
@@ -946,7 +786,6 @@ function initVirtualLineNumbers(vpId, colId, canvasId) {
     if (vsRafId) return;
     vsRafId = requestAnimationFrame(paint);
   }, { passive: true });
-
   requestAnimationFrame(paint);
 }
 
@@ -987,41 +826,36 @@ function onSearchInput() {
 function runSearch(q) {
   clearHighlights();
   searchMatches = []; searchIndex = 0;
-  const pre = document.getElementById('code-pre');
   const ta  = document.getElementById('code-textarea');
+  const pre = document.getElementById('code-pre');
 
   if (ta) {
+    // Owner textarea: find char positions, scroll + select
     const text = ta.value;
-    const re = new RegExp(escRe(q), 'gi');
+    const re   = new RegExp(escRe(q), 'gi');
     let m;
     while ((m = re.exec(text)) !== null) searchMatches.push(m.index);
-    if (searchMatches.length) { scrollTextareaToMatch(0); }
+    if (searchMatches.length) scrollTextareaToMatch(0);
     updateSearchInfo(searchMatches.length ? 1 : 0, searchMatches.length);
     return;
   }
   if (pre) {
-    // search over raw text, rebuild highlighted html with marks
-    const raw = pre.textContent;
-    const re  = new RegExp(escRe(q), 'gi');
-    let idx = 0, last = 0;
-    let markedRaw = '';
-    let m;
-    while ((m = re.exec(raw)) !== null) {
-      markedRaw += raw.slice(last, m.index) + '\x00' + m[0] + '\x01';
-      last = m.index + m[0].length;
-      searchMatches.push(idx++);
-    }
-    markedRaw += raw.slice(last);
-    // re-highlight and inject marks
-    let hl = luaHighlight(markedRaw);
-    let si = 0;
-    hl = hl.replace(/\x00([\s\S]*?)\x01/g, (_, inner) => {
-      const cur = si === searchIndex;
-      si++;
-      return `<mark class="sh${cur?' current':''}" data-idx="${si-1}">${inner}</mark>`;
-    });
-    pre.innerHTML = hl;
-    if (searchMatches.length) { highlightCurrent(); }
+    // Member pre: search raw text, inject <mark> over highlighted HTML
+    const rawText = pre.textContent;
+    const re      = new RegExp(escRe(q), 'gi');
+    // Rebuild inner HTML with marks injected into the highlighted spans
+    // Strategy: strip all tags to find positions, then re-insert marks
+    let markedCount = 0;
+    const newHtml = (cachedHl || escHtml(rawText)).replace(
+      new RegExp('(' + escRe(escHtml(q)) + ')', 'gi'),
+      (match) => {
+        const idx = markedCount++;
+        searchMatches.push(idx);
+        return `<mark class="sh" data-idx="${idx}">${match}</mark>`;
+      }
+    );
+    pre.innerHTML = newHtml;
+    if (searchMatches.length) { searchIndex = 0; highlightCurrent(); }
     updateSearchInfo(searchMatches.length ? 1 : 0, searchMatches.length);
   }
 }
@@ -1029,7 +863,7 @@ function stepSearch(dir) {
   if (!searchMatches.length) return;
   searchIndex = (searchIndex + dir + searchMatches.length) % searchMatches.length;
   const pre = document.getElementById('code-pre');
-  if (pre) { runSearch(document.getElementById('search-input')?.value || ''); }
+  if (pre) highlightCurrent();
   else scrollTextareaToMatch(searchIndex);
   updateSearchInfo(searchIndex + 1, searchMatches.length);
 }
@@ -1049,10 +883,7 @@ function scrollTextareaToMatch(idx) {
 }
 function clearHighlights() {
   const pre = document.getElementById('code-pre');
-  if (pre) {
-    const raw = pre.textContent;
-    pre.innerHTML = luaHighlight(raw);
-  }
+  if (pre) pre.innerHTML = cachedHl || escHtml(pre.textContent);
 }
 function updateSearchInfo(cur, total) {
   const el = document.getElementById('search-info');
@@ -1074,21 +905,19 @@ async function handleToggle() {
 
 // ─────────────────────────────────────────────
 //  EDIT + SAVE
+//  Only the plain textarea updates on keystroke.
+//  Highlight call goes to the Edge Function on save.
 // ─────────────────────────────────────────────
 function onEdit() {
-  const ta = document.getElementById('code-textarea');
+  const ta    = document.getElementById('code-textarea');
   const lines = ta.value.split('\n');
   vsTotal = lines.length;
   document.getElementById('line-count').textContent = vsTotal.toLocaleString() + ' lines';
   document.getElementById('sl-lines').textContent   = vsTotal.toLocaleString() + ' lines';
   setSaveStatus('unsaved');
   cachedBody = ta.value;
-
-  // debounced highlight update
-  clearTimeout(hlTimer);
-  hlTimer = setTimeout(() => updateBackdrop(ta.value), 120);
-
   clearTimeout(saveTimer);
+  // Single debounced call: saves raw body, then calls edge fn to highlight
   saveTimer = setTimeout(() => saveContent(ta.value), 1500);
 }
 
@@ -1096,21 +925,43 @@ function setSaveStatus(state) {
   const el = document.getElementById('save-status');
   if (!el) return;
   el.className = 'editor-save';
-  if (state === 'unsaved') { el.textContent = 'Unsaved…'; }
-  else if (state === 'saving') { el.textContent = 'Saving…'; el.classList.add('saving'); }
-  else if (state === 'saved') { el.textContent = 'Saved ✓'; el.classList.add('saved'); }
-  else if (state === 'error') { el.textContent = 'Error'; }
+  if      (state === 'unsaved')     { el.textContent = 'Unsaved…'; }
+  else if (state === 'saving')      { el.textContent = 'Saving…';       el.classList.add('saving'); }
+  else if (state === 'highlighting'){ el.textContent = 'Highlighting…'; el.classList.add('highlighting'); }
+  else if (state === 'saved')       { el.textContent = 'Saved ✓';       el.classList.add('saved'); }
+  else if (state === 'error')       { el.textContent = 'Error'; }
 }
 
 async function saveContent(body) {
+  // Step 1 — save raw body to DB
   setSaveStatus('saving');
   const linesAfter  = body ? body.split('\n').length : 0;
   const linesBefore = lastSavedLines;
-  const note = (document.getElementById('save-note-input')?.value || '').trim();
-  const { error } = await sb.from('content').update({ body, updated_at: new Date().toISOString() }).eq('id', 1);
+  const note        = (document.getElementById('save-note-input')?.value || '').trim();
+
+  const { error } = await sb.from('content')
+    .update({ body, updated_at: new Date().toISOString() })
+    .eq('id', 1);
   if (error) { setSaveStatus('error'); return; }
+
   await sb.from('changelog').insert({ lines_before: linesBefore, lines_after: linesAfter, note });
   lastSavedLines = linesAfter;
+
+  // Step 2 — call Edge Function to tokenise + store highlighted_body
+  setSaveStatus('highlighting');
+  try {
+    const res = await fetch(EDGE_FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ body }),
+    });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error || 'highlight failed');
+  } catch (err) {
+    console.warn('Highlight edge fn error:', err);
+    // Non-fatal: raw body is already saved. Members will see plain text until next save.
+  }
+
   setSaveStatus('saved');
 }
 
@@ -1126,11 +977,11 @@ async function loadChangelog() {
   }
   const lastSeen = SS.lastSeen();
   el.innerHTML = `<div class="changelog-list">${data.map((e, i) => {
-    const isNew = e.id > lastSeen;
-    const diff  = e.lines_after - e.lines_before;
-    const date  = new Date(e.created_at);
-    const ts    = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
-                + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    const isNew  = e.id > lastSeen;
+    const diff   = e.lines_after - e.lines_before;
+    const date   = new Date(e.created_at);
+    const ts     = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+                 + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
     const isLast = i === data.length - 1;
     return `<div class="cl-item">
       <div class="cl-left">
@@ -1159,30 +1010,28 @@ async function loadChangelog() {
 //  MEMBERS + BAN SYSTEM
 // ─────────────────────────────────────────────
 async function loadLeaderboard() {
-  const { data, error } = await sb.from('users').select('id,username,role,banned,ban_message').order('role').order('username');
+  const { data, error } = await sb.from('users')
+    .select('id,username,role,banned,ban_message')
+    .order('role').order('username');
   const el = document.getElementById('leaderboard-content');
   if (error || !data || !data.length) { el.innerHTML = '<div class="lb-empty">No members found.</div>'; return; }
 
   const isOwner = currentUser.role === 'owner';
-
   el.innerHTML = `<div class="lb-list">${data.map(u => {
     const initials = u.username.slice(0, 2).toUpperCase();
     const uIsOwner = u.role === 'owner';
     const isBanned = !!u.banned;
-
     const roleBadge = uIsOwner
       ? `<span style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid;letter-spacing:0.05em;text-transform:uppercase;background:var(--espresso);color:var(--cream);border-color:var(--espresso)">${escHtml(u.role)}</span>`
       : isBanned
         ? `<span class="banned-pill">Banned</span>`
         : `<span style="font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:20px;border:0.5px solid;letter-spacing:0.05em;text-transform:uppercase;background:var(--cream);color:var(--muted);border-color:var(--border-h)">${escHtml(u.role)}</span>`;
 
-    // Owner sees ban/unban buttons for non-owner members
     const ownerActions = (isOwner && !uIsOwner) ? `
       <div class="lb-actions">
         ${isBanned
           ? `<button class="btn success" style="font-size:11.5px;padding:5px 12px" onclick="openUnbanModal('${u.id}','${escHtml(u.username)}')">Unban</button>`
-          : `<button class="btn danger"  style="font-size:11.5px;padding:5px 12px" onclick="openBanModal('${u.id}','${escHtml(u.username)}')">Ban</button>`
-        }
+          : `<button class="btn danger"  style="font-size:11.5px;padding:5px 12px" onclick="openBanModal('${u.id}','${escHtml(u.username)}')">Ban</button>`}
       </div>` : '';
 
     return `<div class="lb-row${isBanned?' banned-row':''}">
@@ -1194,22 +1043,18 @@ async function loadLeaderboard() {
   }).join('')}</div>`;
 }
 
-// ── Ban modal open / confirm
 function openBanModal(userId, username) {
-  banTargetUser   = userId;
-  banTargetAction = 'ban';
+  banTargetUser = userId; banTargetAction = 'ban';
   document.getElementById('modal-title').textContent = `Ban ${username}`;
-  document.getElementById('modal-desc').textContent  = `${username} will be immediately locked out until you unban them. You can include a message they'll see.`;
+  document.getElementById('modal-desc').textContent  = `${username} will be immediately locked out until you unban them.`;
   document.getElementById('ban-msg-field').style.display = 'block';
   document.getElementById('ban-msg-input').value = '';
   document.getElementById('modal-confirm-btn').textContent = 'Ban member';
   document.getElementById('modal-confirm-btn').className  = 'btn danger';
   document.getElementById('ban-modal').classList.add('open');
 }
-
 function openUnbanModal(userId, username) {
-  banTargetUser   = userId;
-  banTargetAction = 'unban';
+  banTargetUser = userId; banTargetAction = 'unban';
   document.getElementById('modal-title').textContent = `Unban ${username}`;
   document.getElementById('modal-desc').textContent  = `${username} will regain access to the workspace immediately.`;
   document.getElementById('ban-msg-field').style.display = 'none';
@@ -1217,17 +1062,14 @@ function openUnbanModal(userId, username) {
   document.getElementById('modal-confirm-btn').className  = 'btn success';
   document.getElementById('ban-modal').classList.add('open');
 }
-
 function closeModal() {
   document.getElementById('ban-modal').classList.remove('open');
   banTargetUser = null;
 }
-
 async function confirmBan() {
   if (!banTargetUser) return;
   const btn = document.getElementById('modal-confirm-btn');
   btn.disabled = true;
-
   if (banTargetAction === 'ban') {
     const msg = document.getElementById('ban-msg-input').value.trim();
     await sb.from('users').update({ banned: true, ban_message: msg || null }).eq('id', banTargetUser);
@@ -1236,13 +1078,10 @@ async function confirmBan() {
     await sb.from('users').update({ banned: false, ban_message: null }).eq('id', banTargetUser);
     toast('Member unbanned');
   }
-
   btn.disabled = false;
   closeModal();
-  loadLeaderboard(); // refresh list
+  loadLeaderboard();
 }
-
-// Close modal on backdrop click
 document.getElementById('ban-modal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeModal();
 });
@@ -1268,15 +1107,14 @@ async function copyContent() {
 sb.channel('content-rt')
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'content' }, async payload => {
     if (currentUser?.role !== 'member') return;
-    const newBody = payload.new?.body ?? '';
-    const newVis  = payload.new?.visible_to_members ?? true;
-    isVisible  = newVis;
-    cachedBody = newBody;
-    lastSavedLines = newBody ? newBody.split('\n').length : 0;
+    const newVis = payload.new?.visible_to_members ?? true;
+    isVisible    = newVis;
+    cachedBody   = payload.new?.body ?? '';
+    cachedHl     = payload.new?.highlighted_body ?? null;
+    lastSavedLines = cachedBody ? cachedBody.split('\n').length : 0;
+    vsTotal = lastSavedLines;
     editorRendered = false;
-    if (document.getElementById('panel-editor')?.classList.contains('active')) {
-      buildEditor();
-    }
+    if (document.getElementById('panel-editor')?.classList.contains('active')) buildEditor();
   })
   .subscribe();
 
@@ -1296,15 +1134,20 @@ sb.channel('changelog-rt')
   })
   .subscribe();
 
-// Watch for ban changes on current user (real-time kick)
+// Real-time ban kick — boots member instantly when owner bans them
 sb.channel('ban-rt')
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, async payload => {
     if (!currentUser || payload.new.id !== currentUser.id) return;
     if (payload.new.banned && currentUser.role !== 'owner') {
-      currentUser.banned = true;
+      currentUser.banned      = true;
       currentUser.ban_message = payload.new.ban_message;
       SS.save(currentUser);
       showBanScreen(payload.new.ban_message);
+    }
+    // Unban: refresh page so they get back in
+    if (!payload.new.banned && currentUser.banned) {
+      currentUser.banned = false; SS.save(currentUser);
+      window.location.reload();
     }
   })
   .subscribe();
