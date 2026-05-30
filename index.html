@@ -783,6 +783,9 @@ function buildOwnerEditor() {
       </div>
       <span id="vis-label">${isVisible?'Visible to members':'Hidden from members'}</span>
     </div>
+    <button class="btn" onclick="viewRaw()" title="Open raw file in new tab">⌥ View Raw</button>
+    <button class="btn" onclick="downloadFile()" title="Download as content.lua" style="color:#15803d;border-color:rgba(21,128,61,0.3)">↓ Download</button>
+    <button class="btn" onclick="openOwnerMaximize()" title="Fullscreen highlighted preview">⛶ Preview</button>
     <button class="btn primary" onclick="copyContent()">Copy all</button>`;
 
   area.innerHTML = `
@@ -873,6 +876,39 @@ function closeMaximize() {
   document.body.style.overflow = '';
   maximizeOpen = false;
   closeSearch();
+}
+
+// Owner preview — shows the syntax-highlighted version (what members see)
+async function openOwnerMaximize() {
+  const overlay = document.getElementById('maximize-overlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  maximizeOpen = true;
+  bindSearchShortcut();
+  maxRendered = false;
+
+  document.getElementById('max-body').innerHTML = `<div class="max-loading"><div class="max-spinner"></div><span>Fetching highlighted preview…</span></div>`;
+
+  const { data } = await sb.from('content').select('body,highlighted_body').eq('id', 1).single();
+  if (data) {
+    cachedBody = data.body || '';
+    cachedHl   = data.highlighted_body || null;
+    totalLines = cachedBody ? cachedBody.split('\n').length : 0;
+  }
+
+  if (!cachedHl) {
+    document.getElementById('max-body').innerHTML = `
+      <div class="max-loading" style="flex-direction:column;gap:1.2rem;text-align:center">
+        <div style="font-size:2rem;opacity:0.3">⚠</div>
+        <span style="color:rgba(232,213,183,0.4);max-width:320px;line-height:1.6">
+          No highlighted version yet — deploy the Edge Function and save once to generate it.<br/>Showing plain text for now.
+        </span>
+      </div>`;
+    setTimeout(() => renderMaximizeContent(), 1400);
+    return;
+  }
+
+  renderMaximizeContent();
 }
 
 // ─────────────────────────────────────────────
