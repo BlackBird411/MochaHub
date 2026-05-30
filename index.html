@@ -3,7 +3,36 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mocha</title>
+<title>Mocha — Private Workspace</title>
+
+<!-- ═══════════════════════════════════════════
+     OPEN GRAPH / DISCORD EMBED TAGS
+     These make Discord, Slack, iMessage, etc.
+     show a rich preview card when you share the link.
+     ═══════════════════════════════════════════ -->
+<meta property="og:type"        content="website" />
+<meta property="og:title"       content="Mocha — Private Workspace" />
+<meta property="og:description" content="A secure, invite-only workspace. Sign in to access the content." />
+<meta property="og:url"         content="https://your-mocha-url.com" />
+<!-- og:image: inline SVG rendered as a data URL won't work for embeds —
+     you need a real hosted image URL. Replace this with your actual image URL.
+     Ideal size: 1200×630 px. We've pre-built an OG image below that you can
+     screenshot/export, or use the /og-image endpoint trick described in the
+     comments at the bottom of this file. -->
+<meta property="og:image"       content="https://your-mocha-url.com/og-image.png" />
+<meta property="og:image:width"  content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name"   content="Mocha" />
+
+<!-- Twitter card (also used by many other platforms) -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content="Mocha — Private Workspace" />
+<meta name="twitter:description" content="A secure, invite-only workspace. Sign in to access the content." />
+<meta name="twitter:image"       content="https://your-mocha-url.com/og-image.png" />
+
+<!-- Theme colour (shows in browser tab bar on mobile) -->
+<meta name="theme-color" content="#2c1a0e" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -129,7 +158,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .save-note-row input:focus{border-color:var(--gold)}
 .save-note-row input::placeholder{color:var(--muted)}
 
-/* ── PREVIEW CARD ── */
+/* PREVIEW CARD */
 .preview-card{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.12);overflow:hidden;box-shadow:0 2px 0 rgba(201,146,61,0.06),0 16px 56px rgba(44,26,14,0.2)}
 .preview-toolbar{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);gap:10px}
 .preview-toolbar-left{display:flex;align-items:center;gap:5px}
@@ -160,7 +189,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0.8
 .sl-dot{width:5px;height:5px;border-radius:50%;background:#69c98c;opacity:0.65;display:inline-block;margin-right:5px;vertical-align:1px}
 .hidden-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem;gap:0.9rem;background:#1a0f05;color:rgba(232,213,183,0.2);font-size:13px;border-radius:var(--r);border:1px solid rgba(201,146,61,0.07);min-height:300px;font-family:var(--fc)}
 
-/* ── MAXIMIZE OVERLAY ── */
+/* MAXIMIZE OVERLAY */
 .maximize-overlay{position:fixed;inset:0;z-index:500;background:#0d0702;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.22s}
 .maximize-overlay.open{opacity:1;pointer-events:auto}
 .max-header{display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:46px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.09);flex-shrink:0}
@@ -204,12 +233,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .editor-toolbar-left{display:flex;align-items:center;gap:5px}
 .editor-toolbar-right{display:flex;align-items:center;gap:10px}
 .editor-statusline{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:24px;background:#0d0702;border-top:1px solid rgba(201,146,61,0.06);font-family:var(--fc);font-size:10px;color:rgba(232,213,183,0.2)}
-.editor-skeleton{background:#1a0f05;border-radius:var(--r);border:1px solid rgba(201,146,61,0.1);overflow:hidden;min-height:300px;display:flex;flex-direction:column}
-.skel-toolbar{height:40px;background:#120a02;border-bottom:1px solid rgba(201,146,61,0.07);display:flex;align-items:center;padding:0 15px;gap:8px}
-.skel-tab{height:18px;width:90px;border-radius:4px;background:rgba(201,146,61,0.06);animation:shimmer 1.4s infinite linear}
-.skel-body{flex:1;padding:1rem 1.5rem;display:flex;flex-direction:column;gap:10px}
-.skel-line{height:13px;border-radius:3px;background:rgba(201,146,61,0.05);animation:shimmer 1.4s infinite linear}
-@keyframes shimmer{0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
 .status-bar{display:flex;align-items:center;justify-content:space-between;padding:0.55rem 0;margin-top:0.55rem;font-size:11px;color:var(--muted);font-family:var(--fc);flex-wrap:wrap;gap:0.5rem}
 .max-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1rem;color:rgba(232,213,183,0.3);font-family:var(--fc);font-size:13px}
 .max-spinner{width:28px;height:28px;border:2px solid rgba(201,146,61,0.15);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -253,7 +276,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .role-pill.admin{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
 .role-pill.member{background:var(--cream);color:var(--muted);border-color:var(--border-h)}
 
-/* ── NOTIFICATIONS TAB ── */
+/* NOTIFICATIONS TAB */
 .notif-compose{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1.2rem;display:flex;flex-direction:column;gap:0.75rem}
 .notif-compose-top{display:flex;align-items:flex-start;gap:10px}
 .notif-compose-avatar{width:30px;height:30px;border-radius:50%;background:var(--espresso);color:var(--cream);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
@@ -277,9 +300,8 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .notif-item-role.admin{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
 .notif-item-time{font-size:11px;color:var(--muted);font-family:var(--fc);margin-left:auto}
 .notif-item-body{font-size:13.5px;color:var(--espresso);line-height:1.6}
-.notif-unread-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-left:auto}
 .notif-empty{text-align:center;padding:4rem 2rem;color:var(--muted);font-size:13px}
-.notif-delete-btn{background:none;border:none;cursor:pointer;padding:3px 7px;color:var(--muted);font-size:12px;border-radius:5px;transition:color 0.12s,background 0.12s;line-height:1;opacity:0;transition:opacity 0.15s}
+.notif-delete-btn{background:none;border:none;cursor:pointer;padding:3px 7px;color:var(--muted);font-size:12px;border-radius:5px;line-height:1;opacity:0;transition:opacity 0.15s}
 .notif-item:hover .notif-delete-btn{opacity:1}
 .notif-delete-btn:hover{color:#b91c1c;background:#fef2f2}
 
@@ -294,7 +316,9 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .role-radio input:checked + label.member-label{background:var(--cream);color:var(--brown);border-color:var(--border-h)}
 .role-radio input:checked + label.admin-label{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
 
-/* BAN MODAL */
+/* ═══════════════════════════════════════════════════════
+   LOGIN MONITOR MODAL — shown to owner when clicking a member
+   ═══════════════════════════════════════════════════════ */
 .modal-overlay{position:fixed;inset:0;z-index:600;background:rgba(44,26,14,0.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.2s}
 .modal-overlay.open{opacity:1;pointer-events:auto}
 .modal-box{background:#fff;border:0.5px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:400px;box-shadow:0 24px 80px rgba(44,26,14,0.18);transform:scale(0.95) translateY(8px);transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),opacity 0.2s;opacity:0}
@@ -307,6 +331,47 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .modal-field textarea:focus{border-color:var(--gold)}
 .modal-field textarea::placeholder{color:var(--muted)}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:0.5rem}
+
+/* Login Monitor modal — extra wide */
+#login-monitor-modal .modal-box{max-width:520px}
+.lm-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
+.lm-avatar{width:40px;height:40px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--brown);flex-shrink:0;border:0.5px solid var(--border)}
+.lm-avatar.admin-av{background:var(--admin-bg);color:var(--admin-color);border-color:var(--admin-border)}
+.lm-avatar.banned-av{background:#fee2e2;color:#b91c1c;border-color:rgba(185,28,28,0.2)}
+.lm-title-col h3{font-family:var(--ff);font-size:1.05rem;font-weight:600;color:var(--espresso);margin:0}
+.lm-title-col p{font-size:12px;color:var(--muted);margin:2px 0 0}
+
+.lm-section-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:8px}
+.lm-logs{display:flex;flex-direction:column;gap:5px;max-height:300px;overflow-y:auto;padding-right:2px}
+.lm-logs::-webkit-scrollbar{width:5px}
+.lm-logs::-webkit-scrollbar-track{background:transparent}
+.lm-logs::-webkit-scrollbar-thumb{background:var(--latte);border-radius:3px}
+
+.lm-log-row{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:9px;background:var(--foam);border:0.5px solid var(--border);transition:background 0.1s}
+.lm-log-row:hover{background:var(--cream)}
+.lm-log-row.flagged{background:#fef2f2;border-color:rgba(185,28,28,0.2)}
+
+.lm-flag-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.lm-log-details{flex:1;min-width:0}
+.lm-log-ip{font-family:var(--fc);font-size:11.5px;font-weight:500;color:var(--espresso);margin-bottom:2px}
+.lm-log-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lm-log-time{font-size:11px;color:var(--muted);font-family:var(--fc)}
+.lm-log-city{font-size:11px;color:var(--muted)}
+.lm-log-ua{font-size:10.5px;color:var(--muted);font-style:italic;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+.lm-empty{text-align:center;padding:2rem;color:var(--muted);font-size:13px;font-style:italic}
+.lm-spinner{display:flex;align-items:center;justify-content:center;padding:2rem;gap:10px;color:var(--muted);font-size:13px}
+.lm-spinner-icon{width:18px;height:18px;border:2px solid var(--latte);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+
+.lm-stat-row{display:flex;gap:8px;margin-bottom:1rem}
+.lm-stat{flex:1;background:var(--foam);border:0.5px solid var(--border);border-radius:8px;padding:9px 12px;text-align:center}
+.lm-stat-num{font-family:var(--ff);font-size:1.3rem;font-weight:600;color:var(--espresso);line-height:1}
+.lm-stat-label{font-size:10.5px;color:var(--muted);margin-top:3px;letter-spacing:0.03em}
+.lm-stat.warn .lm-stat-num{color:#b91c1c}
+
+.lm-footer{display:flex;justify-content:space-between;gap:8px;margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--border);flex-wrap:wrap}
+.lm-unique-ips{font-size:11px;color:var(--muted);font-family:var(--fc);display:flex;align-items:center;gap:5px}
+.lm-unique-ips span{font-weight:600;color:var(--espresso)}
 
 /* TOAST */
 #toast{position:fixed;bottom:2rem;right:2rem;background:var(--espresso);color:var(--cream);padding:9px 17px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity 0.18s,transform 0.18s;z-index:999}
@@ -321,13 +386,12 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
 .loader-fill{height:100%;width:0%;background:var(--gold);border-radius:2px;animation:loadFill 1s ease-out forwards}
 @keyframes loadFill{to{width:100%}}
 
-/* NOTIF */
+/* NOTIF FLASH */
 #notif-flash{position:fixed;top:66px;right:1.5rem;z-index:550;background:var(--espresso);color:var(--cream);border-left:3px solid var(--gold);padding:11px 15px;border-radius:10px;font-size:13px;max-width:270px;box-shadow:0 4px 20px rgba(44,26,14,0.18);transform:translateX(120%);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none}
 #notif-flash.show{transform:translateX(0)}
 .nf-title{font-weight:600;margin-bottom:2px;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold)}
 .nf-body{font-size:12.5px;color:rgba(232,213,183,0.82)}
 
-/* Spinner inline */
 .inline-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(107,76,42,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:-3px;margin-right:6px}
 </style>
 </head>
@@ -355,6 +419,28 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
     <div class="modal-footer">
       <button class="btn" onclick="closeModal()">Cancel</button>
       <button class="btn danger" id="modal-confirm-btn" onclick="confirmBan()">Ban member</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     LOGIN MONITOR MODAL (owner only)
+     Shows when owner clicks the 👁 icon on any member row
+     ═══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="login-monitor-modal">
+  <div class="modal-box" style="max-width:520px">
+    <div class="lm-header" id="lm-header">
+      <!-- filled dynamically -->
+    </div>
+    <div class="lm-stat-row" id="lm-stats">
+      <!-- filled dynamically -->
+    </div>
+    <div class="lm-section-label">Login History</div>
+    <div class="lm-logs" id="lm-logs">
+      <div class="lm-spinner"><div class="lm-spinner-icon"></div>Loading logs…</div>
+    </div>
+    <div class="lm-footer" id="lm-footer">
+      <!-- filled dynamically -->
     </div>
   </div>
 </div>
@@ -465,7 +551,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
       <span class="tab-notif" id="notif-msg-badge" style="display:none">0</span>
     </button>
     <button class="tab-btn" onclick="switchTab('leaderboard',this)" id="tab-leaderboard">Members</button>
-    <!-- Create member tab: shown to owner + admin only, injected dynamically -->
   </div>
 
   <!-- EDITOR PANEL -->
@@ -502,7 +587,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
     <div class="panel-header">
       <div><h2>Notifications</h2><p>Announcements from the owner and admins.</p></div>
     </div>
-    <!-- Compose box: injected if owner or admin -->
     <div id="notif-compose-area"></div>
     <div id="notifications-content">
       <div class="notif-empty"><div class="ce-icon">🔔</div>No notifications yet.</div>
@@ -517,7 +601,7 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
     <div id="leaderboard-content"><div class="lb-empty">Loading…</div></div>
   </div>
 
-  <!-- CREATE MEMBER PANEL (owner + admin) -->
+  <!-- CREATE MEMBER PANEL -->
   <div class="tab-panel" id="panel-create">
     <div class="panel-header">
       <div><h2>Create Member</h2><p>Add new members to this workspace.</p></div>
@@ -535,7 +619,6 @@ mark.sh.current{background:var(--gold);color:#1a0f05}
         <label>Password</label>
         <input type="password" id="new-password" placeholder="••••••••" autocomplete="new-password" maxlength="64"/>
       </div>
-      <!-- Role selection: only shown to owner -->
       <div id="role-select-wrap" style="display:none">
         <div class="field">
           <label>Role</label>
@@ -570,17 +653,6 @@ const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
 // ─────────────────────────────────────────────
-//  FAVICON
-// ─────────────────────────────────────────────
-(function(){
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#2c1a0e"/><path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity=".9"/><path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".7"/><path d="M12.5 10.5C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M16 11C16 10 17 10 17 9" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M7 23h18" stroke="rgba(232,213,183,.35)" stroke-width="1.4" stroke-linecap="round"/></svg>`;
-  const link = document.createElement('link');
-  link.rel = 'icon'; link.type = 'image/svg+xml';
-  link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
-  document.head.appendChild(link);
-})();
-
-// ─────────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────────
 let currentUser    = null;
@@ -589,42 +661,37 @@ let saveTimer      = null;
 let lastSavedLines = 0;
 let unreadCount    = 0;
 let unreadNotifCount = 0;
-
 let metaLoaded     = false;
 let fullLoaded     = false;
 let cachedBody     = null;
 let cachedHl       = null;
 let previewHl      = null;
 let totalLines     = 0;
-
 let maximizeOpen   = false;
 let maxRendered    = false;
-
 let searchMatches  = [];
 let searchIndex    = 0;
-
-let banTargetUser   = null;
+let banTargetUser  = null;
 let banTargetAction = 'ban';
-
 const LINE_H = 21;
 
 // ─────────────────────────────────────────────
-//  HELPERS  (role checks)
+//  ROLE HELPERS
 // ─────────────────────────────────────────────
-const isOwner = () => currentUser?.role === 'owner';
-const isAdmin = () => currentUser?.role === 'admin';
-const isElevated = () => isOwner() || isAdmin(); // owner or admin
+const isOwner    = () => currentUser?.role === 'owner';
+const isAdmin    = () => currentUser?.role === 'admin';
+const isElevated = () => isOwner() || isAdmin();
 
 // ─────────────────────────────────────────────
 //  SESSION
 // ─────────────────────────────────────────────
 const SS = {
-  save:           u  => localStorage.setItem('mocha_user', JSON.stringify(u)),
-  clear:          () => localStorage.removeItem('mocha_user'),
-  load:           () => { try { return JSON.parse(localStorage.getItem('mocha_user')); } catch { return null; } },
-  lastSeen:       () => parseInt(localStorage.getItem('mocha_last_seen') || '0'),
-  setLastSeen:    id => localStorage.setItem('mocha_last_seen', String(id)),
-  lastSeenNotif:  () => parseInt(localStorage.getItem('mocha_last_notif') || '0'),
+  save:             u  => localStorage.setItem('mocha_user', JSON.stringify(u)),
+  clear:            () => localStorage.removeItem('mocha_user'),
+  load:             () => { try { return JSON.parse(localStorage.getItem('mocha_user')); } catch { return null; } },
+  lastSeen:         () => parseInt(localStorage.getItem('mocha_last_seen') || '0'),
+  setLastSeen:      id => localStorage.setItem('mocha_last_seen', String(id)),
+  lastSeenNotif:    () => parseInt(localStorage.getItem('mocha_last_notif') || '0'),
   setLastSeenNotif: id => localStorage.setItem('mocha_last_notif', String(id)),
 };
 
@@ -661,9 +728,11 @@ async function login() {
   err.classList.remove('visible');
   if (!username || !password) { err.textContent = 'Please enter username and password.'; err.classList.add('visible'); return; }
   btn.disabled = true; btn.textContent = 'Signing in…';
+
   const { data, error } = await sb.from('users')
     .select('id,username,role,banned,ban_message')
     .eq('username', username).eq('password', password).single();
+
   if (error || !data) {
     err.textContent = 'Incorrect username or password.';
     err.classList.add('visible');
@@ -674,7 +743,43 @@ async function login() {
     btn.disabled = false; btn.textContent = 'Sign in';
     showBanScreen(data.ban_message); return;
   }
-  currentUser = data; SS.save(data); showContent();
+
+  currentUser = data; SS.save(data);
+
+  // ── Record login event ──────────────────────────────────────────────────
+  // We grab a rough IP/geo from a free public API (ipapi.co).
+  // This runs in the background — don't await it so login feels instant.
+  recordLoginEvent(data.id, data.username);
+
+  showContent();
+}
+
+// ─────────────────────────────────────────────
+//  RECORD LOGIN EVENT  (fire-and-forget)
+// ─────────────────────────────────────────────
+async function recordLoginEvent(userId, username) {
+  try {
+    // Use ipapi.co free tier — returns JSON with ip, city, country_name, etc.
+    // No key needed for up to 1000 requests/day per IP.
+    const geoRes  = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(4000) });
+    const geo     = geoRes.ok ? await geoRes.json() : {};
+    const ip      = geo.ip      || 'unknown';
+    const city    = geo.city    || '';
+    const country = geo.country_name || '';
+    const ua      = navigator.userAgent.slice(0, 220);
+
+    await sb.from('login_logs').insert({
+      user_id:  userId,
+      username: username,
+      ip:       ip,
+      city:     city,
+      country:  country,
+      ua:       ua,
+    });
+  } catch (e) {
+    // silently ignore — don't break the login flow
+    console.warn('Login event record failed:', e);
+  }
 }
 
 function logout() {
@@ -699,10 +804,10 @@ function showBanScreen(msg) {
   document.getElementById('content-screen').classList.remove('active');
   document.getElementById('header-right').style.display = 'none';
   document.getElementById('ban-screen').classList.add('active');
-  const msgEl = document.getElementById('ban-msg-display');
+  const msgEl   = document.getElementById('ban-msg-display');
   const msgText = document.getElementById('ban-msg-text');
   if (msg && msg.trim()) { msgText.textContent = msg; msgEl.style.display = 'block'; }
-  else { msgEl.style.display = 'none'; }
+  else msgEl.style.display = 'none';
 }
 
 async function showContent() {
@@ -714,29 +819,23 @@ async function showContent() {
   const badge = document.getElementById('role-badge');
   badge.textContent = currentUser.role;
   badge.className = 'badge' + (isOwner() ? ' owner' : isAdmin() ? ' admin' : '');
-
-  // Owner gets save note row
   if (isOwner()) document.getElementById('save-note-row').style.display = 'flex';
-
-  // Inject "Create" tab for owner + admin
   injectCreateTab();
-
   await loadMeta();
   checkUnread();
   checkUnreadNotifs();
 }
 
 // ─────────────────────────────────────────────
-//  INJECT CREATE TAB  (owner + admin)
+//  INJECT CREATE TAB
 // ─────────────────────────────────────────────
 function injectCreateTab() {
   if (!isElevated()) return;
   const nav = document.getElementById('tabs-nav');
-  if (document.getElementById('tab-create')) return; // already injected
+  if (document.getElementById('tab-create')) return;
   const btn = document.createElement('button');
-  btn.className = 'tab-btn';
-  btn.id = 'tab-create';
-  btn.innerHTML = isOwner() ? '✦ Create Member' : '✦ Create Member';
+  btn.className = 'tab-btn'; btn.id = 'tab-create';
+  btn.innerHTML = '✦ Create Member';
   btn.onclick = function() { switchTab('create', this); };
   nav.appendChild(btn);
 }
@@ -749,15 +848,15 @@ function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('panel-' + name).classList.add('active');
-  if (name === 'changelog')      { loadChangelog(); clearUnread(); }
-  if (name === 'leaderboard')    loadLeaderboard();
-  if (name === 'notifications')  { loadNotifications(); clearUnreadNotifs(); }
-  if (name === 'create')         setupCreateForm();
-  if (name !== 'editor')         closeSearch();
+  if (name === 'changelog')     { loadChangelog(); clearUnread(); }
+  if (name === 'leaderboard')   loadLeaderboard();
+  if (name === 'notifications') { loadNotifications(); clearUnreadNotifs(); }
+  if (name === 'create')        setupCreateForm();
+  if (name !== 'editor')        closeSearch();
 }
 
 // ─────────────────────────────────────────────
-//  UNREAD  (changelog)
+//  UNREAD
 // ─────────────────────────────────────────────
 async function checkUnread() {
   const { data } = await sb.from('changelog').select('id').gt('id', SS.lastSeen()).order('id', { ascending: false });
@@ -775,9 +874,6 @@ function clearUnread() {
   });
 }
 
-// ─────────────────────────────────────────────
-//  UNREAD  (notifications)
-// ─────────────────────────────────────────────
 async function checkUnreadNotifs() {
   const { data } = await sb.from('notifications').select('id').gt('id', SS.lastSeenNotif()).order('id', { ascending: false });
   unreadNotifCount = data ? data.length : 0; updateNotifBadge();
@@ -798,10 +894,7 @@ function clearUnreadNotifs() {
 //  LOAD META
 // ─────────────────────────────────────────────
 async function loadMeta() {
-  const cols = isOwner()
-    ? 'visible_to_members,body'
-    : 'visible_to_members,highlighted_body';
-
+  const cols = isOwner() ? 'visible_to_members,body' : 'visible_to_members,highlighted_body';
   const { data, error } = await sb.from('content').select(cols).eq('id', 1).single();
   if (error) { document.getElementById('status-label').textContent = '○ Connection error'; return; }
 
@@ -815,15 +908,14 @@ async function loadMeta() {
     fullLoaded     = true;
     previewHl      = escHtml(cachedBody.split('\n').slice(0, 55).join('\n'));
   } else {
-    const hl       = data?.highlighted_body || null;
-    cachedHl       = hl;
+    const hl   = data?.highlighted_body || null;
+    cachedHl   = hl;
     if (hl) {
-      const lines  = hl.split('\n');
-      previewHl    = lines.slice(0, 55).join('\n');
-      totalLines   = lines.length;
+      const lines = hl.split('\n');
+      previewHl   = lines.slice(0, 55).join('\n');
+      totalLines  = lines.length;
     } else {
-      previewHl    = null;
-      totalLines   = 0;
+      previewHl  = null; totalLines = 0;
     }
     fullLoaded = true;
   }
@@ -838,13 +930,8 @@ async function loadMeta() {
 // ─────────────────────────────────────────────
 function buildPreviewCard() {
   const area = document.getElementById('main-area');
+  if (isOwner()) { buildOwnerEditor(); return; }
 
-  if (isOwner()) {
-    buildOwnerEditor();
-    return;
-  }
-
-  // Admin or member: show viewer
   if (!isVisible) {
     document.getElementById('actions-bar').innerHTML = '';
     area.innerHTML = `<div class="hidden-state"><div style="font-size:2rem;opacity:0.2;margin-bottom:.5rem">⬛</div><span>content hidden by owner</span></div>`;
@@ -903,9 +990,9 @@ function buildOwnerEditor() {
       </div>
       <span id="vis-label">${isVisible?'Visible to members':'Hidden from members'}</span>
     </div>
-    <button class="btn" onclick="viewRaw()" title="Open raw file in new tab">⌥ View Raw</button>
-    <button class="btn" onclick="downloadFile()" title="Download as content.lua" style="color:#15803d;border-color:rgba(21,128,61,0.3)">↓ Download</button>
-    <button class="btn" onclick="openOwnerMaximize()" title="Fullscreen highlighted preview">⛶ Preview</button>
+    <button class="btn" onclick="viewRaw()">⌥ View Raw</button>
+    <button class="btn" onclick="downloadFile()" style="color:#15803d;border-color:rgba(21,128,61,0.3)">↓ Download</button>
+    <button class="btn" onclick="openOwnerMaximize()">⛶ Preview</button>
     <button class="btn primary" onclick="copyContent()">Copy all</button>`;
 
   area.innerHTML = `
@@ -953,29 +1040,22 @@ async function openMaximize() {
   document.body.style.overflow = 'hidden';
   maximizeOpen = true;
   bindSearchShortcut();
-
   if (maxRendered) return;
-
   document.getElementById('max-body').innerHTML = `<div class="max-loading"><div class="max-spinner"></div><span>Loading content…</span></div>`;
-
   if (!fullLoaded || !cachedHl) {
     const { data } = await sb.from('content').select('body,highlighted_body,visible_to_members').eq('id', 1).single();
     if (data) {
       isVisible  = data.visible_to_members ?? true;
-      cachedBody = data.body || '';
-      cachedHl   = data.highlighted_body || null;
-      totalLines = cachedBody ? cachedBody.split('\n').length : 0;
-      fullLoaded = true;
+      cachedBody = data.body || ''; cachedHl = data.highlighted_body || null;
+      totalLines = cachedBody ? cachedBody.split('\n').length : 0; fullLoaded = true;
     }
   }
-
   renderMaximizeContent();
 }
 
 function renderMaximizeContent() {
-  const lines    = totalLines;
+  const lines = totalLines;
   const hlContent = cachedHl || escHtml(cachedBody || '');
-
   document.getElementById('max-linecount').textContent = lines.toLocaleString() + ' lines';
   document.getElementById('max-body').innerHTML = `
     <div class="line-numbers" id="max-ln-col">
@@ -984,47 +1064,27 @@ function renderMaximizeContent() {
     <div class="scroll-viewport" id="max-scroll-vp">
       <pre id="code-pre">${hlContent}</pre>
     </div>`;
-
   initVirtualLineNumbers('max-scroll-vp','max-ln-col','max-ln-canvas', lines);
   maxRendered = true;
 }
 
 function closeMaximize() {
   document.getElementById('maximize-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-  maximizeOpen = false;
-  closeSearch();
+  document.body.style.overflow = ''; maximizeOpen = false; closeSearch();
 }
 
 async function openOwnerMaximize() {
   const overlay = document.getElementById('maximize-overlay');
   overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  maximizeOpen = true;
-  bindSearchShortcut();
-  maxRendered = false;
-
+  document.body.style.overflow = 'hidden'; maximizeOpen = true;
+  bindSearchShortcut(); maxRendered = false;
   document.getElementById('max-body').innerHTML = `<div class="max-loading"><div class="max-spinner"></div><span>Fetching highlighted preview…</span></div>`;
-
   const { data } = await sb.from('content').select('body,highlighted_body').eq('id', 1).single();
-  if (data) {
-    cachedBody = data.body || '';
-    cachedHl   = data.highlighted_body || null;
-    totalLines = cachedBody ? cachedBody.split('\n').length : 0;
-  }
-
+  if (data) { cachedBody = data.body || ''; cachedHl = data.highlighted_body || null; totalLines = cachedBody ? cachedBody.split('\n').length : 0; }
   if (!cachedHl) {
-    document.getElementById('max-body').innerHTML = `
-      <div class="max-loading" style="flex-direction:column;gap:1.2rem;text-align:center">
-        <div style="font-size:2rem;opacity:0.3">⚠</div>
-        <span style="color:rgba(232,213,183,0.4);max-width:320px;line-height:1.6">
-          No highlighted version yet — deploy the Edge Function and save once to generate it.<br/>Showing plain text for now.
-        </span>
-      </div>`;
-    setTimeout(() => renderMaximizeContent(), 1400);
-    return;
+    document.getElementById('max-body').innerHTML = `<div class="max-loading" style="flex-direction:column;gap:1.2rem;text-align:center"><div style="font-size:2rem;opacity:0.3">⚠</div><span style="color:rgba(232,213,183,0.4);max-width:320px;line-height:1.6">No highlighted version yet.</span></div>`;
+    setTimeout(() => renderMaximizeContent(), 1400); return;
   }
-
   renderMaximizeContent();
 }
 
@@ -1033,33 +1093,19 @@ async function openOwnerMaximize() {
 // ─────────────────────────────────────────────
 async function viewRaw() {
   let body = cachedBody;
-  if (!body) {
-    toast('Fetching raw content…');
-    const { data } = await sb.from('content').select('body').eq('id', 1).single();
-    body = data?.body || '';
-    cachedBody = body;
-  }
+  if (!body) { toast('Fetching raw content…'); const { data } = await sb.from('content').select('body').eq('id', 1).single(); body = data?.body || ''; cachedBody = body; }
   const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   window.open(url, '_blank');
   setTimeout(() => URL.revokeObjectURL(url), 10000);
   await sb.from('copy_log').insert({ user_id: currentUser.id, username: currentUser.username });
 }
-
 async function downloadFile() {
   let body = cachedBody;
-  if (!body) {
-    toast('Preparing download…');
-    const { data } = await sb.from('content').select('body').eq('id', 1).single();
-    body = data?.body || '';
-    cachedBody = body;
-  }
+  if (!body) { toast('Preparing download…'); const { data } = await sb.from('content').select('body').eq('id', 1).single(); body = data?.body || ''; cachedBody = body; }
   const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = 'content.lua';
-  a.click();
+  const a    = document.createElement('a'); a.href = url; a.download = 'content.lua'; a.click();
   setTimeout(() => URL.revokeObjectURL(url), 5000);
   toast('Downloading content.lua…');
   await sb.from('copy_log').insert({ user_id: currentUser.id, username: currentUser.username });
@@ -1069,35 +1115,19 @@ async function downloadFile() {
 //  VIRTUAL LINE NUMBERS
 // ─────────────────────────────────────────────
 function initVirtualLineNumbers(vpId, colId, canvasId, lineCount) {
-  const vp     = document.getElementById(vpId);
-  const col    = document.getElementById(colId);
-  const canvas = document.getElementById(canvasId);
+  const vp = document.getElementById(vpId), col = document.getElementById(colId), canvas = document.getElementById(canvasId);
   if (!vp || !col || !canvas) return;
-
-  let total  = lineCount || 1;
-  let rafId  = null;
-
+  let total = lineCount || 1, rafId = null;
   function paint() {
     rafId = null;
-    const scrollTop = vp.scrollTop;
-    const vpH       = vp.clientHeight;
+    const scrollTop = vp.scrollTop, vpH = vp.clientHeight;
     const firstLine = Math.max(0, Math.floor(scrollTop / LINE_H) - 2);
-    const visCount  = Math.ceil(vpH / LINE_H) + 6;
-    const lastLine  = Math.min(total - 1, firstLine + visCount);
-
+    const lastLine  = Math.min(total - 1, firstLine + Math.ceil(vpH / LINE_H) + 6);
     let nums = '';
     for (let i = firstLine; i <= lastLine; i++) nums += (i + 1) + '\n';
-
-    canvas.textContent = nums;
-    canvas.style.paddingTop = (firstLine * LINE_H + 16) + 'px';
-    col.scrollTop = scrollTop;
+    canvas.textContent = nums; canvas.style.paddingTop = (firstLine * LINE_H + 16) + 'px'; col.scrollTop = scrollTop;
   }
-
-  vp.addEventListener('scroll', () => {
-    if (rafId) return;
-    rafId = requestAnimationFrame(paint);
-  }, { passive: true });
-
+  vp.addEventListener('scroll', () => { if (rafId) return; rafId = requestAnimationFrame(paint); }, { passive: true });
   vp._updateTotal = (n) => { total = n; paint(); };
   requestAnimationFrame(paint);
 }
@@ -1115,13 +1145,12 @@ async function handleToggle() {
 }
 
 // ─────────────────────────────────────────────
-//  EDIT + SAVE  (owner only)
+//  EDIT + SAVE
 // ─────────────────────────────────────────────
 function onEdit() {
-  const ta    = document.getElementById('code-textarea');
+  const ta = document.getElementById('code-textarea');
   const lines = ta.value.split('\n').length;
-  totalLines  = lines;
-  cachedBody  = ta.value;
+  totalLines = lines; cachedBody = ta.value;
   document.getElementById('line-count').textContent = lines.toLocaleString() + ' lines';
   document.getElementById('sl-lines').textContent   = lines.toLocaleString() + ' lines';
   setSaveStatus('unsaved');
@@ -1147,29 +1176,17 @@ async function saveContent(body) {
   const linesAfter  = body ? body.split('\n').length : 0;
   const linesBefore = lastSavedLines;
   const note        = (document.getElementById('save-note-input')?.value || '').trim();
-
-  const { error } = await sb.from('content')
-    .update({ body, updated_at: new Date().toISOString() }).eq('id', 1);
+  const { error } = await sb.from('content').update({ body, updated_at: new Date().toISOString() }).eq('id', 1);
   if (error) { setSaveStatus('error'); return; }
-
   await sb.from('changelog').insert({ lines_before: linesBefore, lines_after: linesAfter, note });
   lastSavedLines = linesAfter;
-
   setSaveStatus('highlighting');
   try {
-    const res  = await fetch(EDGE_FUNCTION_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ body }),
-    });
+    const res  = await fetch(EDGE_FUNCTION_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ body }) });
     const json = await res.json();
     if (!json.ok) throw new Error(json.error || 'highlight failed');
-    cachedHl    = null;
-    maxRendered = false;
-  } catch (err) {
-    console.warn('Highlight edge fn error:', err);
-  }
-
+    cachedHl = null; maxRendered = false;
+  } catch (err) { console.warn('Highlight edge fn error:', err); }
   setSaveStatus('saved');
 }
 
@@ -1186,9 +1203,7 @@ function globalKeyHandler(e) {
     if (!editorActive && !maximizeOpen) return;
     e.preventDefault(); openSearch();
   }
-  if (e.key === 'Escape') {
-    if (maximizeOpen) { closeSearch(); return; }
-  }
+  if (e.key === 'Escape' && maximizeOpen) { closeSearch(); return; }
 }
 function openSearch() {
   const barId = maximizeOpen ? 'max-search-bar' : 'search-bar';
@@ -1201,39 +1216,30 @@ function openSearch() {
 function closeSearch() {
   document.getElementById('max-search-bar')?.classList.remove('visible');
   document.getElementById('search-bar')?.classList.remove('visible');
-  clearHighlights();
-  searchMatches = []; searchIndex = 0;
+  clearHighlights(); searchMatches = []; searchIndex = 0;
 }
-function onSearchKey(e) {
-  if (e.key === 'Enter') { e.preventDefault(); stepSearch(e.shiftKey ? -1 : 1); }
-}
+function onSearchKey(e) { if (e.key === 'Enter') { e.preventDefault(); stepSearch(e.shiftKey ? -1 : 1); } }
 function onSearchInput() {
   const q = document.getElementById('search-input')?.value || '';
   if (!q) { clearHighlights(); updateSearchInfo(0, 0); return; }
   runSearch(q);
 }
 function runSearch(q) {
-  clearHighlights();
-  searchMatches = []; searchIndex = 0;
+  clearHighlights(); searchMatches = []; searchIndex = 0;
   const ta  = document.getElementById('code-textarea');
   const pre = document.getElementById('code-pre');
-
   if (ta) {
-    const text = ta.value;
-    const re   = new RegExp(escRe(q), 'gi');
+    const text = ta.value, re = new RegExp(escRe(q), 'gi');
     let m;
     while ((m = re.exec(text)) !== null) searchMatches.push(m.index);
     if (searchMatches.length) scrollTextareaToMatch(0);
-    updateSearchInfo(searchMatches.length ? 1 : 0, searchMatches.length);
-    return;
+    updateSearchInfo(searchMatches.length ? 1 : 0, searchMatches.length); return;
   }
   if (pre) {
-    let markedCount = 0;
-    const source = cachedHl || escHtml(pre.textContent);
-    const newHtml = source.replace(
-      new RegExp('(' + escRe(escHtml(q)) + ')', 'gi'),
-      (match) => { const idx = markedCount++; searchMatches.push(idx); return `<mark class="sh" data-idx="${idx}">${match}</mark>`; }
-    );
+    let mc = 0;
+    const source  = cachedHl || escHtml(pre.textContent);
+    const newHtml = source.replace(new RegExp('(' + escRe(escHtml(q)) + ')', 'gi'),
+      (match) => { const idx = mc++; searchMatches.push(idx); return `<mark class="sh" data-idx="${idx}">${match}</mark>`; });
     pre.innerHTML = newHtml;
     if (searchMatches.length) { searchIndex = 0; highlightCurrent(); }
     updateSearchInfo(searchMatches.length ? 1 : 0, searchMatches.length);
@@ -1243,8 +1249,7 @@ function stepSearch(dir) {
   if (!searchMatches.length) return;
   searchIndex = (searchIndex + dir + searchMatches.length) % searchMatches.length;
   const pre = document.getElementById('code-pre');
-  if (pre) highlightCurrent();
-  else scrollTextareaToMatch(searchIndex);
+  if (pre) highlightCurrent(); else scrollTextareaToMatch(searchIndex);
   updateSearchInfo(searchIndex + 1, searchMatches.length);
 }
 function highlightCurrent() {
@@ -1255,20 +1260,14 @@ function scrollTextareaToMatch(idx) {
   const ta = document.getElementById('code-textarea');
   const q  = document.getElementById('search-input')?.value || '';
   if (!ta || !searchMatches.length || !q) return;
-  const pos       = searchMatches[idx];
+  const pos = searchMatches[idx];
   const linesAbove = ta.value.substring(0, pos).split('\n').length - 1;
   const vp = document.getElementById('scroll-vp');
   if (vp) vp.scrollTop = Math.max(0, linesAbove * LINE_H - vp.clientHeight / 2);
   ta.focus(); ta.setSelectionRange(pos, pos + q.length);
 }
-function clearHighlights() {
-  const pre = document.getElementById('code-pre');
-  if (pre && cachedHl) pre.innerHTML = cachedHl;
-}
-function updateSearchInfo(cur, total) {
-  const el = document.getElementById('search-info');
-  if (el) el.textContent = total === 0 ? 'No results' : `${cur} / ${total}`;
-}
+function clearHighlights() { const pre = document.getElementById('code-pre'); if (pre && cachedHl) pre.innerHTML = cachedHl; }
+function updateSearchInfo(cur, total) { const el = document.getElementById('search-info'); if (el) el.textContent = total === 0 ? 'No results' : `${cur} / ${total}`; }
 function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
 // ─────────────────────────────────────────────
@@ -1292,17 +1291,13 @@ async function copyContent() {
 async function loadChangelog() {
   const { data, error } = await sb.from('changelog').select('*').order('id', { ascending: false }).limit(50);
   const el = document.getElementById('changelog-content');
-  if (error || !data || !data.length) {
-    el.innerHTML = '<div class="changelog-empty"><div class="ce-icon">📋</div>No changes recorded yet.</div>';
-    return;
-  }
+  if (error || !data || !data.length) { el.innerHTML = '<div class="changelog-empty"><div class="ce-icon">📋</div>No changes recorded yet.</div>'; return; }
   const lastSeen = SS.lastSeen();
   el.innerHTML = `<div class="changelog-list">${data.map((e, i) => {
     const isNew  = e.id > lastSeen;
     const diff   = e.lines_after - e.lines_before;
     const date   = new Date(e.created_at);
-    const ts     = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
-                 + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    const ts     = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
     const isLast = i === data.length - 1;
     return `<div class="cl-item">
       <div class="cl-left">
@@ -1328,15 +1323,13 @@ async function loadChangelog() {
 }
 
 // ─────────────────────────────────────────────
-//  NOTIFICATIONS TAB
+//  NOTIFICATIONS
 // ─────────────────────────────────────────────
 function setupNotifCompose() {
   const area = document.getElementById('notif-compose-area');
   if (!isElevated()) { area.innerHTML = ''; return; }
-
   const initials = currentUser.username.slice(0, 2).toUpperCase();
   const avClass  = isOwner() ? '' : 'admin';
-
   area.innerHTML = `
     <div class="notif-compose">
       <div class="notif-compose-top">
@@ -1351,12 +1344,11 @@ function setupNotifCompose() {
 }
 
 function updateCharCount() {
-  const ta  = document.getElementById('notif-text');
-  const el  = document.getElementById('notif-char-count');
+  const ta = document.getElementById('notif-text'), el = document.getElementById('notif-char-count');
   if (!ta || !el) return;
   const len = ta.value.length;
   el.textContent = len + ' / 600';
-  el.className   = 'notif-char-count' + (len > 560 ? ' over' : '');
+  el.className = 'notif-char-count' + (len > 560 ? ' over' : '');
 }
 
 async function sendNotification() {
@@ -1364,46 +1356,26 @@ async function sendNotification() {
   const btn = document.getElementById('notif-send-btn');
   const msg = ta?.value.trim();
   if (!msg) return;
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="inline-spinner"></span>Publishing…';
-
-  const { error } = await sb.from('notifications').insert({
-    author_id:   currentUser.id,
-    author_name: currentUser.username,
-    author_role: currentUser.role,
-    message:     msg,
-  });
-
-  btn.disabled = false;
-  btn.textContent = 'Publish';
-
+  btn.disabled = true; btn.innerHTML = '<span class="inline-spinner"></span>Publishing…';
+  const { error } = await sb.from('notifications').insert({ author_id: currentUser.id, author_name: currentUser.username, author_role: currentUser.role, message: msg });
+  btn.disabled = false; btn.textContent = 'Publish';
   if (error) { toast('Failed to publish'); return; }
-  ta.value = '';
-  updateCharCount();
-  toast('Notification published');
-  loadNotifications();
+  ta.value = ''; updateCharCount(); toast('Notification published'); loadNotifications();
 }
 
 async function loadNotifications() {
   setupNotifCompose();
   const { data, error } = await sb.from('notifications').select('*').order('id', { ascending: false }).limit(50);
   const el = document.getElementById('notifications-content');
-  if (error || !data || !data.length) {
-    el.innerHTML = '<div class="notif-empty"><div class="ce-icon">🔔</div>No notifications yet.</div>';
-    return;
-  }
-
+  if (error || !data || !data.length) { el.innerHTML = '<div class="notif-empty"><div class="ce-icon">🔔</div>No notifications yet.</div>'; return; }
   const lastSeen = SS.lastSeenNotif();
   el.innerHTML = `<div class="notif-list">${data.map(n => {
     const isNew  = n.id > lastSeen;
     const date   = new Date(n.created_at);
-    const ts     = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
-                 + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    const ts     = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
     const initials = n.author_name.slice(0, 2).toUpperCase();
     const avCls  = n.author_role === 'owner' ? 'owner-av' : 'admin-av';
     const canDel = isOwner() || (isAdmin() && n.author_id === currentUser.id);
-
     return `<div class="notif-item${isNew?' unread-notif':''}">
       <div class="notif-item-header">
         <div class="notif-item-avatar ${avCls}">${initials}</div>
@@ -1420,33 +1392,23 @@ async function loadNotifications() {
 async function deleteNotification(id) {
   const { error } = await sb.from('notifications').delete().eq('id', id);
   if (error) { toast('Failed to delete'); return; }
-  toast('Notification deleted');
-  loadNotifications();
+  toast('Notification deleted'); loadNotifications();
 }
 
 // ─────────────────────────────────────────────
 //  MEMBERS + BAN SYSTEM
 // ─────────────────────────────────────────────
 async function loadLeaderboard() {
-  const { data, error } = await sb.from('users')
-    .select('id,username,role,banned,ban_message').order('role').order('username');
+  const { data, error } = await sb.from('users').select('id,username,role,banned,ban_message').order('role').order('username');
   const el = document.getElementById('leaderboard-content');
   if (error || !data || !data.length) { el.innerHTML = '<div class="lb-empty">No members found.</div>'; return; }
 
   el.innerHTML = `<div class="lb-list">${data.map(u => {
     const initials = u.username.slice(0, 2).toUpperCase();
-    const uIsOwner = u.role === 'owner';
-    const uIsAdmin = u.role === 'admin';
-    const isBanned = !!u.banned;
-
-    // Can current user ban this person?
-    // Owner can ban anyone except self
-    // Admin can ban members only (not other admins, not owner)
-    const canBan = !isBanned && !uIsOwner
-      && (isOwner() ? u.id !== currentUser.id : isAdmin() && u.role === 'member');
+    const uIsOwner = u.role === 'owner', uIsAdmin = u.role === 'admin', isBanned = !!u.banned;
+    const canBan   = !isBanned && !uIsOwner && (isOwner() ? u.id !== currentUser.id : isAdmin() && u.role === 'member');
     const canUnban = isBanned && (isOwner() || (isAdmin() && u.role === 'member'));
-
-    const avClass = uIsOwner ? 'owner-av' : uIsAdmin ? 'admin-av' : isBanned ? 'banned-av' : '';
+    const avClass  = uIsOwner ? 'owner-av' : uIsAdmin ? 'admin-av' : isBanned ? 'banned-av' : '';
     const nameClass = isBanned ? 'banned-name' : '';
 
     let rolePill;
@@ -1455,8 +1417,14 @@ async function loadLeaderboard() {
     else if (isBanned) rolePill = `<span class="banned-pill">Banned</span>`;
     else               rolePill = `<span class="role-pill member">member</span>`;
 
-    const actions = (canBan || canUnban) ? `
+    // Eye / monitor button — only shown to owner
+    const monitorBtn = isOwner()
+      ? `<button class="btn" style="font-size:11.5px;padding:5px 10px;color:var(--muted);border-color:var(--border)" title="View login history" onclick="openLoginMonitor('${u.id}','${escHtml(u.username)}','${u.role}',${isBanned})">👁</button>`
+      : '';
+
+    const actions = (canBan || canUnban || isOwner()) ? `
       <div class="lb-actions">
+        ${monitorBtn}
         ${canBan   ? `<button class="btn danger"  style="font-size:11.5px;padding:5px 12px" onclick="openBanModal('${u.id}','${escHtml(u.username)}')">Ban</button>` : ''}
         ${canUnban ? `<button class="btn success" style="font-size:11.5px;padding:5px 12px" onclick="openUnbanModal('${u.id}','${escHtml(u.username)}')">Unban</button>` : ''}
       </div>` : '';
@@ -1469,6 +1437,135 @@ async function loadLeaderboard() {
   }).join('')}</div>`;
 }
 
+// ─────────────────────────────────────────────
+//  LOGIN MONITOR MODAL  (owner only)
+// ─────────────────────────────────────────────
+async function openLoginMonitor(userId, username, role, isBanned) {
+  const modal   = document.getElementById('login-monitor-modal');
+  const header  = document.getElementById('lm-header');
+  const stats   = document.getElementById('lm-stats');
+  const logs    = document.getElementById('lm-logs');
+  const footer  = document.getElementById('lm-footer');
+
+  const initials = username.slice(0, 2).toUpperCase();
+  const avCls    = role === 'admin' ? 'admin-av' : isBanned ? 'banned-av' : '';
+  const roleTag  = role === 'owner' ? '<span class="role-pill owner" style="font-size:10px;padding:2px 7px">owner</span>'
+                 : role === 'admin' ? '<span class="role-pill admin" style="font-size:10px;padding:2px 7px">admin</span>'
+                 : isBanned         ? '<span class="banned-pill" style="font-size:10px;padding:2px 7px">Banned</span>'
+                 :                    '<span class="role-pill member" style="font-size:10px;padding:2px 7px">member</span>';
+
+  header.innerHTML = `
+    <div class="lm-avatar ${avCls}">${initials}</div>
+    <div class="lm-title-col">
+      <h3>${escHtml(username)}</h3>
+      <p style="display:flex;align-items:center;gap:6px">${roleTag} <span>Login activity</span></p>
+    </div>
+    <button class="btn" style="margin-left:auto;flex-shrink:0" onclick="closeLoginMonitor()">✕ Close</button>`;
+
+  stats.innerHTML = `<div class="lm-stat"><div class="lm-stat-num">—</div><div class="lm-stat-label">Total logins</div></div>
+    <div class="lm-stat"><div class="lm-stat-num">—</div><div class="lm-stat-label">Unique IPs</div></div>
+    <div class="lm-stat"><div class="lm-stat-num">—</div><div class="lm-stat-label">Countries</div></div>`;
+  logs.innerHTML   = `<div class="lm-spinner"><div class="lm-spinner-icon"></div>Loading…</div>`;
+  footer.innerHTML = '';
+
+  modal.classList.add('open');
+
+  // ── Fetch logs ────────────────────────────────────────────────
+  const { data, error } = await sb.from('login_logs')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(60);
+
+  if (error || !data || data.length === 0) {
+    logs.innerHTML = `<div class="lm-empty">No login records yet for this account.</div>`;
+    stats.querySelectorAll('.lm-stat-num').forEach(el => el.textContent = '0');
+    footer.innerHTML = `<span class="lm-unique-ips">No data available</span>`;
+    return;
+  }
+
+  // ── Compute stats ─────────────────────────────────────────────
+  const uniqueIPs      = [...new Set(data.map(r => r.ip).filter(Boolean))];
+  const uniqueCountries= [...new Set(data.map(r => r.country).filter(Boolean))];
+  const flagMultiIP    = uniqueIPs.length > 3; // flag if 4+ different IPs
+
+  // Update stat cards
+  const statEls = stats.querySelectorAll('.lm-stat');
+  statEls[0].querySelector('.lm-stat-num').textContent = data.length;
+  statEls[1].querySelector('.lm-stat-num').textContent = uniqueIPs.length;
+  if (flagMultiIP) statEls[1].classList.add('warn');
+  statEls[2].querySelector('.lm-stat-num').textContent = uniqueCountries.length;
+  if (uniqueCountries.length > 2) statEls[2].classList.add('warn');
+
+  // ── Render rows ───────────────────────────────────────────────
+  logs.innerHTML = data.map(r => {
+    const date  = new Date(r.created_at);
+    const ts    = date.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+                + ' · ' + date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    // Heuristic flag: unusual if IP appears fewer than 2 times or country is unique
+    const ipCount = data.filter(x => x.ip === r.ip).length;
+    const isSuspect = ipCount === 1 && data.length > 2;
+    const flag  = isSuspect ? '⚠️' : '🌐';
+
+    // Parse a friendly browser string from UA
+    const uaShort = parseUA(r.ua || '');
+    const location = [r.city, r.country].filter(Boolean).join(', ') || 'Unknown location';
+
+    return `<div class="lm-log-row${isSuspect?' flagged':''}">
+      <div class="lm-flag-icon">${flag}</div>
+      <div class="lm-log-details">
+        <div class="lm-log-ip">${escHtml(r.ip || '—')}</div>
+        <div class="lm-log-meta">
+          <span class="lm-log-time">${ts}</span>
+          <span class="lm-log-city">📍 ${escHtml(location)}</span>
+        </div>
+        <div class="lm-log-ua">${escHtml(uaShort)}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // ── Footer with IP list ────────────────────────────────────────
+  footer.innerHTML = `
+    <div class="lm-unique-ips">
+      Unique IPs: <span>${uniqueIPs.slice(0,6).map(ip => escHtml(ip)).join(', ')}${uniqueIPs.length > 6 ? ' …' : ''}</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      ${isBanned ? '' : `<button class="btn danger" style="font-size:11.5px;padding:5px 12px" onclick="closeLoginMonitor();openBanModal('${userId}','${escHtml(username)}')">Ban this user</button>`}
+      <button class="btn" style="font-size:11.5px;padding:5px 12px" onclick="closeLoginMonitor()">Done</button>
+    </div>`;
+}
+
+function closeLoginMonitor() {
+  document.getElementById('login-monitor-modal').classList.remove('open');
+}
+
+// Friendly UA parser (no library needed)
+function parseUA(ua) {
+  if (!ua) return 'Unknown browser';
+  if (/Edg\//i.test(ua))    return 'Microsoft Edge on ' + getOS(ua);
+  if (/OPR\//i.test(ua))    return 'Opera on ' + getOS(ua);
+  if (/Chrome\//i.test(ua)) return 'Chrome on ' + getOS(ua);
+  if (/Firefox\//i.test(ua))return 'Firefox on ' + getOS(ua);
+  if (/Safari\//i.test(ua)) return 'Safari on ' + getOS(ua);
+  return ua.slice(0, 60);
+}
+function getOS(ua) {
+  if (/Windows NT/i.test(ua))  return 'Windows';
+  if (/Mac OS X/i.test(ua))    return 'macOS';
+  if (/Android/i.test(ua))     return 'Android';
+  if (/iPhone|iPad/i.test(ua)) return 'iOS';
+  if (/Linux/i.test(ua))       return 'Linux';
+  return 'Unknown OS';
+}
+
+// Close login monitor on backdrop click
+document.getElementById('login-monitor-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeLoginMonitor();
+});
+
+// ─────────────────────────────────────────────
+//  BAN MODAL
+// ─────────────────────────────────────────────
 function openBanModal(userId, username) {
   banTargetUser = userId; banTargetAction = 'ban';
   document.getElementById('modal-title').textContent = `Ban ${username}`;
@@ -1488,10 +1585,7 @@ function openUnbanModal(userId, username) {
   document.getElementById('modal-confirm-btn').className  = 'btn success';
   document.getElementById('ban-modal').classList.add('open');
 }
-function closeModal() {
-  document.getElementById('ban-modal').classList.remove('open');
-  banTargetUser = null;
-}
+function closeModal() { document.getElementById('ban-modal').classList.remove('open'); banTargetUser = null; }
 async function confirmBan() {
   if (!banTargetUser) return;
   const btn = document.getElementById('modal-confirm-btn');
@@ -1504,21 +1598,15 @@ async function confirmBan() {
     await sb.from('users').update({ banned: false, ban_message: null }).eq('id', banTargetUser);
     toast('Member unbanned');
   }
-  btn.disabled = false;
-  closeModal();
-  loadLeaderboard();
+  btn.disabled = false; closeModal(); loadLeaderboard();
 }
-document.getElementById('ban-modal').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeModal();
-});
+document.getElementById('ban-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 
 // ─────────────────────────────────────────────
-//  CREATE MEMBER  (owner + admin)
+//  CREATE MEMBER
 // ─────────────────────────────────────────────
 function setupCreateForm() {
-  // Only owner sees the role picker
   document.getElementById('role-select-wrap').style.display = isOwner() ? 'block' : 'none';
-  // Clear fields
   document.getElementById('new-username').value = '';
   document.getElementById('new-password').value = '';
   document.getElementById('create-error').classList.remove('visible');
@@ -1532,91 +1620,45 @@ async function createMember() {
   const errEl      = document.getElementById('create-error');
   const okEl       = document.getElementById('create-success');
   const btn        = document.getElementById('create-btn');
-  errEl.classList.remove('visible');
-  okEl.classList.remove('visible');
-
-  const username = usernameEl.value.trim();
-  const password = passwordEl.value;
-
-  if (!username || username.length < 2) {
-    errEl.textContent = 'Username must be at least 2 characters.'; errEl.classList.add('visible'); return;
-  }
-  if (!password || password.length < 4) {
-    errEl.textContent = 'Password must be at least 4 characters.'; errEl.classList.add('visible'); return;
-  }
-
-  // Determine role
+  errEl.classList.remove('visible'); okEl.classList.remove('visible');
+  const username = usernameEl.value.trim(), password = passwordEl.value;
+  if (!username || username.length < 2) { errEl.textContent = 'Username must be at least 2 characters.'; errEl.classList.add('visible'); return; }
+  if (!password || password.length < 4) { errEl.textContent = 'Password must be at least 4 characters.'; errEl.classList.add('visible'); return; }
   let role = 'member';
-  if (isOwner()) {
-    const selected = document.querySelector('input[name="new-role"]:checked');
-    role = selected ? selected.value : 'member';
-  }
-  // Admins can only create members
+  if (isOwner()) { const sel = document.querySelector('input[name="new-role"]:checked'); role = sel ? sel.value : 'member'; }
   if (isAdmin()) role = 'member';
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="inline-spinner"></span>Creating…';
-
-  // Check if username already exists
+  btn.disabled = true; btn.innerHTML = '<span class="inline-spinner"></span>Creating…';
   const { data: existing } = await sb.from('users').select('id').eq('username', username).maybeSingle();
-  if (existing) {
-    errEl.textContent = 'Username already taken. Choose another.';
-    errEl.classList.add('visible');
-    btn.disabled = false; btn.textContent = 'Create account'; return;
-  }
-
-  const { error } = await sb.from('users').insert({
-    username,
-    password,
-    role,
-    banned: false,
-  });
-
-  btn.disabled = false;
-  btn.textContent = 'Create account';
-
-  if (error) {
-    errEl.textContent = 'Failed to create account. Try again.'; errEl.classList.add('visible'); return;
-  }
-
-  okEl.textContent = `Account "${username}" created as ${role}!`;
-  okEl.classList.add('visible');
-  usernameEl.value = '';
-  passwordEl.value = '';
+  if (existing) { errEl.textContent = 'Username already taken.'; errEl.classList.add('visible'); btn.disabled = false; btn.textContent = 'Create account'; return; }
+  const { error } = await sb.from('users').insert({ username, password, role, banned: false });
+  btn.disabled = false; btn.textContent = 'Create account';
+  if (error) { errEl.textContent = 'Failed to create account. Try again.'; errEl.classList.add('visible'); return; }
+  okEl.textContent = `Account "${username}" created as ${role}!`; okEl.classList.add('visible');
+  usernameEl.value = ''; passwordEl.value = '';
   toast(`Member "${username}" created`);
 }
-
-// Close maximize on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && maximizeOpen) closeMaximize();
-});
 
 // ─────────────────────────────────────────────
 //  REALTIME
 // ─────────────────────────────────────────────
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && maximizeOpen) closeMaximize(); });
+
 sb.channel('content-rt')
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'content' }, async payload => {
     if (isOwner()) return;
-    isVisible  = payload.new?.visible_to_members ?? true;
-    cachedBody = payload.new?.body ?? '';
-    cachedHl   = payload.new?.highlighted_body ?? null;
+    isVisible = payload.new?.visible_to_members ?? true;
+    cachedBody = payload.new?.body ?? ''; cachedHl = payload.new?.highlighted_body ?? null;
     totalLines = cachedBody ? cachedBody.split('\n').length : 0;
-    maxRendered = false;
-    fullLoaded  = true;
-    if (cachedHl) {
-      const lines = cachedHl.split('\n');
-      previewHl   = lines.slice(0, 55).join('\n');
-    }
+    maxRendered = false; fullLoaded = true;
+    if (cachedHl) { const lines = cachedHl.split('\n'); previewHl = lines.slice(0, 55).join('\n'); }
     document.getElementById('line-count').textContent = totalLines.toLocaleString() + ' lines';
     buildPreviewCard();
-  })
-  .subscribe();
+  }).subscribe();
 
 sb.channel('changelog-rt')
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'changelog' }, async payload => {
     if (isOwner()) return;
-    unreadCount++;
-    updateBadge();
+    unreadCount++; updateBadge();
     const badge = document.getElementById('notif-badge');
     badge.classList.remove('pulse'); void badge.offsetWidth; badge.classList.add('pulse');
     const diff = (payload.new.lines_after||0) - (payload.new.lines_before||0);
@@ -1625,45 +1667,34 @@ sb.channel('changelog-rt')
     document.getElementById('notif-body').textContent = ds + (payload.new.note ? ` — "${payload.new.note}"` : '');
     showNotif();
     if (document.getElementById('panel-changelog')?.classList.contains('active')) loadChangelog();
-  })
-  .subscribe();
+  }).subscribe();
 
 sb.channel('notifications-rt')
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications' }, async payload => {
-    // Don't notify the person who just posted
     if (payload.new.author_id === currentUser?.id) return;
-    unreadNotifCount++;
-    updateNotifBadge();
+    unreadNotifCount++; updateNotifBadge();
     const badge = document.getElementById('notif-msg-badge');
     badge.classList.remove('pulse'); void badge.offsetWidth; badge.classList.add('pulse');
     document.getElementById('notif-flash-title').textContent = `📢 ${payload.new.author_name}`;
     document.getElementById('notif-body').textContent = payload.new.message.slice(0, 80) + (payload.new.message.length > 80 ? '…' : '');
     showNotif();
     if (document.getElementById('panel-notifications')?.classList.contains('active')) loadNotifications();
-  })
-  .subscribe();
+  }).subscribe();
 
 sb.channel('ban-rt')
   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users' }, async payload => {
     if (!currentUser || payload.new.id !== currentUser.id) return;
     if (payload.new.banned && currentUser.role !== 'owner') {
-      currentUser.banned = true; currentUser.ban_message = payload.new.ban_message;
-      SS.save(currentUser);
-      closeMaximize();
-      showBanScreen(payload.new.ban_message);
+      currentUser.banned = true; currentUser.ban_message = payload.new.ban_message; SS.save(currentUser);
+      closeMaximize(); showBanScreen(payload.new.ban_message);
     }
-    if (!payload.new.banned && currentUser.banned) {
-      currentUser.banned = false; SS.save(currentUser);
-      window.location.reload();
-    }
-  })
-  .subscribe();
+    if (!payload.new.banned && currentUser.banned) { currentUser.banned = false; SS.save(currentUser); window.location.reload(); }
+  }).subscribe();
 
 let notifTimer;
 function showNotif() {
   const el = document.getElementById('notif-flash');
-  el.classList.add('show');
-  clearTimeout(notifTimer);
+  el.classList.add('show'); clearTimeout(notifTimer);
   notifTimer = setTimeout(() => el.classList.remove('show'), 4500);
 }
 
@@ -1675,11 +1706,107 @@ let toastTimer;
 function toast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg; el.classList.add('visible');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('visible'), 2500);
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('visible'), 2500);
 }
+
+// ─────────────────────────────────────────────
+//  FAVICON
+// ─────────────────────────────────────────────
+(function(){
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#2c1a0e"/><path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity=".9"/><path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".7"/><path d="M12.5 10.5C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M16 11C16 10 17 10 17 9" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M7 23h18" stroke="rgba(232,213,183,.35)" stroke-width="1.4" stroke-linecap="round"/></svg>`;
+  const link = document.createElement('link'); link.rel = 'icon'; link.type = 'image/svg+xml';
+  link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+  document.head.appendChild(link);
+})();
 
 boot();
 </script>
+
+<!--
+═══════════════════════════════════════════════════════════════════════════
+  SUPABASE: Create the login_logs table by running this SQL in your
+  Supabase SQL editor (Dashboard → SQL Editor → New query):
+
+  CREATE TABLE IF NOT EXISTS public.login_logs (
+    id          bigserial PRIMARY KEY,
+    user_id     uuid        NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    username    text        NOT NULL,
+    ip          text,
+    city        text,
+    country     text,
+    ua          text,
+    created_at  timestamptz NOT NULL DEFAULT now()
+  );
+
+  -- Allow the app to insert rows (uses service-role key, so this is fine)
+  ALTER TABLE public.login_logs ENABLE ROW LEVEL SECURITY;
+  CREATE POLICY "service_role_all" ON public.login_logs
+    FOR ALL USING (true) WITH CHECK (true);
+
+  -- Index for fast per-user lookups
+  CREATE INDEX ON public.login_logs (user_id, created_at DESC);
+
+═══════════════════════════════════════════════════════════════════════════
+  OG IMAGE (Discord embed photo):
+
+  The og:image must be a real hosted URL — data URIs don't work in embeds.
+  Two easy options:
+
+  OPTION A — Upload a static image:
+    1. Design your embed image (1200×630 px) using any tool.
+       Canva, Figma, or even screenshot the OG image generator below.
+    2. Upload it to your hosting (Vercel, Netlify, GitHub Pages, etc.)
+    3. Replace "https://your-mocha-url.com/og-image.png" in the
+       <meta property="og:image"> tag with the real URL.
+
+  OPTION B — Vercel OG (auto-generated from code, zero effort):
+    If you deploy on Vercel, add a file at /api/og.tsx using
+    @vercel/og and it will generate the image on-demand.
+    Example: https://vercel.com/docs/functions/og-image-generation
+
+  The embed image below is what you should aim for visually —
+  dark espresso background, Mocha logo, "Private Workspace" tagline,
+  gold accent, locked icon. Screenshot it from the browser to use as
+  your static og:image.
+
+  Also update og:url with your actual deployed URL.
+═══════════════════════════════════════════════════════════════════════════
+-->
+
+<!--
+  ╔══════════════════════════════════════════════════════════════════════╗
+  ║  OG IMAGE PREVIEW (1200×630)  —  Open this in browser, screenshot  ║
+  ║  the element below, then host it as your og:image.                  ║
+  ╚══════════════════════════════════════════════════════════════════════╝
+  Uncomment the block below temporarily to screenshot your OG image:
+
+<div id="og-preview" style="
+  width:1200px;height:630px;background:#1a0f05;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;position:fixed;top:0;left:0;z-index:99999;
+  border:1px solid rgba(201,146,61,0.15);gap:28px;
+  background-image:radial-gradient(ellipse 60% 55% at 20% 30%,rgba(201,146,61,0.08),transparent),
+                   radial-gradient(ellipse 45% 45% at 80% 70%,rgba(107,76,42,0.06),transparent)">
+  <div style="display:flex;align-items:center;gap:18px">
+    <svg width="72" height="72" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="9" fill="#2c1a0e"/>
+      <path d="M8 13h16l-2 10H10L8 13Z" fill="#c9923d" opacity=".9"/>
+      <path d="M22 16h2a2 2 0 0 1 0 4h-2" stroke="#c9923d" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".7"/>
+      <path d="M12.5 10.5C12.5 9.5 13.5 9.5 13.5 8.5" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M16 11C16 10 17 10 17 9" stroke="rgba(232,213,183,.45)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M7 23h18" stroke="rgba(232,213,183,.35)" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span style="font-size:72px;font-weight:600;color:#faf6f0;letter-spacing:-0.03em;line-height:1">
+      Mo<em style="font-style:italic;color:#c9923d">c</em>ha
+    </span>
+  </div>
+  <div style="width:60px;height:2px;background:rgba(201,146,61,0.4);border-radius:2px"></div>
+  <div style="text-align:center;display:flex;flex-direction:column;gap:10px">
+    <span style="font-size:28px;color:rgba(232,213,183,0.7);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:0.04em;text-transform:uppercase">Private Workspace</span>
+    <span style="font-size:18px;color:rgba(156,122,90,0.65);font-family:'JetBrains Mono',monospace;letter-spacing:0.06em">🔒 Invite only · Sign in to access</span>
+  </div>
+  <div style="position:absolute;bottom:32px;font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(156,122,90,0.4);letter-spacing:0.06em">your-mocha-url.com</div>
+</div>
+-->
 </body>
 </html>
